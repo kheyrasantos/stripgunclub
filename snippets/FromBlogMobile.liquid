@@ -1,0 +1,104 @@
+<!-- /snippets/FromBlogMobile.liquid -->
+{% comment %}
+    Show up to three featured posts
+{% endcomment %}
+
+{% if settings.use_featured_posts %}
+
+<div class="from-blog-container-mobile hide-for-desktop">
+    <div class="wrapper">
+        <div class="h2-container">
+            <h2 id="from-the-blog"><span class="first-letter-container position-relative"><span class="first-letter">F</span><span class="first-letter-background"></span></span>rom the Blog</h2>
+        </div>
+
+        <div class="grid">
+
+            {% if settings.use_featured_post_1 and settings.featured_post_item_1_url.size > 0 %}
+
+                <div class="grid__item large--one-third news">
+
+                    <a target="_blank" href="{{ settings.featured_post_item_1_url }}">
+                        <div class="blog-image-container">
+                            <div class="image-frame">
+                                <div style="background-image: url({{ 'featured_post_item_1_image.jpg' | asset_url }}); display: block; background-size: cover; width: 100%; height: 300px; margin-bottom: 10px;"></div>
+                            </div>
+                            <div class="time-container">{{ settings.featured_post_item_1_date }}</div>
+                        </div>
+                    </a>
+                    <div class="blog-text-container">
+                        <h3><a target="_blank" href="{{ settings.featured_post_item_1_url }}">{{ settings.featured_post_item_1_title}}</a></h3>
+                        <p class="article-preview-text">{{ settings.featured_post_item_1_excerpt | truncate: 200 }}</p>
+
+                        <div class="read-more text-center">
+                            <a target="_blank" href="{{ settings.featured_post_item_1_url  }}">read more</a>
+                        </div>
+                    </div>
+                </div>
+
+            {% endif %}
+
+            {% if settings.use_featured_post_2 and settings.featured_post_item_2_url.size > 0 %}
+
+                <div class="grid__item large--one-third news">
+
+                    <a target="_blank" href="{{ settings.featured_post_item_2_url }}">
+                        <div class="blog-image-container">
+                            <div class="image-frame">
+                                <div style="background-image: url({{ 'featured_post_item_2_image.jpg' | asset_url }}); display: block; background-size: cover; width: 100%; height: 300px; margin-bottom: 10px;"></div>
+                            </div>
+                            <div class="time-container">{{ settings.featured_post_item_2_date }}</div>
+                        </div>
+                    </a>
+                    <div class="blog-text-container">
+                        <h3><a target="_blank" href="{{ settings.featured_post_item_2_url }}">{{ settings.featured_post_item_2_title }}</a></h3>
+
+                        <p class="article-preview-text">{{ settings.featured_post_item_2_excerpt | truncate: 200 }}</p>
+
+                        <div class="read-more text-center">
+                            <a target="_blank" href="{{ settings.featured_post_item_2_url }}">read more</a>
+                        </div>
+                    </div>
+                </div>
+
+            {% endif %}
+
+            {% if settings.use_featured_post_3 and settings.featured_post_item_3_url.size > 0 %}
+
+                <div class="grid__item large--one-third news">
+
+                    <a target="_blank" href="{{ settings.featured_post_item_3_url }}">
+                        <div class="blog-image-container">
+                            <div class="image-frame">
+                                <div style="background-image: url({{ 'featured_post_item_3_image.jpg' | asset_url }}); display: block; background-size: cover; width: 100%; height: 300px; margin-bottom: 10px;"></div>
+                            </div>
+                            <div class="time-container">{{ settings.featured_post_item_3_date }}</div>
+                        </div>
+                    </a>
+                    <div class="blog-text-container">
+                        <h3><a target="_blank" href="{{ settings.featured_post_item_3_url }}">{{ settings.featured_post_item_3_title }}</a></h3>
+
+                        <p class="article-preview-text">{{ settings.featured_post_item_3_excerpt | truncate: 200 }}</p>
+
+                        <div class="read-more text-center">
+                            <a target="_blank" href="{{ settings.featured_post_item_3_url }}">read more</a>
+                        </div>
+                    </div>
+                </div>
+
+            {% endif %}
+
+            {% if settings.use_featured_post_blog_url %}
+                {% if settings.featured_post_blog_url.size > 0 %}
+                    <div class="grid__item">
+                        <div class="link-container text-center">
+                            <a target="_blank" href="{{ settings.featured_post_blog_url }}">view the blog</a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% endif %}

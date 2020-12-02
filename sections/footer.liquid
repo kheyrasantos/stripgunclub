@@ -1,0 +1,319 @@
+<style>
+    .site-footer {
+        background-color: {{ settings.color_nav_bg }};
+        color: {{ settings.color_nav_text }};
+    }
+</style>
+
+<footer class="site-footer small--text-center medium--text-center" role="contentinfo">
+    <div class="wrapper">
+
+        <div class="grid-uniform">
+
+            {% comment %}
+                Default to 1 footer column (copyright/powered_by/payment_types)
+            {% endcomment %}
+            {% assign num_footer_columns = 1 %}
+
+            {% comment %}
+            Create an extra menu column if link list has more than 5 links
+            {% endcomment %}
+            {% if linklists[section.settings.footer_link_list].links.size > 0 %}
+
+                {% comment %}
+                    We have a Footer menu that isn't empty, we will need another column
+                {% endcomment %}
+                {% assign num_footer_columns = num_footer_columns | plus: 1 %}
+                {% assign extra_footer_linklist_column = false %}
+                {% assign footer_linklist_count = linklists[section.settings.footer_link_list].links.size %}
+
+            {% endif %}
+
+            {% comment %}
+                Determine whether there are social links
+            {% endcomment %}
+            {% assign footer_social_enable = false %}
+            {% if
+                settings.social_twitter_link != blank
+                or settings.social_facebook_link != blank
+                or settings.social_google_plus_link != blank
+                or settings.social_instagram_link != blank
+                or settings.social_tumblr_link != blank
+                or settings.social_youtube_link != blank
+                or settings.social_patreon_link != blank
+            %}
+                {% assign footer_social_enable = true %}
+            {% endif %}
+
+            {% comment %}
+                Calculate the number of footer columns shown. Default to 1.
+            {% endcomment %}
+            {% if footer_social_enable %}
+                {% assign num_footer_columns = num_footer_columns | plus: 1 %}
+            {% endif %}
+
+            {% case num_footer_columns %}
+                {% when 0 %}
+                {% when 1 %}
+                    {% assign footer_column_width = '' %}
+                {% when 2 %}
+                    {% assign footer_column_width = 'large--one-third medium--one-whole small--one-whole' %}
+                {% when 3 %}
+                    {% assign footer_column_width = 'large--one-third medium--one-whole small--one-whole' %}
+                {% when 4 %}
+                    {% assign footer_column_width = 'large--one-third medium--one-whole small--one-whole' %}
+            {% endcase %}
+
+            <div class="grid__item {{ footer_column_width }} logo-container">
+                <a href="/" title="Strip Gun Club">
+                    <img src="{{ section.settings.image | img_url: 'large' | format: 'png' }}" />
+                </a>
+
+                <div class="contact-us-container">
+                    <div class="grid">
+                        {% if section.settings.address != blank %}
+                        <div class="contact-us-item grid__item small--one-whole medium--one-whole large--one-whole">
+                            <p class="contact-item-title text-uppercase">Address:</p>
+                            {{ section.settings.address }}
+                        </div>
+                        {% endif %}
+
+                        <div style="margin: 25px 0px 0px 0px;" class="contact-us-item contact-us-item--phone grid__item small--one-whole medium--one-whole large--one-whole">
+                            {% if section.settings.legal != blank %}
+                            <p class="contact-item-title text-uppercase">Giveaway Rules:</p>
+                            <p>
+                                {{ section.settings.legal }}
+                            </p>
+                            {% endif %}
+                            {% if section.settings.phone != blank %}
+                            <p class="contact-item-title text-uppercase">Contact Us:</p>
+                            {% endif %}
+                            {% if section.settings.phone != blank %}
+                            <p><span class="contact-item-secondary-title strong">Phone:&nbsp;&nbsp;</span><a href="tel:{{ section.settings.phone | replace: '.', '' | replace: '-', '' | replace: '(', '' | replace: ')', '' | replace: ' ', '' }}">{{ section.settings.phone }}</a></p>
+                            {% endif %}
+                            {% if section.settings.internationalPhone != blank %}
+                            <p><span class="contact-item-secondary-title strong">International:&nbsp;&nbsp;</span><a href="tel:{{ section.settings.internationalPhone | replace: '.', '' | replace: '-', '' | replace: '(', '' | replace: ')', '' | replace: ' ', '' }}">{{ section.settings.internationalPhone }}</a></p>
+                            {% endif %}
+                            {% if section.settings.email != blank %}
+                                <p><span class="contact-item-secondary-title strong">Email:&nbsp;&nbsp;</span><a href="mailto:{{ section.settings.email | replace: '-', '' | replace: '(', '' | replace: ')', '' | replace: ' ', '' }}">{{ section.settings.email }}</a></p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="powered-by-container medium-down--hide strong text-uppercase">
+                    <a href="https://www.bitmotive.com" target="_blank" title="Powered By Bitmotive">Powered By:<br>
+                        {{ 'bitmotive-logo.png' | asset_url | img_tag }}
+                    </a>
+                </div>
+            </div>
+
+            {% if linklists[section.settings.footer_link_list].links.size > 0 %}
+            <div class="grid__item {{ footer_column_width }}">
+                <ul class="no-bullets site-footer__linklist">
+                    {% for link in linklists[section.settings.footer_link_list].links %}
+                    {% comment %}
+                        Create a second column
+                    {% endcomment %}
+                    {% if extra_footer_linklist_column and forloop.index == footer_linklist_split %}
+                </ul>
+            </div>
+
+            <div class="grid__item {{ footer_column_width }}">
+                <ul class="no-bullets site-footer__linklist">
+                    {% endif %}
+
+                    <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <div class="grid__item {{ footer_column_width }} {% if num_footer_columns == 1 %}text-center{% else %}large--text-left{% endif %}">
+
+                <div class="footer--newsletter">
+                    <h3 class="white">Subscribe to our newsletter</h3>
+                    <p class="newsletter-paragraph">
+                        Stay up to date with all things Strip Gun Club with updates sent directly to your inbox
+                    </p>
+                </div>
+
+                {% form 'customer' %}
+                {{ form.errors | default_errors }}
+                {% if form.posted_successfully? %}
+                <div class="newsletter--form">
+                    <div class="note form-success">{{ 'general.newsletter_form.newsletter_confirmation' | t }}</div>
+                </div>
+                {% else %}
+                <label for="Email" class="newsletter__label hidden-label">{{ 'general.newsletter_form.newsletter_email' | t }}</label>
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                <div class="newsletter--form">
+                    <div class="input-group">
+                        <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="contact[email]" id="Email" class="input-group-field newsletter__input" autocorrect="off" autocapitalize="off">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn newsletter__submit" name="commit" id="Subscribe">
+                                <span class="newsletter__submit-text--large">{{ 'general.newsletter_form.submit' | t }}</span>
+                                <span class="newsletter__submit-text--small">
+                                    <span class="icon icon-arrow-right" aria-hidden="true"></span>
+                                </span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                {% endif %}
+                {% endform %}
+
+
+
+                {% if footer_social_enable %}
+                <div class="footer-social-media">
+                    <h3 class="follow-us">Follow Us:</h3>
+                    <ul class="no-bullets social-icons">
+                    {% if settings.social_facebook_link != blank %}
+                        <li>
+                            <a href="{{ settings.social_facebook_link }}" target="_blank" title="Facebook">
+                                <span class="fa fa-facebook-square" aria-hidden="true"></span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if settings.social_twitter_link != blank %}
+                        <li>
+                            <a href="{{ settings.social_twitter_link }}" target="_blank" title="Twitter">
+                                <span class="fa fa-twitter-square" aria-hidden="true"></span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if settings.social_instagram_link != blank %}
+                        <li>
+                            <a href="{{ settings.social_instagram_link }}" target="_blank" title="Instagram">
+                                <span class="fa fa-instagram" aria-hidden="true"></span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if settings.social_youtube_link != blank %}
+                        <li>
+                            <a href="{{ settings.social_youtube_link }}" target="_blank" title="YouTube">
+                                <span class="fa fa-youtube-play" aria-hidden="true"></span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if settings.social_google_plus_link != blank %}
+                        <li>
+                            <a href="{{ settings.social_google_plus_link }}" target="_blank" rel="publisher" title="Google Plus">
+                                <span class="fa fa-google-plus-square" aria-hidden="true"></span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if settings.social_tumblr_link != blank %}
+                        <li>
+                            <a href="{{ settings.social_tumblr_link }}" target="_blank" title="Tumblr">
+                                <span class="fa fa-tumblr-square" aria-hidden="true"></span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if settings.social_vimeo_link != blank %}
+                        <li>
+                            <a href="{{ settings.social_vimeo_link }}" target="_blank" title="Vimeo">
+                                <span class="fa fa-vimeo-square" aria-hidden="true"></span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if settings.social_patreon_link != blank %}
+                        <li>
+                            <a href="{{ settings.social_patreon_link }}" target="_blank" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Patreon' }}">
+                                <i class="fab fa-patreon"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                    </ul>
+                </div>
+
+                {% endif %}
+
+                {% if section.settings.extraimage != blank %}
+                    <img style="width: 100%;" class="footer-extra-image" src="{{ section.settings.extraimage | img_url: 'large' | format: 'png' }}" />
+                {% endif %}
+
+                <div class="powered-by-container medium-down--show large--hide strong text-uppercase">
+                    <a href="https://www.bitmotive.com" target="_blank" title="Powered By Bitmotive">Powered By:<br>
+                        {{ 'bitmotive-logo.png' | asset_url | img_tag }}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid copyright-payment-grid">
+            <div class="grid__item one-whole">
+                {% unless shop.enabled_payment_types == empty %}
+                {% assign payment_icons_available = 'amazon_payments,american_express,bitcoin,cirrus,dankort,diners_club,discover,dogecoin,dwolla,forbrugsforeningen,interac,jcb,litecoin,maestro,master,paypal,visa' | split: ',' %}
+                <ul class="inline-list payment-icons">
+                {% for type in shop.enabled_payment_types %}
+                  {% if payment_icons_available contains type %}
+                    <li>
+                        <span class="icon-fallback-text">
+                            <span class="icon icon-{{ type }}" aria-hidden="true"></span>
+                            <span class="fallback-text">{{ type | replace: '_',' ' }}</span>
+                        </span>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            {% endunless %}
+            </div>
+        </div>
+
+    </div>
+</footer>
+
+{% schema %}
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "link_list",
+        "id": "footer_link_list",
+        "label": "Footer menu",
+        "default": "footer"
+    },
+    {
+        "type":"image_picker",
+        "id":"image",
+        "label": "Footer Logo"
+    },
+    {
+        "type":"image_picker",
+        "id":"extraimage",
+        "label": "Extra Footer Logo"
+    },
+    {
+        "type":"richtext",
+        "id":"legal",
+        "label": "Giveaway Rules"
+    },
+    {
+        "type":"richtext",
+        "id":"address",
+        "label": "Address"
+    },
+    {
+        "type":"text",
+        "id":"phone",
+        "label": "Phone Number",
+        "default": "123.456.7890"
+    },
+    {
+        "type":"text",
+        "id":"internationalPhone",
+        "label": "International Phone Number",
+        "default": "123.456.7890"
+    },
+    {
+        "type":"text",
+        "id":"email",
+        "label": "E-mail Address",
+        "default": "email@example.com"
+    }
+    ]
+  }
+{% endschema %}

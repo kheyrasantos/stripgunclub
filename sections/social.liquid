@@ -1,0 +1,179 @@
+{% comment %}
+    Determine whether there are social links
+{% endcomment %}
+{% assign social_enable = false %}
+{% if
+    settings.social_twitter_link != blank
+    or settings.social_facebook_link != blank
+    or settings.social_instagram_link != blank
+%}
+    {% assign social_enable = true %}
+{% endif %}
+
+<div data-section-id="{{ section.id }}" data-section-type="social-callout-section" id="socialCallout">
+    <div class="wrapper">
+        <div class="grid text-center">
+            {% if section.settings.heading != blank %}
+            <div class="grid__item small--one-whole large--one-whole">
+                  <h2 class="color-secondary section-title">{{ section.settings.heading | escape }}</h2>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="grid">
+            <div class="grid__item one-whole">
+                {% if social_enable %}
+                <ul class="no-bullets social-icons social-callout-icons text-center">
+                    {% if settings.social_facebook_link != blank %}
+                        <li>
+                            <a href="{{ settings.social_facebook_link }}">
+                                <i class="fa fa-facebook-square"></i>
+                                <span class="social-handle">{{ section.settings.facebook_handle }}</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if settings.social_twitter_link != blank %}
+                        <li>
+                            <a href="{{ settings.social_twitter_link }}">
+                                <i class="fa fa-twitter-square"></i>
+                                <span class="social-handle">{{ section.settings.twitter_handle }}</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if settings.social_instagram_link != blank %}
+                        <li>
+                            <a href="{{ settings.social_instagram_link }}">
+                                <i class="fa fa-instagram"></i>
+                                <span class="social-handle">{{ section.settings.instagram_handle }}</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="grid twitter-grid text-center">
+            <div class="grid__item small--one-whole large--one-third">
+                <div class="same_height">
+                    {% if section.settings.twitter_image != blank %}
+                        {{ section.settings.twitter_image | img_url: '600x600' | img_tag: section.settings.image.alt, 'image-text-row__image' }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="grid__item small--one-whole large--two-thirds">
+                <div href="{{ settings.social_twitter_link }}" class="color-primary-background twitter-container same_height">
+                    <a href="{{ settings.social_twitter_link }}" class="white twitter-icon-container">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                    {% if section.settings.twitter_text != blank %}
+                    <div class="twitter-text-container">
+                        {{ section.settings.twitter_text }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="grid fb-grid text-center">
+            <div class="grid__item small--one-whole large--one-third">
+                <div class="color-secondary-background fb-container white same_height">
+                    <a href="{{ settings.social_facebook_link }}" class="white fb-icon-container">
+                        <i class="fa fa-facebook-f"></i>
+                    </a>
+                    {% if section.settings.facebook_text != blank %}
+                    <div class="fb-text-container">
+                        {{ section.settings.facebook_text }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="grid__item small--one-whole large--one-third">
+                {% if section.settings.fb_image1 != blank %}
+                <div class="same_height">
+                    {{ section.settings.fb_image1 | img_url: '600x600' | img_tag: section.settings.image.alt, 'image-text-row__image' }}
+                </div>
+                {% endif %}
+            </div>
+            <div class="grid__item small--one-whole large--one-third">
+                {% if section.settings.fb_image2 != blank %}
+                <div class="same_height">
+                    {{ section.settings.fb_image2 | img_url: '600x600' | img_tag: section.settings.image.alt, 'image-text-row__image' }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Social Media Callout",
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Section Heading",
+        "default": "Connect with us!"
+      },
+      {
+        "type": "text",
+        "id": "facebook_handle",
+        "label": "Facebook Handle",
+        "default": "@"
+     },
+      {
+        "type": "text",
+        "id": "twitter_handle",
+        "label": "Twitter Handle",
+        "default": "@"
+     },
+     {
+       "type": "text",
+       "id": "instagram_handle",
+       "label": "Instagram Handle",
+       "default": "@"
+    },
+      {
+        "type": "image_picker",
+        "id": "twitter_image",
+        "label": "Image left of Twitter Callout"
+      },
+      {
+        "type": "richtext",
+        "id": "twitter_text",
+        "label": "Text",
+        "default": "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. #hashtag</p>"
+      },
+      {
+        "type": "url",
+        "id": "twitter_link",
+        "label": "Twitter Post Link"
+    },
+    {
+      "type": "richtext",
+      "id": "facebook_text",
+      "label": "Text",
+      "default": "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "fb_image1",
+      "label": "Image Right of Facebook Callout"
+    },
+    {
+      "type": "image_picker",
+      "id": "fb_image2",
+      "label": "Image Right of Facebook Callout"
+    }
+    ],
+    "presets": [
+      {
+        "name": "Social Media Callout",
+        "category": "Image"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,181 @@
+<!-- sections/slideshow-v2.liquid -->
+
+{% comment %}
+  If hero is first section on homepage, add class that sets
+  negative top-margin for alignment and force full height.
+{% endcomment %}
+
+<div data-section-id="{{ section.id }}" data-section-type="slideshow-section" id="slideshow" class="slideshow2">
+  {% if section.blocks.size > 0 %}
+    <div class="hero-{{ section.id }} hero{% if hero_full_height %} hero--full-height{% endif %} hero--first clearfix" id="Hero" data-slick='{"autoplay":{{ section.settings.hero_home_auto }}, "autoplaySpeed":{{ section.settings.home_hero_auto_speed }} }'>
+      {% for block in section.blocks %}
+
+          <div class="hero__slide {{ block.settings.slide_text_color }} slide--{{ block.id }}{% if block.settings.image == blank %} slide--placeholder{% endif %}" data-color="{{ block.settings.slide_text_color }}" {{ block.shopify_attributes }}>
+              {% if block.settings.slide_link != blank and block.settings.slide_cta == blank %}
+              <a href="{{ block.settings.slide_link }}">
+              {% endif %}
+              {% if block.settings.image != blank %}
+                <img src="{{  block.settings.image | img_url: '2048x2048' | format: 'jpg' }}" />
+              {% else %}
+                <div class="hero__image">
+                  {% capture current %}{% cycle 1, 2 %}{% endcapture %}
+                  {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                </div>
+              {% endif %}
+              {% if block.settings.slide_link != blank and block.settings.slide_cta == blank %}
+              </a>
+              {% endif %}
+            {% unless block.settings.slide_subheading == blank %}
+            <div class="hero__text-wrap">
+              <div class="hero__text-align">
+                <div class="hero__text-content">
+                    {% unless block.settings.slide_subheading == blank %}
+                      <p class="hero__subtitle text-uppercase">
+                        {{ block.settings.slide_subheading | escape }}
+                      </p>
+                    {% endunless %}
+                    {% unless block.settings.slide_heading == blank %}
+                        <h2 class="h1 hero__title text-uppercase">
+                            {{ block.settings.slide_heading | escape }}
+                        </h2>
+                    {% endunless %}
+                    {% unless block.settings.slide_cta == blank %}
+                        <a href="{{ block.settings.slide_link }}" class="btn hero__cta">
+                            {{ block.settings.slide_cta | escape }} <span class="icon icon-arrow-right" aria-hidden="true"></span>
+                        </a>
+                     {% endunless %}
+
+                     {% if section.settings.video_reveal_enable %}
+                     <div class="text-center">
+                         <a href="#" data-reveal-id="videoReveal" data-animation="fadeAndPop" class="reveal-link">
+                             <img src="{{ 'play-button.png' | asset_url }}" class="home-play-button">
+                         </a>
+                     </div>
+                     {% endif %}
+                </div>
+              </div>
+            </div>
+            {% endunless %}
+      {% endfor %}
+
+    </div>
+  {% endif %}
+</div>
+
+{% if section.settings.video_reveal_enable %}
+<div id="videoReveal" class="modal reveal-modal text-center video-reveal">
+    <div class="grid">
+        <div class="grid__item one-whole">
+            <video id="reveal-video" playsinline autoplay muted controls>
+                <source src="{{ section.settings.video_reveal_url }}" media="screen and (min-width:641px)">
+                <source src="{{ section.settings.video_reveal_url }}" media="screen and (max-width:640px)">
+            </video>
+
+            <button class="close-button home-page-close-button close-reveal-modal" data-close type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+</div>
+{% endif %}
+</div>
+
+{% schema %}
+  {
+    "name": "Slideshow",
+    "max_blocks": 6,
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "video_reveal_enable",
+        "label": "Show Video Reveal"
+      },
+      {
+        "type": "url",
+        "id": "video_reveal_url",
+        "label": "Reveal Video URL"
+      },
+      {
+        "type": "checkbox",
+        "id": "hero_home_auto",
+        "label": "Auto rotate between slides",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "home_hero_auto_speed",
+        "label": "Slide changes every",
+        "options": [
+          {
+            "value": "5000",
+            "label": "5 seconds"
+          },
+          {
+            "value": "7000",
+            "label": "7 seconds"
+          },
+          {
+            "value": "10000",
+            "label": "10 seconds"
+          }
+        ]
+      }
+    ],
+    "blocks" : [
+      {
+        "type": "slide",
+        "name": "Slide",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "select",
+            "id": "slide_text_color",
+            "label": "Text color",
+            "default": "is-light",
+            "options": [
+              {
+                "value": "is-light",
+                "label": "Light"
+              },
+              {
+                "value": "is-dark",
+                "label": "Dark"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "id": "slide_heading",
+            "label": "Heading text"
+          },
+          {
+            "type": "text",
+            "id": "slide_subheading",
+            "label": "Subheading text"
+          },
+          {
+            "type": "text",
+            "id": "slide_cta",
+            "label": "Button text"
+          },
+          {
+            "type": "url",
+            "id": "slide_link",
+            "label": "Slide link"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Slideshow V2",
+        "category": "Image"
+      }
+    ]
+  }
+
+{% endschema %}

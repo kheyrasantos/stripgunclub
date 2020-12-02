@@ -1,0 +1,17 @@
+<!-- sections/facility-tour.liquid -->
+<div class="range-tour-map-container">
+    {{ section.settings.text }}
+</div>
+
+{% schema %}
+{
+"name": "Facility Map Tour",
+"settings" : [
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "HTML"
+    }
+  ]
+}
+{% endschema %}

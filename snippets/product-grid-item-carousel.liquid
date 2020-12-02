@@ -1,0 +1,109 @@
+<!-- /snippets/product-grid-item-carousel.liquid -->
+{% comment %}
+
+  This snippet is used to showcase each product during the loop,
+  'for product in collection.products' in collection.liquid.
+
+  A liquid variable (grid_item_width) is set just before the this
+  snippet is included to change the size of the container.
+  Once the variable is set on a page, all future instances of this
+  snippet will use that width. Overwrite the variable to adjust this.
+
+  Example
+    - assign grid_item_width = 'large--one-quarter medium--one-half'
+
+{% endcomment %}
+
+{% comment %}
+  Set the default grid_item_width if no variable is set
+{% endcomment %}
+{% unless grid_item_width %}
+  {% assign grid_item_width = 'large--one-quarter medium--one-half small--one-whole' %}
+{% endunless %}
+
+{% comment %}
+  Check if the product is on sale and set a variable to be used below.
+{% endcomment %}
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+  {% assign on_sale = true %}
+{% endif %}
+
+{% comment %}
+  Check if the product is sold out and set a variable to be used below.
+{% endcomment %}
+{% assign sold_out = true %}
+{% if product.available %}
+  {% assign sold_out = false %}
+{% endif %}
+
+{% comment %}
+  Set the default image_size if no variable is set
+{% endcomment %}
+{% unless image_size %}
+  {% assign image_size = 'grande' %}
+{% endunless %}
+
+<div class="grid__item grid__product-container {{ grid_item_width }} {% if product.title == 'Better Half 7' or product.title == 'Namaste' or product.title == 'Beteran 3' or product.title == 'Beteran Trucker Cap' %}custom-image-product{% endif %}" id="item-{{ product.id }}">
+    <div class="product-container">
+        <a href="{{ product.url | within: collection }}" class="clearfix">
+          {% if product.title == 'Assault Rifle Package' %}
+            <img class="lazyload custom-image" src="{{ 'AssualtRiflePackage_900x.jpg' | asset_url }}" alt="{{ product.title }}" />
+            {% elsif product.title == 'Build Your Own Experience' %}
+            <img class="lazyload custom-image" src="{{ 'BuildYourOwnPackage_900x.jpg' | asset_url }}" alt="{{ product.title }}" />
+            {% elsif product.title == 'Deuces Wild Package' %}
+            <img class="lazyload custom-image" src="{{ 'DeucesWildPackage_900x.jpg' | asset_url }}" alt="{{ product.title }}" />
+            {% elsif product.title == 'Pistol Package' %}
+            <img class="lazyload custom-image" src="{{ 'PistolsPackage_900x.jpg' | asset_url }}" alt="{{ product.title }}" />
+            {% elsif product.title == 'Sniper Package' %}
+            <img class="lazyload custom-image" src="{{ 'SniperPackage_900x.jpg' | asset_url }}" alt="{{ product.title }}" />
+            {% elsif product.title == 'Wild West Package' %}
+            <img class="lazyload custom-image" src="{{ 'WildWestPackage_900x.jpg' | asset_url }}" alt="{{ product.title }}" />
+            {% else %}
+            <img class="lazyload" src="{{ product.featured_image | img_url: '900x' }}" alt="{{ product.title }}" />
+            {% endif %}
+
+            {% comment %}
+            <div class="text-center">
+                <p class="product-title">
+                  {{ product.title | strip_html | truncate:50  }}
+                </p>
+
+                <p class="price-container">
+                  {% if on_sale %}
+                    {% if product.price_varies %}
+                      {% assign sale_price = product.price | money %}
+                      <span class="on-sale-price">sale: {{ product.price | money }}</span>
+                    {% else %}
+                      <span class="on-sale-price">sale: {{ product.price | money }}</span>
+                    {% endif %}
+                  {% else %}
+                    {% if product.price_varies %}
+                      {% assign price = product.price | money %}
+                      <span class="color-primary">{{ 'products.general.from_text_html' | t: price: price }}</span>
+                    {% else %}
+                      <span class="retail-price">{{ product.price | money }}</span>
+                    {% endif %}
+                  {% endif %}
+
+                  {% if on_sale %}
+                    <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+                    <span class="retail-price strike on-sale-retail-price">{{ product.compare_at_price | money }}</span>
+                  {% endif %}
+
+                  {% if sold_out %}
+                    <div class="soldout-container">
+                       <span class="sold-out">{{ 'products.product.sold_out' | t }}</span>
+                       <a href='#' class='BIS_trigger' data-product-data='{% include 'wh_product_json' with product, escape: true %}'>
+                           Email when available
+                       </a>
+                     </div>
+                  {% endif %}
+                </p>
+            </div>
+
+            <span class="product-url">SHOP</span>
+            {% endcomment %}
+        </a>
+    </div>
+</div>

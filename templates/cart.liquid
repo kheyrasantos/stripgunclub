@@ -1,0 +1,227 @@
+{%- include 'bold-cart' -%}
+<!-- /templates/cart.liquid -->
+{% comment %}
+
+  For info on test orders:
+    - General http://docs.shopify.com/manual/your-store/orders/test-orders
+    - Shopify Payments - http://docs.shopify.com/manual/more/shopify-payments/testing-shopify-payments
+
+{% endcomment %}
+<div class="wrapper">
+    {% if cart.item_count > 0 %}
+
+      {% comment %}<h1>{{ 'cart.general.title' | t }}</h1>{% endcomment %}
+
+
+  <!-- Bold: Quantity Breaks - Step 7 -->
+  <div id="shappify-qty-cart-msg"></div>
+  <!-- // end Bold code -->
+      <form action="/cart" method="post" novalidate class="cart table-wrap">
+        <table class="cart-table full table--responsive">
+          <thead class="cart__row cart__header-labels">
+            <th colspan="2">{{ 'cart.label.product' | t }}</th>
+            <th class="text-center">{{ 'cart.label.price' | t }}</th>
+            <th class="text-center">{{ 'cart.label.quantity' | t }}</th>
+            <th class="text-right">{{ 'cart.label.total' | t }}</th>
+          </thead>
+          <tbody>
+            {% for item in cart.items %}
+{%- include 'bold-cart-item' with item -%}
+              {% if item.product.title == "Package" or item.product.title == "Packages" %}
+                {% continue %}
+              {% endif %}
+              <tr class="cart__row table__section" data-variant-id="{{ item.variant.id }}">
+                <td data-label="{{ 'customer.order.product' | t }}">
+                  <a href="{{ item.url | within: collections.all }}" class="cart__image" data-count={{ item.quantity }} >
+                    {% comment %}
+                      More image size options at:
+                        - http://docs.shopify.com/themes/filters/product-img-url
+                    {% endcomment %}
+                    <img src="{{ item | img_url: 'medium' }}" alt="{{ item.title | escape }}">
+                  </a>
+                </td>
+                <td data-label="Description">
+                  <a href="{{ item.url }}" class="h4">
+                    {{ item.product.title }}
+                    <span class="saso-cart-item-discount-notes" data-key="{{item.key}}"></span>
+                    <span class="saso-cart-item-upsell-notes" data-key="{{item.key}}"></span>
+                  </a>
+
+                  {% unless item.variant.title contains 'Default' %}
+                    <small>{{ item.variant.title }}</small>
+                  {% endunless %}
+
+                  {% if settings.cart_vendor_enable %}
+                    <p>{{ item.vendor }}</p>
+                  {% endif %}
+                  <br>
+
+                  {% comment %}
+                    Optional, loop through custom product line items if available
+
+                    For more info on line item properties, visit:
+                      - http://docs.shopify.com/support/your-store/products/how-do-I-collect-additional-information-on-the-product-page-Like-for-a-monogram-engraving-or-customization
+                  {% endcomment %}
+
+                  {% assign property_size = item.properties | size %}
+                  <!-- Bold:POv2 -->
+                  <span class="Bold-theme-hook-DO-NOT-DELETE bold_cart_item_properties" style="display:none !important;"></span>
+                  {% assign propertySize = item.properties | size %}
+                  {% if propertySize > 0 %}
+                  {% for p in item.properties %}
+                  {%- if p.first.first == '_' -%}{%- continue -%}{%- endif -%}
+                  {% assign first_character_in_key = p.first | truncate: 1, '' %}
+                  {% unless p.last == blank or first_character_in_key == '_' %}
+                  {{ p.first }}:
+                  {% if p.last contains '/uploads/' %}
+                  <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+                  {% else %}
+                  {{ p.last }}
+                  {% endif %}
+                  <br/>
+                  {% endunless %}
+                  {% endfor %}
+                  {% endif %}
+                  <!-- Bold:POv2 -->
+
+                  <a href="/cart/change?line={{ forloop.index }}&quantity=0" class="cart__remove">
+                    <small><i class="fa fa-times" aria-hidden="true"></i> {{ 'cart.general.remove' | t }}</small>
+                  </a>
+                </td>
+
+                <td data-label="{{ 'cart.label.price' | t }}">
+                  <span class="h3">
+                    <span class="Bold-theme-hook-DO-NOT-DELETE bold_cart_item_price" style="display:none !important;"></span>
+                    <span class="saso-cart-item-price" data-key="{{item.key}}">{{ bold_item_price | money }}</span>
+                  </span>
+                </td>
+
+                <td data-label="{{ 'cart.label.quantity' | t }}">
+                  <input type="number" name="updates[]" id="updates_{{ item.key }}" data-id="{{ item.key }}" value="{{ item.quantity }}" min="0">
+                </td>
+                <td data-label="{{ 'cart.label.total' | t }}" class="text-right">
+                  {% if item.original_line_price != item.final_line_price %}
+                    <span class="cart-item__original-price"><s>
+                        <span class="saso-cart-item-price" data-key="{{item.key}}"><s>{{ item.original_price | money }}</s></span>
+                    </s></span>
+                  {% endif %}
+                  <span class="h3">
+
+                  <span class="Bold-theme-hook-DO-NOT-DELETE bold_cart_item_total" style="display:none !important;"></span>{{ bold_item_line_price | money }}
+
+                  </span>
+                  {% for discount in item.discounts %}
+                    <span class="cart-item__discount">{{ discount.title }}</span>
+                  {% endfor %}
+                  <button class="button-edit-mobile-cart">Edit</button>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <div class="grid cart__row">
+
+            {% assign gov_customer = false %}
+            {% assign ind_customer = false %}
+            {% assign mil_customer = false %}
+
+            {% if customer.tags contains 'GOV' %}
+                {% assign gov_customer = true %}
+            {% endif %}
+
+            {% if customer.tags contains 'IND' %}
+                {% assign ind_customer = true %}
+            {% endif %}
+
+            {% if customer.tags contains 'MIL' %}
+                {% assign mil_customer = true %}
+            {% endif %}
+
+            {% if gov_customer == true or ind_customer == true or mil_customer == true %}
+
+            <div class="grid__item large--one-whole">
+                <div class="checkout-disclaimer checkout-disclaimer-other">
+                    <p class="text-left">
+                        <strong>Check Out Disclaimer: </strong>I understand and acknowledge that my order will be canceled if I apply a coupon since I am already in a discount group.
+                    </p>
+                    <div class="text-right strong">
+                        <label class="text-right"><input type="checkbox" class="checkout-disclaimer-checkbox" name="disclaimer-checkbox" value="1" /> I Accept</label>
+                    </div>
+                </div>
+            </div>
+
+            {% endif %}
+
+            {% comment %}
+                Checkbox for Terms and Conditions
+            {% endcomment %}
+            <div id="upsell-hook" class="grid__item large--one-whole" style="margin: 0px 0px 30px 0px">
+            </div>
+
+            {% comment %} <!-- removed -->
+            <div class="grid__item large--one-whole">
+                <div class="checkout-terms-disclaimer">
+                    <p class="text-left">
+                        By clicking this box, I agree to RE Factor Tactical's <a class="white" href="/pages/terms-conditions" target="_blank">Terms and Conditions</a>. I understand that my order will ship within 3-5 business days unless otherwise indicated on the product page. Products that may not ship within 3-5 business days include holsters, Limited Edition shirts, and pre-ordered items.
+                    </p>
+                    <div class="text-right strong">
+                        <label class="text-right"><input type="checkbox" class="checkout-terms-disclaimer-checkbox" name="terms-disclaimer-checkbox" value="1" /> I Agree</label>
+                    </div>
+                </div>
+            </div>
+            {% endcomment %}
+
+          {% if settings.cart_notes_enable %}
+            <div class="grid__item two-thirds small--one-whole">
+              <label for="CartSpecialInstructions">{{ 'cart.general.note' | t }}</label>
+              <textarea name="note" class="input-full" id="CartSpecialInstructions">{{ cart.note }}</textarea>
+            </div>
+          {% endif %}
+          <div class="grid__item order-summary text-right{% if settings.cart_notes_enable %} one-third small--one-whole{% endif %}">
+            <h2>Order Summary</h2>
+            <p>
+                <span class="cart__subtotal-title">{{ 'cart.general.subtotal' | t }}</span>
+                <span class="h3 cart__subtotal">
+                     <span class="Bold-theme-hook-DO-NOT-DELETE bold_cart_total" style="display:none !important;"></span>
+                      {% comment %}{{ bold_cart_total_price | money }}{% endcomment %}
+
+                    <span class="saso-cart-original-total"><span class="Bold-theme-hook-DO-NOT-DELETE bold_cart_total_2" style="display:none !important;"></span>{{ bold_cart_total_price | money }}</span>
+                    <span class="saso-cart-total"></span>
+
+                </span>
+            </p>
+            
+            <span class="numberofentries"><span id="number_of_entries">1</span> Giveaway Entries</span>
+
+            </p>
+            {% if cart.total_discounts > 0 %}
+              {% assign savings = cart.total_discounts | money %}
+              <p>
+                <span class="cart-subtotal__savings"><em>{{ 'cart.general.savings_html' | t: price: savings }}</em></span>
+              </p>
+            {% endif %}
+            <p><em>{{ 'cart.general.shipping_at_checkout' | t }}</em></p>
+            <button type="submit" name="update" class="btn--secondary update-cart">{{ 'cart.general.update' | t }}</button>
+
+            {% if gov_customer == true or ind_customer == true or mil_customer == true %}
+            <button id="cartSubmit" type="submit" name="checkout" class="btn disabled" disabled>{{ 'cart.general.checkout' | t }}</button>
+            {% else %}
+            <button id="otherCartSubmit" type="submit" name="checkout" class="btn">{{ 'cart.general.checkout' | t }}</button>
+            {% endif %}
+          </div>
+        </div>
+      </form>
+    {% else %}
+      {% comment %}
+        The cart is empty
+      {% endcomment %}
+      <div class="text-center">
+          <h2>{{ 'cart.general.title' | t }}</h2>
+          <p>{{ 'cart.general.empty' | t }}</p>
+          <p>{{ 'cart.general.continue_browsing_html' | t }}</p>
+      </div>
+    {% endif %}
+</div>
+{% comment %}
+{% include 'product-customizer-helper' with 'product-customizer-script' %}
+{% endcomment %}

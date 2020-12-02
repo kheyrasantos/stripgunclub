@@ -1,0 +1,59 @@
+<!-- /sections/four-featured-sections.liquid -->
+<div id="four-featured-sections-section" class="shopify-section four-featured-sections">
+    <div data-section-id="{{ section.id }}" data-section-type="four-featured-sections-section">
+        <div class="flex-container">
+            {% for block in section.blocks %}
+            <div class="flex-lg-50 flex-sm-100">
+                <div class="featured-item">
+                    <a href="{{ block.settings.url }}" title="{{ block.settings.title }}">
+                        <div class="overlay"></div>
+                        <img src="{{  block.settings.image | img_url: '2000x' | format: 'jpg' }}" alt="{{ block.settings.title }}" />
+                        <div class="text-container">
+                            <p class="collection-title">
+                                {{ block.settings.title }}
+                            </p>
+                        </div>
+                        <p class="shop-now btn">
+                            Shop Now
+                        </p>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+  "name": "Featured 4",
+  "max_blocks": 4,
+  "blocks" : [
+    {
+      "type": "image_picker",
+      "name": "Collection",
+      "settings": [
+        {
+         "type": "image_picker",
+          "id": "image",
+          "label": "Collection Featured Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Collection Title"
+        },
+        {
+         "type": "url",
+          "id": "url",
+          "label": "Collection URL"
+        }
+      ]
+    }
+  ],
+  "presets": [{
+      "name": "Featured 4",
+      "category": "Products"
+  }]
+}
+{% endschema %}

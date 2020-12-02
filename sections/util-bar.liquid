@@ -1,0 +1,95 @@
+<!-- sections/util-bar.liquid -->
+{% comment %}
+<div class="mobile-notification-container">
+    <p class="notification-text">
+        {{ section.settings.text }}
+    </p>
+</div>
+{% endcomment %}
+
+<div class="util-bar">
+  <a href="/pages/booking" class="shop-callout-link">
+      <span class="desktop-only">Book Now</span>
+      <span class="mobile-only">Book Now</span>
+  </a>
+
+  <p class="notification-text">
+      <span>{{ section.settings.text }}</span>
+  </p>
+
+  <div class="right-section">
+      <!-- <a href="/pages/customer-service" class="help tablet-only">
+          Help
+      </a> -->
+
+      {% comment %}
+      If customer accounts are enabled, provide login and create account links
+      {% endcomment %}
+      {% if shop.customer_accounts_enabled %}
+      <div class="login-options">
+          <ul>
+              <li class="site-nav--has-dropdown">
+                  <input type="checkbox" class="hidden" id="account-dropdown">
+                  <label for="account-dropdown">
+                    <i class="fas fa-user-circle"></i>
+                    Account
+                    <i class="fas fa-chevron-down"></i>
+                  </label>
+                <ul class="site-nav__dropdown submenu">
+                  {% if customer %}
+                    <li><a href="/account">My Account</a></li>
+                    <li>{{ 'layout.customer.log_out' | t | customer_logout_link }}</li>
+                  {% else %}
+                    <li>
+                      <a href="#" class="login-text login-button" data-reveal-id="loginModal" data-animation="fadeAndPop">Log In</a>
+                    </li>
+                    <li>
+                    <a href="/account/register" class="login-text">Create Account</a>
+                    </li>
+                  {% endif %}
+                </ul>
+              </li>
+          </ul>
+      </div>
+      {% endif %}
+      <!-- Cart Section -->
+      <div class="cart-section desktop-only">
+        <a id="cartIcon" href="/cart" class="site-header__cart-toggle position-relative">
+            <div class="cart-text">
+                <span class="icon icon-cart" aria-hidden="true"></span>
+                <span>CART</span>
+            </div>
+            {% comment %}
+            Excluding Shipping Insurance Item from counting
+            {% endcomment %}
+
+            {% assign has_insurance_item = false %}
+            {% assign cart_item_count = cart.item_count %}
+
+            {% for item in cart.items %}
+              {% if item.title contains "Shipping Insurance" %}
+                {% assign has_insurance_item = true %}
+                {% assign cart_item_count = cart.item_count | minus: 1 %}
+              {% endif %}
+            {% endfor %}
+
+            <span id="CartCount">{{ cart_item_count }}</span>
+        </a>
+      </div>
+      <!-- End Cart Section -->
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "Utility Nav",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Notification Bar Text"
+    }
+  ]
+}
+{% endschema %}

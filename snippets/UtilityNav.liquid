@@ -1,0 +1,95 @@
+<!-- /snippets/UtilityNav.liquid -->
+{% comment %}
+
+  This snippet provides the HTML for an a Utility
+  Nav which appears at the top of the site and includes
+  links to login, create an account, check the cart, etc.
+
+{% endcomment %}
+
+{% if settings.merge_video == true %}
+    {% if template == 'index' %}
+    <style>
+        /* .utility-nav {
+            position: absolute !important;
+            background-color: rgba(0, 0, 0, 0) !important;
+        } */
+        .nav-bar {
+            position: absolute !important;
+            z-index: 2 !important;
+            background-color: rgba(0, 0, 0, 0) !important;
+            width: 100% !important;
+            top: 100px !important;
+        }
+        .input-group-field {
+            background-color: rgba(0, 0, 0, 0) !important;
+        }
+        @media only screen and (max-width: 640px) {
+            .utility-nav {
+                position: relative !important;
+                /* z-index: 1 !important; */
+                background-color: black !important;
+            }
+            .nav-bar {
+                position: relative !important;
+                z-index: 1 !important;
+                background-color: black !important;
+                width: 100% !important;
+                top: 0 !important;
+            }
+            .input-group-field {
+                background-color: black !important;
+            }
+        }
+    </style>
+    {% endif %}
+{% endif %}
+
+<header class="site-header utility-nav" role="banner" id="UtilityNav">
+        <div class="grid--full grid--table">
+            <div class="grid__item logo-container">
+                <div id="nav-logo" >
+                    {% comment %}
+                      Use the uploaded logo from theme settings if enabled.
+                      Site name gets precedence with H1 tag on homepage, div on other pages.
+                    {% endcomment %}
+                    {% if template == 'index' %}
+                    {% else %}
+                      <div class="h1 site-header__logo large--left" itemscope itemtype="http://schema.org/Organization">
+                    {% endif %}
+                    {% if settings.logo_use_image %}
+                      <a href="/" itemprop="url" class="site-header__logo-link">
+                        <img class="img-logo" src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" itemprop="logo">
+                      </a>
+                    {% else %}
+                    <a href="/">
+                        <img class="img-logo" src="{{ 'logo.png' | asset_url }}" alt="Logo" itemprop="logo">
+                    </a>
+                    {% endif %}
+                    {% if template == 'index' %}
+                    {% else %}
+                      </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="grid__item mega-menu-container">
+                {% section 'mega-menu' %}
+            </div>
+
+            <div class="grid__item right-container-container">
+                <div class="right-container">
+                    <form action="/search" method="get" class="input-group search-bar" role="search">
+                        <input type="hidden" name="type" value="product">
+                        <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search" class="input-group-field" aria-label="{{ 'general.search.placeholder' | t }}">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn icon-fallback-text">
+                                <span class="icon icon-search" aria-hidden="true"></span>
+                                <span class="fallback-text">{{ 'general.search.submit' | t }}</span>
+                            </button>
+                        </span>
+                    </form>
+                </div>
+            </div>
+        </div>
+</header>

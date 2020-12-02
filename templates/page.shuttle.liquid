@@ -1,0 +1,431 @@
+<!-- templates/page.shuttle.liquid-->
+<div class="hero-container">
+    <div class="text-center">
+        <img src="{{ 'shuttle-bus-hero.jpg' | asset_url }}" alt="Strip Gun Club Shuttle Bus" />
+    </div>
+</div>
+
+<div class="about-shuttle-container">
+    <div class="grid">
+        <div class="grid__item small--one-whole large--one-half">
+            <img src="{{ 'sgc-shuttle-bus-graphic.png' | asset_url }}" alt="Strip Gun Club Shuttle Bus" />
+        </div>
+
+        <div class="grid__item small--one-whole large--one-half">
+            <h2>Shuttle Service</h2>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore quis molestias ad ipsa, cum necessitatibus laudantium eligendi sed maxime quas quae facere nulla dolor velit porro ex! Ab, aliquid quae?
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="map-container">
+    <div class="text-center">
+        <h2>Pick Up Locations</h2>
+    </div>
+    <div id="map"></div>
+
+    <!-- Google Script -->
+    <script>
+    // Google maps
+    window.initMap = function() {
+        var mapDiv = document.getElementById('map');
+        window.map = new google.maps.Map(document.getElementById("map"), {
+           center: {lat: 36.136197, lng: -115.155229},
+           zoom: 14,
+           scrollwheel: false
+        });
+
+        window.dealers = [
+           {
+               "title": "Strip Gun Club",
+               "description": "2235 S Las Vegas Blvd, Las Vegas, NV 89104",
+               "lat": "36.144873",
+               "lng": "-115.156302"
+           },
+           {
+               "title": "Westgate East Tower Entrance",
+               "description": "3000 Paradise Rd, Las Vegas, NV 89109",
+               "lat": "36.143518",
+               "lng": "-115.150414"
+           },
+           {
+               "title": "Wynn South Bus Loop",
+               "description": "3131 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.126611",
+               "lng": "-115.165728"
+           },
+           {
+               "title": "Waldorf Astoria Main Valet",
+               "description": "3752 Las Vegas Blvd S, Las Vegas, NV 89158",
+               "lat": "36.106142",
+               "lng": "-115.173446"
+           },
+           {
+               "title": "Venetian Showroom Ground Transportation",
+               "description": "3355 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.124425",
+               "lng": "-115.169283"
+           },
+           {
+               "title": "Vdara P/U @ Aria Tour Bus",
+               "description": "2600 W Harmon Ave, Las Vegas, NV 89158",
+               "lat": "36.109414",
+               "lng": "-115.178478"
+           },
+           {
+               "title": "Tuscany Suites Main Valet",
+               "description": "255 E Flamingo Rd, Las Vegas, NV 89169",
+               "lat": "36.113268",
+               "lng": "-115.159906"
+           },
+           {
+               "title": "Trump International Hotel Main Valet",
+               "description": "2000 Fashion Show Dr, Las Vegas, NV 89109",
+               "lat": "36.129810",
+               "lng": "-115.172638"
+           },
+           {
+               "title": "Tropicana North Entrance",
+               "description": "3801 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.102255",
+               "lng": "-115.171589"
+           },
+           {
+               "title": "Treasure Island Tour Bus Area",
+               "description": "3300 Las Vegas Blvd S, Las Vegas, NV 89109",
+               "lat": "36.129907",
+               "lng": "-115.172785"
+           },
+           {
+               "title": "The Quad Back Valet/Shuttle",
+               "description": "3535 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.118082",
+               "lng": "-115.170743"
+           },
+           {
+               "title": "The M Main Valet",
+               "description": "12300 Las Vegas Blvd S, Henderson, NV 89044",
+               "lat": "35.965372",
+               "lng": "-115.169666"
+           },
+           {
+               "title": "The LINQ Tour Bus Area",
+               "description": "3535 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.117959",
+               "lng": "-115.170771"
+           },
+           {
+               "title": "The Hotel Main Valet",
+               "description": "3708 Las Vegas Blvd S, Las Vegas, NV 89109",
+               "lat": "36.109574",
+               "lng": "-115.175270"
+           },
+           {
+               "title": "The D Hotel Main Valet",
+               "description": "301 Fremont St, Las Vegas, NV 89101",
+               "lat": "36.169669",
+               "lng": "-115.142884"
+           },
+           {
+               "title": "Strat Back Valet",
+               "description": "2000 S Las Vegas Blvd, Las Vegas, NV 89104",
+               "lat": "36.147549",
+               "lng": "-115.156678"
+           },
+           {
+               "title": "South Point Main Valet",
+               "description": "9777 S Las Vegas Blvd, Las Vegas, NV 89183",
+               "lat": "36.011703",
+               "lng": "-115.174519"
+           },
+           {
+               "title": "Sahara Hotel Main Valet",
+               "description": "2535 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.142563",
+               "lng": "-115.156713"
+           },
+           {
+               "title": "Rio Main Valet",
+               "description": "3700 W Flamingo Rd, Las Vegas, NV 89103",
+               "lat": "36.117705",
+               "lng": "-115.188181"
+           },
+           {
+               "title": "Renaissance Main Valet",
+               "description": "3400 Paradise Rd, Las Vegas, NV 89169",
+               "lat": "36.127769",
+               "lng": "-115.154180"
+           },
+           {
+               "title": "Polo Towers Main Valet",
+               "description": "3745 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.106666",
+               "lng": "-115.170909"
+           },
+           {
+               "title": "Plaza Hotel Front Entrance",
+               "description": "1 N Main St, Las Vegas, NV 89101",
+               "lat": "36.171966",
+               "lng": "-115.146850"
+           },
+           {
+               "title": "Planet Hollywood Tour Bus Lobby",
+               "description": "3667 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.110248",
+               "lng": "-115.170861"
+           },
+           {
+               "title": "Park MGM Tour Bus/Taxi Area",
+               "description": "3770 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.104767",
+               "lng": "-115.174080"
+           },
+           {
+               "title": "Paris Tour Bus Lobby",
+               "description": "3655 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.114691",
+               "lng": "-115.171014"
+           },
+           {
+               "title": "Palms Main Valet",
+               "description": "4321 W Flamingo Rd, Las Vegas, NV 89103",
+               "lat": "36.114547",
+               "lng": "-115.195968"
+           },
+           {
+               "title": "Palazzo Showroom Ground Transportation",
+               "description": "3325 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.124161",
+               "lng": "-115.167958"
+           },
+           {
+               "title": "Oyo Main Valet",
+               "description": "115 E Tropicana Ave, Las Vegas, NV 89109",
+               "lat": "36.100688",
+               "lng": "-115.167745"
+           },
+           {
+               "title": "Orleans Main Valet",
+               "description": "4500 W Tropicana Ave, Las Vegas, NV 89103",
+               "lat": "36.102788",
+               "lng": "-115.201892"
+           },
+           {
+               "title": "New York New York Shuttle Bus",
+               "description": "3790 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.102554",
+               "lng": "-115.174556"
+           },
+           {
+               "title": "Mirage North Shuttle Bus Area",
+               "description": "3400 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.124203",
+               "lng": "-115.174151"
+           },
+           {
+               "title": "The Signature at MGM",
+               "description": "3400 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.106203",
+               "lng": "-115.166781"
+           },
+           {
+               "title": "Mandalay Bay Tour & Travel Lobby",
+               "description": "3950 Las Vegas Blvd S, Las Vegas, NV 89119",
+               "lat": "36.091984",
+               "lng": "-115.175243"
+           },
+           {
+               "title": "LVH Main Valet",
+               "description": "3000 Paradise Rd, Las Vegas, NV 89109",
+               "lat": "36.136442",
+               "lng": "-115.151258"
+           },
+           {
+               "title": "Aria Tour Bus",
+               "description": "3730 S Las Vegas Blvd, Las Vegas, NV 89158",
+               "lat": "36.0627",
+               "lng": "-115.1035"
+           },
+           {
+               "title": "Bally’s North Tour Bus Entrance",
+               "description": "3645 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.0651",
+               "lng": "-115.1014"
+           },
+           {
+               "title": "Bellagio Shuttle Bus",
+               "description": "3600 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.0646",
+               "lng": "-115.1036"
+           },
+           {
+               "title": "Caesars Forum Shoppes Valet",
+               "description": "3500 Las Vegas Blvd S, Las Vegas, NV 89109",
+               "lat": "36.0709",
+               "lng": "-115.1034"
+           },
+           {
+               "title": "Casino Royale Main Valet",
+               "description": "3411 Las Vegas Blvd S, Las Vegas, NV 89109",
+               "lat": "36.0714",
+               "lng": "-115.1018"
+           },
+           {
+               "title": "Circus Circus Front Tour Bus Area",
+               "description": "2880 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.0812",
+               "lng": "-115.0946"
+           },
+           {
+               "title": "Cosmopolitan Rideshare Area",
+               "description": "3708 Las Vegas Blvd S, Las Vegas, NV 89109",
+               "lat": "36.0635",
+               "lng": "-115.1025"
+           },
+           {
+               "title": "Cromwell Main Valet",
+               "description": "3595 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.0654",
+               "lng": "-115.1020"
+           },
+           {
+               "title": "Elara Main Valet",
+               "description": "80 E Harmon Ave, Las Vegas, NV 89109",
+               "lat": "36.0632",
+               "lng": "-115.1010"
+           },
+           {
+               "title": "Encore Tour Bus",
+               "description": "3131 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.0735",
+               "lng": "-115.0956"
+           },
+           {
+               "title": "Excalibur Southwest Side Roundabout",
+               "description": "3850 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.0558",
+               "lng": "-115.1030"
+           },
+           {
+               "title": "Flamingo Tour Bus Pick-Up",
+               "description": "3555 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.0659",
+               "lng": "-115.1014"
+           },
+           {
+               "title": "Four Queens Main Valet",
+               "description": "202 Fremont St, Las Vegas, NV 89101",
+               "lat": "36.170431",
+               "lng": "-115.143823"
+           },
+           {
+               "title": "Four Seasons Main Valet",
+               "description": "3960 S Las Vegas Blvd, Las Vegas, NV 89119",
+               "lat": "36.091118",
+               "lng": "-115.174235"
+           },
+           {
+               "title": "Gold Coast Main Valet",
+               "description": "4000 W Flamingo Rd, Las Vegas, NV 89103",
+               "lat": "36.116704",
+               "lng": "-115.192785"
+           },
+           {
+               "title": "Golden Nugget-Carson Tower Entrance",
+               "description": "129 Fremont Street, S 1st St, Las Vegas, NV 89101",
+               "lat": "36.169062",
+               "lng": "-115.146279"
+           },
+           {
+               "title": "Hard Rock Main Valet",
+               "description": "3771 Las Vegas Blvd S #120, Las Vegas, NV 89109",
+               "lat": "36.104628",
+               "lng": "-115.172546"
+           },
+           {
+               "title": "Harrah's Tour Bus",
+               "description": "3535 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.119084",
+               "lng": "-115.168553"
+           },
+           {
+               "title": "Hilton Grand Vacations on the Boulevard Main Valet",
+               "description": "3535 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.141176",
+               "lng": "-115.161070"
+           },
+           {
+               "title": "Hilton Grand Vacations on Paradise Main Valet",
+               "description": "455 Karen Ave, Las Vegas, NV 89109",
+               "lat": "36.141106",
+               "lng": "-115.152487"
+           },
+           {
+               "title": "Holiday Inn Club Vacations at Desert Club (front podium near bell desk)",
+               "description": "3950 Koval Ln, Las Vegas, NV 89109",
+               "lat": "36.118315",
+               "lng": "-115.163596"
+           },
+           {
+               "title": "Jockey Club Main Valet",
+               "description": "3700 S Las Vegas Blvd, Las Vegas, NV 89109",
+               "lat": "36.110323",
+               "lng": "-115.175085"
+           },
+           {
+               "title": "Luxor Main Valet",
+               "description": "3900 Las Vegas Blvd S Luxor, Las Vegas, NV 89109",
+               "lat": "36.094671",
+               "lng": "-115.178648"
+           }
+        ];
+
+        window.infowindows = [];
+
+        window.closeInfoWindows = function closeInfoWindows() {
+          for (i = 0; i < infowindows.length; i++) {
+            infowindows[i].close();
+          }
+        }
+
+        $.each(dealers, function(idx, dealer) {
+
+            var marker = new google.maps.Marker({
+                title: dealer.title,
+                icon: ' {{ 'sgc-location-symbol-wht.png' | asset_url }}',
+                position: new google.maps.LatLng(dealer.lat, dealer.lng)
+            });
+
+            if ( dealer.title == 'Strip Gun Club' ) {
+                    marker = new google.maps.Marker({
+                    title: dealer.title,
+                    icon: ' {{ 'sgc-location-symbol-logo.png' | asset_url }}',
+                    position: new google.maps.LatLng(dealer.lat, dealer.lng)
+                });
+            };
+
+            var window_content = '<b>' + dealer.title + ':</b><br>';
+            window_content = window_content + dealer.description;
+            var infowindow = new google.maps.InfoWindow({
+                content: window_content,
+                maxWidth: 300
+            });
+            window.infowindows.push(infowindow);
+
+            google.maps.event.addListener(marker, 'click', function(e) {
+                closeInfoWindows();
+                infowindow.open(map, marker);
+            });
+
+            marker.setMap(map);
+
+        });
+    }
+
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpIBgs1Hk4gtGzHvYspCyiOc2I2MCdXzc&callback=initMap">
+    </script>
+</div>

@@ -1,0 +1,355 @@
+<!-- /templates/product.liquid -->
+{% comment %}
+  Rich snippets (itemscope, itemtype, etc.) for products are a theme requirement,
+  and allow search engines to easily understand what the content is.
+
+  For more information on these Scheme.org tags, visit:
+    - http://schema.org/docs/gs.html
+{% endcomment %}
+
+{% assign hide_product = false %}
+
+{% for tag in product.tags %}
+  {% if tag contains 'hide' %}
+  {% assign hide_product = true %}
+  {% endif %}
+{% endfor %}
+
+<script>
+  {% if hide_product %}
+  window.location = 'https://strip-gun-club.myshopify.com';
+  {% endif %}
+</script>
+
+<div itemscope itemtype="http://schema.org/Product">
+
+  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+  <meta itemprop="image" content="{{ product.featured_image.src | img_url: 'grande' }}">
+
+  {% comment %}
+    Get first variant, or deep linked one
+  {% endcomment %}
+  {% assign current_variant = product.selected_or_first_available_variant %}
+
+  <div class="wrapper">
+      {% include 'breadcrumb' %}
+  </div>
+
+  <div class="grid product-single">
+    <div class="grid__item large--one-half text-center">
+      <div class="product-single__photos" id="ProductPhoto">
+        {% assign featured_image = current_variant.featured_image | default: product.featured_image %}
+        <img src="{{ featured_image | img_url: '600x' }}" alt="{{ featured_image.alt | escape }}" id="ProductPhotoImg">
+      </div>
+
+      {% comment %}
+        Create thumbnails if we have more than one product image
+      {% endcomment %}
+      {% if product.images.size > 1 %}
+        <ul class="product-single__thumbnails grid-uniform" id="ProductThumbs">
+
+          {% for image in product.images %}
+            <li class="grid__item one-quarter">
+              <a href="{{ image.src | img_url: 'large' }}" class="product-single__thumbnail">
+                <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
+              </a>
+            </li>
+          {% endfor %}
+
+        </ul>
+      {% endif %}
+    </div>
+
+    <div class="grid__item large--one-half product-info-container">
+
+      <h1 itemprop="name" class="text-uppercase product-page-title">{{ product.title }}</h1>
+
+      <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+        <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+
+        <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+
+        {% if product.type == 'Donation' %}
+        {% else %}
+        <span id="ProductPrice" class="h2" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
+          {{ current_variant.price | money }}
+        </span>
+        {% endif %}
+
+        {% if product.compare_at_price_max > product.price %}
+          <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
+          <p id="ComparePrice">
+            {{ 'products.product.compare_at' | t }} {{ current_variant.compare_at_price | money }}
+          </p>
+        {% endif %}
+
+        <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+
+        {% comment %}
+          ID addToCartForm is a selector for the ajax cart plugin
+        {% endcomment %}
+        <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" class="form-vertical">
+
+          {% if show_quantity_box == true or product.type == 'Donation' %}
+            <p class="error-notice">
+                $1 Increments Only
+            </p>
+
+            <label for="Quantity" class="quantity-selector">How much would you like to donate?</label>
+            $<input type="number" id="Quantity" class="donation_quantity" name="quantity" min="1" step="1" placeholder="Custom Donation Amount" class="quantity-selector">
+
+            <p class="suggested-donation">SUGGESTED DONATION:</p>
+
+            {% comment %}
+            Hardcoding custom variants from donation products
+            {% endcomment %}
+            <ul class="selected-donation-list">
+                <li data-value="5">
+                    $5
+                </li>
+                <li data-value="10">
+                    $10
+                </option>
+                <li data-value="25">
+                    $25
+                </li>
+                <li data-value="50">
+                    $50
+                </li>
+                <li data-value="100">
+                    $100
+                </li>
+                <li data-value="500">
+                    $500
+                </li>
+                <li data-value="1000">
+                    $1,000
+                </li>
+                <li data-value="5000">
+                    $5,000
+                </li>
+                <li data-value="10000">
+                    $10,000
+                </li>
+            </ul>
+            {% endif %}
+
+          {% comment %}
+            Add product variants as a dropdown.
+              - By default, each variant (or combination of variants) will display as its own <option>
+              - To separate these into multiple steps, which we suggest, use option_selection.js (see below)
+
+            You can leverage jQuery to add a callback on page load and each time the select element changes:
+              - Include option_selection.js (as seen at the bottom of this file)
+              - This allows you to use JavaScript anytime the variant dropdown changes
+              - This also separates out your variant options (ie. size, color, etc.) to separate select elements
+
+            For more information on products with multiple options, visit:
+              - http://docs.shopify.com/support/your-website/themes/can-i-make-my-theme-use-products-with-multiple-options#update-product-liquid
+          {% endcomment %}
+          <select name="id" id="productSelect" class="product-single__variants">
+            {% for variant in product.variants %}
+              {% if variant.available %}
+
+                {% comment %}
+                  Note: if you use option_selection.js, your <select> tag will be overwritten, meaning what you have inside <option> will not reflect what you coded below.
+                {% endcomment %}
+                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
+
+              {% else %}
+                <option disabled="disabled">
+                  {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+                </option>
+              {% endif %}
+            {% endfor %}
+          </select>
+
+          {% if product.type == 'Donation' %}
+          {% else %}
+          <label for="Quantity" class="quantity-selector">{{ 'products.product.quantity' | t }}</label>
+          <input type="number" id="Quantity" name="quantity" value="1" min="1" class="quantity-selector">
+          {% endif %}
+
+          <button type="submit" name="add" id="AddToCart" class="btn">
+            <span id="AddToCartText">
+              {% if product.type == 'Donation' %}
+                DONATE
+              {% else %}
+                {{ 'products.product.add_to_cart' | t }}
+              {% endif %}
+            </span>
+          </button>
+        </form>
+
+      </div>
+
+      <div class="product-description rte" itemprop="description">
+
+        {{ product.description }}
+        
+      </div>
+
+      <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+
+
+      {% comment %}
+        If the user is on a collection product page (ie with /collections/collection-handle/products/product-handle)
+        in the URL, we can show next/previous links to other products in the collection.
+      {% endcomment %}
+      {% if collection %}
+        {% if collection.previous_product or collection.next_product %}
+          <p>
+            {% if collection.previous_product %}
+              <span class="left">
+                {{ 'products.general.previous_product_html' | t | link_to: collection.previous_product }}
+              </span>
+            {% endif %}
+            {% if collection.next_product %}
+              <span class="right">
+                {{ 'products.general.next_product_html' | t | link_to: collection.next_product }}
+              </span>
+            {% endif %}
+          </p>
+        {% endif %}
+      {% endif %}
+
+    </div>
+  </div>
+
+  {% include 'related-products' %}
+
+</div>
+
+{% comment %}
+  To take advantage of a callback on the select dropdown, add option_selection.js
+  and customize the JS in timber.productPage as needed.
+
+  Currently, timber.productPage does the following:
+    - Hides your <select> tag from above
+    - Breaks out the product variants into separate product options, if more than one exists
+    - Generates a <select> tag for each product option
+    - Enables/disables elements based on variant availability
+
+  Callback notes:
+    - Keep the callback available to the global scope (window.selectCallback) so that advanced
+      addons can override it.
+      * E.g. multiple currencies http://docs.shopify.com/manual/configuration/store-customization/currencies-and-translations/currencies/how-to-toggle-between-two-currencies
+{% endcomment %}
+{{ 'option_selection.js' | shopify_asset_url | script_tag }}
+<script>
+  var selectCallback = function(variant, selector) {
+    timber.productPage({
+      money_format: "{{ shop.money_format }}",
+      variant: variant,
+      selector: selector
+    });
+  };
+
+  jQuery(function($) {
+    new Shopify.OptionSelectors('productSelect', {
+      product: {{ product | json }},
+      onVariantSelected: selectCallback,
+      enableHistoryState: true
+    });
+
+    // Add label if only one product option and it isn't 'Title'. Could be 'Size'.
+    {% if product.options.size == 1 and product.options.first != 'Title' %}
+      $('.selector-wrapper:eq(0)').prepend('<label for="productSelect-option-0">{{ product.options.first | escape }}</label>');
+    {% endif %}
+
+    // Hide selectors if we only have 1 variant and its title contains 'Default'.
+    {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+      $('.selector-wrapper').hide();
+    {% endif %}
+  });
+</script>
+
+{% if show_quantity_box == true or product.type == 'Donation' %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+{{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+
+<script>
+  // Check to see if $1 option exist
+  document.addEventListener("DOMContentLoaded", function(){
+      var one_dollar_variant_id;
+      var can_add_to_cart;
+  
+      function isWhole(n) {
+        return /^\d+$/.test(n);
+      }
+  
+      $('.selected-donation-list li').on('click tap', function() {
+          // remove active class from all siblings before applying it to the one they clicked
+          $(this).siblings().removeClass('donation-active');
+          $(this).addClass('donation-active');
+  
+          // add quantity they clicked to the custom donation box
+          $('.donation_quantity').val($(this).data('value'));
+  
+          // if number is not whole, show alert
+            if (isWhole($('.donation_quantity').val())) {
+              $(".error-notice").hide();
+              can_add_to_cart = true;
+            } else {
+              $(".error-notice").show();
+              can_add_to_cart = false;
+            }
+      });
+  
+  
+  
+      $("#Quantity").change(function() {
+          // if custom amount selected remove active box from buttons
+          $('.selected-donation-list li').removeClass('donation-active');
+          // if number is not whole, show alert
+        if (isWhole($(this).val())) {
+          $(".error-notice").hide();
+          can_add_to_cart = true;
+          return can_add_to_cart;
+        } else {
+          $(".error-notice").show();
+          can_add_to_cart = false;
+          return can_add_to_cart;
+        }
+      });
+  
+      $('#productSelect option').each(function() {
+          if ( $(this).text() == '$1 Donation - $1.00 USD' ) {
+              // hide $1 option
+              $(this).hide();
+  
+              // Show quantity box if $1 value exists
+              {% assign show_quantity_box = true %}
+          }
+          if ( $(this).data('price') == 100 ) {
+              one_dollar_variant_id = $(this).val();
+          }
+      });
+  
+      {% if product.type == 'Donation' %}
+      $('#AddToCart').on('click tap', function(e) {
+          e.preventDefault();
+  
+          var itemData = {
+            quantity: parseInt($('#Quantity').val()),
+            id: 36393952641184
+          }
+  
+          if (can_add_to_cart) {
+              jQuery.ajax({
+                type: 'POST',
+                url: '/cart/add.js',
+                data: itemData,
+                dataType: 'json',
+                success: function() {
+                    //redirect to cart
+                    window.location = 'https://www.stripgunclub.com/cart';
+                }
+              });
+          }
+  
+      });
+      {% endif %}
+  });
+  </script>
+  {% endif %}

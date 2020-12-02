@@ -1,0 +1,48 @@
+<div id="designJewelry" data-section-id="{{ section.id }}">
+    <div class="wrapper">
+      <div class="grid small--text-center medium--text-center">
+        <div class="grid__item small--one-whole large--two-thirds">
+            {% if section.settings.title != blank %}
+            <p class="h2 text-uppercase">{{ section.settings.title | escape }}</>
+            {% endif %}
+            {% if section.settings.text != blank %}
+            <div class="designJewelry-desc">{{ section.settings.text }}</div>
+            {% endif %}
+        </div>
+        <div class="grid__item small--one-whole large--one-third">
+            <a href="{{ section.settings.link }}" class="text-uppercase color-primary-background button radius">{{ section.settings.buttonText }}</a>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Design Jewelry Callout",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Lorem Ipsum Dolor Sit Amet"
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text",
+        "default": "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>"
+      },
+      {
+        "type": "url",
+        "id": "link",
+        "label": "Link"
+      },
+      {
+        "type": "text",
+        "id": "buttonText",
+        "label": "Button Text"
+      }
+    ],
+    "blocks" : []
+  }
+{% endschema %}

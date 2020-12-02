@@ -1,0 +1,48 @@
+<!-- /sections/featured-image.liquid -->
+<div class="featured-image-container">
+    {% if section.settings.image_url != blank %}
+    <a href="{{ section.settings.image_url }}" target="_blank" title="{{ section.settings.desc }}">
+    {% endif %}
+        <div class="desktop-image">
+            <img src="{{ section.settings.desktop_image | img_url: '2000x' }}" alt="{{ section.settings.desc }}"/>
+        </div>
+        <div class="mobile-image">
+            <img src="{{ section.settings.mobile_image | img_url: '2000x' }}" alt="{{ section.settings.desc }}"/>
+        </div>
+
+    {% if section.settings.image_url != blank %}
+    </a>
+    {% endif %}
+</div>
+
+{% schema %}
+  {
+    "name": "Featured Image",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "desktop_image",
+        "label": "Desktop Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "mobile_image",
+        "label": "Mobile Image"
+      },
+      {
+        "type": "text",
+        "id": "desc",
+        "label": "Image Description"
+      },
+      {
+        "type": "url",
+        "id": "image_url",
+        "label": "Image Link"
+      }
+    ],
+    "presets": [{
+      "name": "Featured Image 1",
+      "category": "Image"
+    }]
+  }
+{% endschema %}

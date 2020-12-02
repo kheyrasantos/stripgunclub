@@ -1,0 +1,106 @@
+<div id="CollectionSection" data-section-id="{{ section.id }}" data-section-type="collection-template" data-grid-type="{{ section.settings.collection_products_grid }}" class="position-relative">
+  <div class="wrapper">
+
+      {% if section.settings.title != blank %}
+      <h2 class="section-header__title text-uppercase" style="width: 100%; text-align: center;">{{ section.settings.title | escape }}</h2>
+      <hr class="title-deco" />
+      {% else %}
+      <h2 class="text-uppercase text-center" style="width: 100%; text-align: center;">{{ collections.featured-products.title }}</h2>
+      <hr class="title-deco" />
+      {% endif %}
+
+      {% comment %}
+        Use class grid-uniform to have evenly sized columns clear
+        each other properly at each breakpoint.
+      {% endcomment %}
+      {% if section.settings.home_featured_products != blank or collections[section.settings.home_featured_products] != empty or collections[section.settings.home_featured_products].products_count != 0 %}
+      <div class="container" style="margin: 0 auto;">
+
+        {% comment %}
+          Loop through products in your Frontpage collection.
+          This collection is created by default, but you must add products to it.
+        {% endcomment %}
+        {% for product in collections[section.settings.home_featured_products].products limit:6 %}
+
+
+          {% comment %}
+            Change the grid item width by using classes from the grid in
+            the grid_item_width variable.
+
+            Example:
+              - {% assign grid_item_width = 'large--one-third medium--one-half' %}
+          {% endcomment %}
+          {% assign grid_item_width = 'large--one-third medium--one-half small--one-half' %}
+          {% include 'product-grid-item' %}
+
+        {% else %}
+          {% comment %}
+            For onboarding new users to your theme, we add some default products and onboarding tutorials to help populate their store
+          {% endcomment %}
+          {% unless emptyState %}
+            {{ 'theme-onboarding.css' | global_asset_url | stylesheet_tag }}
+            {% assign emptyState = true %}
+          {% endunless %}
+
+          {% include 'onboarding-featured-products' %}
+
+        {% endfor %}
+
+      </div>
+
+      <!--
+      <div class="grid" style="width: 100%;">
+          <div class="grid__item large--one-whole">
+              <div class="text-center">
+                  {% if section.settings.use_custom_url %}
+                  <a href="{{ section.settings.button_url }}" class="see-more-button white">{{ section.settings.button-content }}</a>
+                  {% else %}
+                  <a href="{{ collections[section.settings.home_featured_products].url }}" class="see-more-button white">{{ section.settings.button-content }}</a>
+                  {% endif %}
+              </div>
+          </div>
+      </div>
+      -->
+      {% endif %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Featured collection",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Featured collection"
+      },
+      {
+        "type": "collection",
+        "id": "home_featured_products",
+        "label": "Collection"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_custom_url",
+        "label": "Checkbox for a custom URL"
+      },
+      {
+        "type": "url",
+        "id": "button_url",
+        "label": "Button URL if not going selected collection"
+      },
+      {
+        "type": "text",
+        "id": "button-content",
+        "label": "Button text",
+        "default": "See All Products"
+      }
+    ],
+    "presets": [{
+      "name": "Featured collection 4",
+      "category": "Collection"
+    }],
+    "blocks" : []
+  }
+{% endschema %}

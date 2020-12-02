@@ -1,0 +1,161 @@
+<!-- /sections/design-samples.liquid -->
+{% javascript %}
+
+$(window).load(function() {
+
+    /*============================================================================
+    Masonry Grid
+    ==============================================================================*/
+    var design_container = $('.design-masonry-container');
+    design_container.masonry({
+        itemSelector: '.design-masonry-item',
+        gutter: 30,
+        isFitWidth: true
+    });
+
+    $('.design-masonry-container').fadeTo('slow',1.0);
+
+});
+
+{% endjavascript %}
+
+
+{% stylesheet %}
+
+.design-masonry-container {
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0;
+}
+
+.design-masonry-item {
+    width: 350px;
+    margin-bottom: 40px;
+}
+
+#shopify-section-design-section {
+    padding-top: 35px;
+    padding-bottom: 35px;
+}
+
+.design-title {
+    font-size: 16px;
+    font-weight: normal;
+    padding-top: 10px;
+}
+
+
+
+@media(min-width: 750px) {
+
+    #shopify-section-design-section {
+        padding-top: 55px;
+        padding-bottom: 55px;
+    }
+
+}
+
+{% endstylesheet %}
+
+<div id="shopify-section-design-section" class="shopify-section">
+    <div data-section-id="{{ section.id }}" data-section-type="design-samples-section">
+      <div class="wrapper">
+
+        <div class="grid">
+            <div class="grid__item one-whole grid__item-header">
+                <header class="section-header">
+                  <h2 class="h1">Design Samples</h2>
+                </header>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="grid__item one-whole">
+                <div class="design-masonry-container">
+                  {% for block in section.blocks %}
+                    <div class="design-masonry-item">
+                      {% if block.settings.link != blank %}
+                        <a class="image-bar__link" href="{{ block.settings.link }}">
+                          <div class="image-bar__item box ratio-container lazyload"
+                               data-bgset="{% include 'bgset', image: block.settings.image %}"
+                               data-sizes="auto"
+                               data-parent-fit="cover"
+                               style="background-position: center; background-image: url('{{ block.settings.image | img_url: '400x400' }});">
+                      {% elsif block.settings.image != blank %}
+                        <div class="image-bar__item image-bar__item--{{ block.id }} box ratio-container lazyload"
+                             data-bgset="{% include 'bgset', image: block.settings.image %}"
+                             data-sizes="auto"
+                             data-parent-fit="cover"
+                             style="background-position: center; background-image: url('{{ block.settings.image | img_url: '400x400' }});">
+                      {% else %}
+                        <div class="image-bar__item">
+                      {% endif %}
+
+
+                      {% if block.settings.link != blank %}
+                      </div></a>
+                      {% else %}
+                      </div>
+                      {% endif %}
+
+                      {% if block.settings.title != blank %}
+                      <div class="design-title">{{ block.settings.title }}</div>
+                      {% endif %}
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+            {% if section.settings.contact_url != blank and section.settings.button_text != blank %}
+            <div class="grid">
+                <div class="grid__item one-whole text-center">
+                    <a href="{{ section.settings.contact_url }}" class="button btn see-more-button white">{{ section.settings.button_text }}</a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+  "name": "Design Samples",
+  "class": "index-section index-section--flush",
+  "max_blocks": 150,
+  "settings": [
+    {
+      "type": "url",
+      "id": "contact_url",
+      "label": "Button on bottom of page"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text"
+    }
+  ],
+  "blocks" : [
+    {
+      "type": "image_picker",
+      "name": "Design Sample Images",
+      "settings": [
+      {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Design Sample Thumbnail"
+        },
+        {
+         "type": "url",
+          "id": "link",
+          "label": "Product URL"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Product Title",
+          "default": "Product Title"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

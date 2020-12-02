@@ -1,0 +1,119 @@
+{% comment %}
+    Testimonials Carousel
+{% endcomment %}
+
+<div data-section-id="{{ section.id }}" data-section-type="slideshow-section" id="testimonials" class="position-relative">
+  {% if section.blocks.size > 0 %}
+    <div class="testimonial-{{ section.id }} testimonial-hero{% if testimonial_full_height %} testimonial--full-height{% endif %} testimonial--first clearfix" id="testimonial-hero" data-slick='{"autoplay":{{ section.settings.testimonial_auto }}, "autoplaySpeed":{{ section.settings.testimonial_auto_speed }} }'>
+      {% for block in section.blocks %}
+
+          <div class="testimonial__slide {{ block.settings.slide_text_color }} slide--{{ block.id }}{% if block.settings.image == blank %} slide--placeholder{% endif %}" data-color="{{ block.settings.slide_text_color }}" {{ block.shopify_attributes }}>
+            <div class="testimonial__text-wrap">
+                <div class="testimonial__text-content">
+                  {% unless block.settings.testimonial_text == blank %}
+                    <p class="testimonial__subtitle">
+                      <i class="float-left fa fa-quote-left testimonial-quote-icon"></i>{{ block.settings.testimonial_text | escape }}<i class="float-right fa fa-quote-right testimonial-quote-icon"></i>
+                    </p>
+                  {% endunless %}
+                  {% if block.settings.testimonial_author and block.settings.testimonial_company %}
+                    <p class="testimonial_author__container normal">
+                      <span class="author-and-company">- {{ block.settings.testimonial_author | escape }},</span>
+                      <span class="company-with-author"><em>{{ block.settings.testimonial_company | escape }}</em></span>
+                  </p>
+                  {% elsif block.settings.testimonial_author %}
+                    <p class="testimonial_author__container normal">
+                      <span class="just-author">{{ block.settings.testimonial_author | escape }}</span>
+                  </p>
+                  {% elsif block.settings.testimonial_company %}
+                    <p class="testimonial_author__container normal">
+                      <span class="just-company">{{ block.settings.testimonial_company | escape }}</span>
+                  </p>
+                  {% endif %}
+                </div>
+            </div>
+          </div>
+
+      {% endfor %}
+    </div>
+  {% endif %}
+  <div class="arrows-container clearfix">
+      <i class="fa fa-arrow-circle-o-left left"></i>
+      <i class="fa fa-arrow-circle-o-right right"></i>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Testimonials",
+    "max_blocks": 6,
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "testimonial_auto",
+        "label": "Auto rotate between slides",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "testimonial_auto_speed",
+        "label": "Slide changes every",
+        "options": [
+          {
+            "value": "5000",
+            "label": "5 seconds"
+          },
+          {
+            "value": "7000",
+            "label": "7 seconds"
+          },
+          {
+            "value": "10000",
+            "label": "10 seconds"
+          }
+        ]
+      }
+    ],
+    "blocks" : [
+      {
+        "type": "slide",
+        "name": "Testimonial",
+        "settings": [
+          {
+            "type": "select",
+            "id": "slide_text_color",
+            "label": "Text color",
+            "default": "is-dark",
+            "options": [
+              {
+                "value": "is-light",
+                "label": "Light"
+              },
+              {
+                "value": "is-dark",
+                "label": "Dark"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "id": "testimonial_text",
+            "label": "Testimonial Text",
+            "default": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+          },
+          {
+            "type": "text",
+            "id": "testimonial_author",
+            "label": "Testimonial Author",
+            "default": "Testimonial Author"
+          },
+          {
+            "type": "text",
+            "id": "testimonial_company",
+            "label": "Testimonial Company",
+            "default": "Testimonial Company"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,111 @@
+<style>
+p {
+    line-height: 1.8;
+}
+</style>
+<div class="wrapper">
+  <div class="grid image-text-row">
+    {% capture image_layout %}
+      <div class="grid__item small--one-whole large--one-half image-text-row__item">
+        {% if section.settings.image != blank %}
+          {{ section.settings.image | img_url: '600x600' | img_tag: section.settings.image.alt, 'image-text-row__image' }}
+        {% else %}
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+      </div>
+    {% endcapture %}
+
+    {% if section.settings.title != blank %}
+    <div class="grid__item small--one-whole large--one-whole">
+          <h2 class="h2 section-title">{{ section.settings.heading | escape }}</h2>
+    </div>
+    {% endif %}
+
+    <div class="image-text-container small--text-center">
+      {% if section.settings.layout == 'left' %}
+        {{ image_layout }}
+      {% endif %}
+
+      <div class="grid__item small--one-whole large--one-half image-text-row__item  image-text-row__text--{{ section.settings.layout }}">
+        {% if section.settings.title != blank %}
+          <h2 class="h3 color-primary">{{ section.settings.title | escape }}</h2>
+        {% endif %}
+        {% if section.settings.text != blank %}
+          <div class="rte-setting featured-row__subtext">{{ section.settings.text }}</div>
+        {% endif %}
+        {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+          <a href="{{ section.settings.button_link }}" class="button color-secondary-background white radius">
+            {{ section.settings.button_label | escape }}
+          </a>
+        {% endif %}
+      </div>
+
+      {% if section.settings.layout == 'right' %}
+        {{ image_layout }}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Image with text",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "default": "left",
+        "options": [
+          {
+            "value": "left",
+            "label": "Image on left"
+          },
+          {
+            "value": "right",
+            "label": "Image on right"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Section Heading",
+        "default": "Lorem ipsum dolor sit amet"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Paragraph Heading",
+        "default": "Lorem ipsum dolor sit amet"
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text",
+        "default": "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.</p>"
+      },
+      {
+        "type": "text",
+        "id": "button_label",
+        "label": "Button label"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button link"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image with text",
+        "category": "Image"
+      }
+    ]
+  }
+{% endschema %}

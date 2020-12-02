@@ -1,0 +1,39 @@
+<!-- /sections/squeeze-youtube-callout.liquid -->
+<style>
+    .youtube-callout-container {
+        background-color: #313131;
+        background-size: cover;
+        background-position: center;
+    }
+    </style>
+    
+    <div class="youtube-callout-container lozad" data-background-image="{{ section.settings.image | img_url: '2000x' | format: 'jpg' }}">
+        <video playsinline controls poster="{{ section.settings.poster_image | img_url: '2000x' | format: 'jpg' }}">
+            <source src="{{ section.settings.url }}" media="screen and (min-width:641px)">
+            <source src="{{ section.settings.url }}" media="screen and (max-width:640px)">
+        </video>
+    </div>
+    
+    {% schema %}
+      {
+        "name": "YouTube Callout",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "url",
+            "id": "url",
+            "label": "Video URL"
+          },
+          {
+            "type": "image_picker",
+            "id": "poster_image",
+            "label": "Poster Image"
+          }
+        ]
+      }
+    {% endschema %}
+    

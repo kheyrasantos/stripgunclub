@@ -1,0 +1,63 @@
+<!-- /sections/featured-blogs2.liquid -->
+<section class="featured-blogs-container-custom">
+    <div class="wrapper">
+        <div class="text-center">
+            <h2>Featured Posts</h2>
+            <hr class="title-deco" />
+        </div>
+        <div class="grid">
+              {% for block in section.blocks %}
+              <div class="grid__item small--one-whole large--one-third">
+                  <img src="{{ block.settings.image | img_url: '500x500' | format: 'png' }}" alt="{{ block.settings.title }}" />
+                  <h2>{{ block.settings.title }}</h2>
+                  <p>
+                      {{ block.settings.excerpt | limit: 30 }}
+                  </p>
+                  <a href="{{ block.settings.url }}" title="Read More" class="btn blog-read-more">Read More</a>
+              </div>
+              {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+{% schema %}
+  {
+      "name": "Featured Blog Posts",
+      "max_blocks": 3,
+      "blocks" : [
+        {
+          "type": "image_picker",
+          "name": "Blog",
+          "settings": [
+            {
+             "type": "image_picker",
+              "id": "image",
+              "label": "Image"
+            },
+            {
+              "type": "textarea",
+              "id": "title",
+              "label": "Title"
+            },
+            {
+              "type": "textarea",
+              "id": "excerpt",
+              "label": "Excerpt"
+            },
+            {
+              "type": "url",
+              "id": "url",
+              "label": "Blog URL"
+            }
+          ]
+        }
+      ],
+      "presets": [
+        {
+            "name": "Featured blog posts",
+            "category": "Blog"
+        }
+      ]
+  }
+{% endschema %}

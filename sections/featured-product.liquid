@@ -1,0 +1,126 @@
+<!-- sections/featured-products.liquid -->
+<div class="featured-product-container">
+    <div class="text-center">
+        <h2>{{ section.settings.title }}</h2>
+        <hr class="title-deco" />
+    </div>
+
+    <div class="featured-product">
+        <div class="grid">
+            <div class="grid__item small--one-whole large--one-half">
+                <div class="text-center">
+                    <img src="{{ section.settings.image | img_url: '2000x' }}" alt="{{ section.settings.product_title }}"/>
+                </div>
+            </div>
+
+            <div class="grid__item small--one-whole large--one-half">
+                <p class="product-title">
+                    {{ section.settings.product_title }}
+                </p>
+
+                <div class="price">
+                    <span class="entries-span">10 entries</span>
+                </div>
+
+                <p class="product-description">
+                    {{ section.settings.product_description }}
+                </p>
+
+                <ul class="product-sizes">
+                    <li data-ids="35464465219744">
+                        S
+                    </li>
+                    <li data-ids="35464465252512">
+                        M
+                    </li>
+                    <li data-ids="35464465285280">
+                        L
+                    </li>
+                    <li data-ids="335464465318048">
+                        XL
+                    </li>
+                    <li data-ids="35464465350816">
+                        XXL
+                    </li>
+                    <li data-ids="35464465383584">
+                        XXXL
+                    </li>
+                </ul>
+
+                <p class="size-error">
+                    Please select a size
+                </p>
+
+                <a href="#" class="btn" id="enter-now-bundle-button">ENTER NOW</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript" src="https://cdn.shopify.com/s/shopify/api.jquery.js" ></script>
+
+<script>
+    $(document).ready(function() {
+        var variants_selected;
+
+        $('.product-sizes li').on('tap click', function(e) {
+            e.preventDefault();
+            $('.product-sizes li').removeClass('selected');
+            $(this).addClass('selected');
+            variants_selected = $(this).data('ids');
+            $('.size-error').hide();
+        });
+
+        $('#enter-now-bundle-button').on('tap click', function(e) {
+            e.preventDefault();
+
+            if ( variants_selected == undefined ) {
+                $('.size-error').show();
+            } else {
+                jQuery.ajax({
+                  type: 'POST',
+                  url: '/cart/add.js',
+                  data: {quantity: 1, id: parseInt(variants_selected)},
+                  dataType: 'json',
+                  success: function() {
+                    //   window.location = 'https://beteran.com/cart';
+                  }
+                });
+            }
+        });
+    });
+</script>
+
+
+{% schema %}
+  {
+    "name": "Featured Product",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "text",
+        "id": "product_title",
+        "label": "Product Title"
+      },
+      {
+        "type": "textarea",
+        "id": "product_description",
+        "label": "Product Description"
+      }
+    ],
+    "presets": [{
+      "name": "Featured Product",
+      "category": "Custom Stuff"
+    }]
+  }
+{% endschema %}

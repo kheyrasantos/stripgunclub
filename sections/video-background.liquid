@@ -1,0 +1,30 @@
+<div class="video-background">
+    <video playsinline autoplay muted loop>
+        <source src="{{ section.settings.desktop_video }}" media="screen and (min-width:641px)">
+        <source src="{{ section.settings.mobile_video }}" media="screen and (max-width:640px)">
+    </video>
+</div>
+
+{% schema %}
+  {
+    "name": "Video Background",
+    "settings": [
+      {
+        "type": "text",
+        "id": "desktop_video",
+        "label": "Desktop Video URL"
+    },
+    {
+        "type": "text",
+        "id": "mobile_video",
+        "label": "Mobile Video URL"
+    }
+    ],
+    "presets": [
+      {
+        "name": "Video Background",
+        "category": "Video"
+      }
+    ]
+  }
+{% endschema %}

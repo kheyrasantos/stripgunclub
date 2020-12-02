@@ -1,0 +1,209 @@
+<!-- /sections/from-the-blog-desktop.liquid -->
+<div class="from-blog-container show-for-desktop">
+    <div class="wrapper">
+        <div class="h2-container">
+            <h2 class="h1" id="from-the-blog">{{ section.settings.title }}</h2>
+        </div>
+
+        <div class="blog-grid clearfix">
+            <div class="one-fifth-block">
+                <div class="white-background">
+                    <h3>{{ section.settings.blog_block_1_title | strip_html | truncate: 14 }}</h3>
+                    <p>{{ section.settings.blog_block_1_text | strip_html | truncate: 120 }}</p>
+                </div>
+                <div class="small-image">
+                    <a target="_blank" class="blog-link-a" href="{{ section.settings.blog_block_2_url }}"></a>
+                    {{ section.settings.blog_block_2 | img_url: '600x600' | img_tag }}
+                </div>
+            </div>
+
+            <div class="one-fifth-block tall-image">
+                <a target="_blank" class="blog-link-a" href="{{ section.settings.blog_block_3_url }}"></a>
+                {{ section.settings.blog_block_3 | img_url: '600x600' | img_tag }}
+            </div>
+
+            <div class="two-fifths-block">
+                <div class="small-image">
+                    <a target="_blank" class="blog-link-a" href="{{ section.settings.blog_block_4_url }}"></a>
+                    {{ section.settings.blog_block_4 | img_url: '600x600' | img_tag }}
+                </div>
+                <div class="white-background negative-margin-top">
+                    <i class="fa fa-quote-left"></i>
+                    <p class="lead-quote">{{ section.settings.blog_block_5 | strip_html | truncate: 275 }}</p>
+                </div>
+            </div>
+
+            <div class="one-fifth-block tall-image">
+                <a target="_blank" class="blog-link-a" href="{{ section.settings.blog_block_6_url }}"></a>
+                {{ section.settings.blog_block_6 | img_url: '600x600' | img_tag }}
+            </div>
+        </div>
+
+        <div class="blog-grid2 clearfix">
+            <div class="two-fifths-block negative-margin-top">
+                <div class="small-image">
+                    <a target="_blank" class="blog-link-a" href="{{ section.settings.blog_block_7_url }}"></a>
+                    {{ section.settings.blog_block_7 | img_url: '600x600' | img_tag }}
+                </div>
+                <div class="grid--full">
+                    <div class="one-fifth-block">
+                        <div class="white-background negative-margin-top">
+                            <p>{{ section.settings.blog_block_8 | truncate: 149 }}</p>
+                        </div>
+                    </div>
+                    <div class="one-fifth-block negative-margin-top">
+                        <div class="small-image">
+                            <a target="_blank" class="blog-link-a" href="{{ section.settings.blog_block_10_url }}"></a>
+                            {{ section.settings.blog_block_9 | img_url: '600x600' | img_tag }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-fifths-block negative-margin-top">
+                <div class="biggest-callout-image">
+                    <a target="_blank" class="blog-link-a" href="{{ section.settings.blog_block_6_url }}"></a>
+                    {{ section.settings.blog_block_10 | img_url: '600x600' | img_tag }}
+                </div>
+            </div>
+
+            <div class="one-fifth-block negative-margin-top">
+                <div class="small-image">
+                    <a target="_blank" class="blog-link-a" href="{{ section.settings.blog_block_11_url }}"></a>
+                    {{ section.settings.blog_block_11 | img_url: '600x600' | img_tag }}
+                </div>
+                <div class="black-background negative-margin-top">
+                    <p>{{ section.settings.blog_block_12 | strip_html | truncate: 145 }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="blog-grid">
+            <a href="{{ section.settings.blog_block_view_more }}" class="view-more-blog-button btn">View More</a>
+        </div>
+
+    </div>
+</div>
+
+{% schema %}
+  {
+    "name": "From The Blog (Desktop)",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Section Title"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+    },
+    {
+        "type": "text",
+        "id": "blog_block_1_title",
+        "label": "Blog Block 1 Title"
+    },
+    {
+        "type": "textarea",
+        "id": "blog_block_1_text",
+        "label": "Blog Block 1 Text"
+    },
+    {
+        "type": "url",
+        "id": "blog_block_2_url",
+        "label": "Blog Block 2 URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "blog_block_2",
+      "label": "Image"
+    },
+    {
+        "type": "url",
+        "id": "blog_block_3_url",
+        "label": "Blog Block 3 URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "blog_block_3",
+      "label": "Image"
+    },
+    {
+        "type": "url",
+        "id": "blog_block_4_url",
+        "label": "Blog Block 4 URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "blog_block_4",
+      "label": "Image"
+    },
+    {
+        "type": "textarea",
+        "id": "blog_block_5",
+        "label": "Blog Block 5 Title"
+    },
+    {
+        "type": "url",
+        "id": "blog_block_6_url",
+        "label": "Blog Block 6 URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "blog_block_6",
+      "label": "Image"
+    },
+    {
+        "type": "url",
+        "id": "blog_block_7_url",
+        "label": "Blog Block 7 URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "blog_block_7",
+      "label": "Image"
+    },
+    {
+        "type": "textarea",
+        "id": "blog_block_8",
+        "label": "Blog Block 8 Title"
+    },
+    {
+        "type": "url",
+        "id": "blog_block_10_url",
+        "label": "Blog Block 10 URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "blog_block_9",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "blog_block_10",
+      "label": "Image"
+    },
+    {
+        "type": "url",
+        "id": "blog_block_11_url",
+        "label": "Blog Block 11 URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "blog_block_11",
+      "label": "Image"
+    },
+    {
+        "type": "textarea",
+        "id": "blog_block_12",
+        "label": "Blog Block 12 Text"
+    },
+    {
+        "type": "url",
+        "id": "blog_block_view_more",
+        "label": "View More Button"
+    }
+    ]
+  }
+{% endschema %}

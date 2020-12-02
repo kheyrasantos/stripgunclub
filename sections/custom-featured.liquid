@@ -1,0 +1,96 @@
+<style>
+    .custom-featured-container .grid {
+        margin-left: 0;
+        margin-right: 30px;
+    }
+
+    .add-border {
+        border: 2px solid #898989;
+    }
+
+    .custom-featured-container .grid__item {
+        overflow: hidden;
+        line-height: 0;
+    }
+
+    .custom-featured-container img {
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
+    }
+
+    .custom-featured-container img:hover {
+        transform: scale(1.05);
+    }
+</style>
+
+<div class="custom-featured-container">
+    <div class="grid text-center">
+        <div class="grid__item small--one-whole medium--one-third large--one-third">
+            <a href="{{ section.settings.image_url1 }}">
+                <img src="{{ section.settings.image1 | img_url: 'large' | format: 'jpg' }}" {% if section.settings.enable_border %}class="add-border"{% endif %} />
+            </a>
+        </div>
+
+        <div class="grid__item small--one-whole medium--one-third large--one-third">
+            <a href="{{ section.settings.image_url2 }}">
+                <img src="{{ section.settings.image2 | img_url: 'large' | format: 'jpg' }}" {% if section.settings.enable_border %}class="add-border"{% endif %} />
+            </a>
+        </div>
+
+        <div class="grid__item small--one-whole medium--one-third large--one-third">
+            <a href="{{ section.settings.image_url3 }}">
+                <img src="{{ section.settings.image3 | img_url: 'large' | format: 'jpg' }}" {% if section.settings.enable_border %}class="add-border"{% endif %} />
+            </a>
+        </div>
+    </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Custom Featured Images",
+    "settings": [
+      {
+          "type": "checkbox",
+          "id": "enable_border",
+          "label": "Enable border on images"
+      },
+      {
+          "type": "image_picker",
+          "id": "image1",
+          "label": "First Image"
+      },
+      {
+          "type": "url",
+          "id": "image_url1",
+          "label": "First Link"
+      },
+      {
+          "type": "image_picker",
+          "id": "image2",
+          "label": "Second Image"
+     },
+     {
+         "type": "url",
+         "id": "image_url2",
+         "label": "Second Link"
+     },
+     {
+        "type": "image_picker",
+        "id": "image3",
+        "label": "Third Image"
+     },
+     {
+         "type": "url",
+         "id": "image_url3",
+         "label": "Third Link"
+     }
+    ],
+    "presets": [
+      {
+        "name": "Custom Featured Images",
+        "category": "Image"
+      }
+    ]
+  }
+{% endschema %}

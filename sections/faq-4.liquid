@@ -1,0 +1,104 @@
+<!-- /sections/veteran-faq.liquid -->
+{% javascript %}
+
+/*============================================================================
+FAQ Accordion
+==============================================================================*/
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+    acc[i].onclick = function() {
+        $(".radio-active .check-indicator").removeClass("fa-chevron-up").addClass("fa-chevron-down");
+        $(".radio-active").removeClass("radio-active");
+        $(".accordion-show").removeClass("accordion-show");
+
+        this.classList.toggle("radio-active");
+        this.nextElementSibling.classList.toggle("accordion-show");
+        $(this).find("i.check-indicator").removeClass("fa-chevron-down").addClass("fa-chevron-up");
+    }
+};
+
+{% endjavascript %}
+
+{% stylesheet %}
+
+.shopify-section {
+    padding-bottom: 0;
+}
+
+{% endstylesheet %}
+
+<div id="shopify-section-veteran-faq-section" class="shopify-section faq-section">
+    <div data-section-id="{{ section.id }}" data-section-type="veteran-faq-section">
+      <div class="wrapper">
+
+        <div class="grid">
+            <div class="grid__item one-whole grid__item-header">
+                <header class="section-header">
+                  <h2 class="h1">{{ section.settings.title }}</h2>
+                </header>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="grid__item one-whole">
+                  {% for block in section.blocks %}
+                      {% if block.settings.question != blank and block.settings.answer != blank %}
+                      <div class="accordionParent">
+
+                          <div class="radio-container accordion">
+                              <span class="one-time-span accordion-title h3">{{ block.settings.question }}</span>
+                              <i class="fa fa-chevron-down check-indicator right"></i>
+                          </div>
+
+                          <div class="accordionContent">
+                              <p class="question-title h4">
+                                  {{ block.settings.question }}
+                              </p>
+                              <p class="question-answer">
+                                  {{ block.settings.answer }}
+                              </p>
+                          </div>
+
+                      </div>
+                      {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+{% schema %}
+{
+  "name": "FAQ 4",
+  "class": "index-section index-section--flush",
+  "max_blocks": 20,
+  "settings" : [
+      {
+          "type": "text",
+          "id": "title",
+          "label" : "FAQ Section Title"
+      }
+  ],
+  "blocks" : [
+    {
+      "type": "text",
+      "name": "FAQ 4",
+      "settings": [
+        {
+         "type": "text",
+          "id": "question",
+          "label": "FAQ Question"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "FAQ Answer"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

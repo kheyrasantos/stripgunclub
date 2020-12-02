@@ -1,0 +1,37 @@
+<!-- /sections/main-hero-image.liquid -->
+<div class="main-hero-image-container">
+    {% if section.settings.image_url != blank %}
+    <a href="{{ section.settings.image_url }}" title="{{ section.settings.desc }}">
+    {% endif %}
+        <img src="{{ section.settings.image | img_url: '1600x' }}" alt="{{ section.settings.desc }}"/>
+    {% if section.settings.image_url != blank %}
+    </a>
+    {% endif %}
+</div>
+
+{% schema %}
+  {
+    "name": "Hero Image",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "text",
+        "id": "desc",
+        "label": "Image Description"
+      },
+      {
+        "type": "url",
+        "id": "image_url",
+        "label": "URL for hero"
+      }
+    ],
+    "presets": [{
+      "name": "Main Hero Image",
+      "category": "Image"
+    }]
+  }
+{% endschema %}

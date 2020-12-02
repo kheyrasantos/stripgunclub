@@ -1,0 +1,57 @@
+<!-- /snippets/HeroCarousel.liquid -->
+
+{% comment %}
+Hero [slick carousel]
+{% endcomment %}
+
+{% if settings.use_hero_carousel %}
+
+    <div class="hero-wrapper">
+        <div class="carousel-container">
+            <div class="arrows-container">
+                <span class="arrow-left"><i class="fa fa-chevron-left"></i></span>
+                <span class="arrow-right"><i class="fa fa-chevron-right"></i></span>
+            </div>
+            <div class="carousel-container2">
+
+                {% if settings.use_hero_slide_1 and settings.hero_item_1_url.size > 0 %}
+                    <div class="carousel-image">
+                        <a href="{{ settings.hero_item_1_url }}">{{ 'hero_item_1_image.jpg' | asset_url | img_tag }}</a>
+                    </div>
+                {% endif %}
+
+                {% if settings.use_hero_slide_2 and settings.hero_item_2_url.size > 0 %}
+                    <div class="carousel-image">
+                        <a href="{{ settings.hero_item_2_url }}">{{ 'hero_item_2_image.jpg' | asset_url | img_tag }}</a>
+                    </div>
+                {% endif %}
+
+                {% if settings.use_hero_slide_3 and settings.hero_item_3_url.size > 0 %}
+                    <div class="carousel-image">
+                        <a href="{{ settings.hero_item_3_url }}">{{ 'hero_item_3_image.jpg' | asset_url | img_tag }}</a>
+                    </div>
+                {% endif %}
+
+                {% if settings.use_hero_slide_4 and settings.hero_item_4_url.size > 0 %}
+                    <div class="carousel-image">
+                        <a href="{{ settings.hero_item_4_url }}">{{ 'hero_item_4_image.jpg' | asset_url | img_tag }}</a>
+                    </div>
+                {% endif %}
+
+                {% if settings.use_hero_slide_5 and settings.hero_item_5_url.size > 0 %}
+                    <div class="carousel-image">
+                        <a href="{{ settings.hero_item_5_url }}">{{ 'hero_item_5_image.jpg' | asset_url | img_tag }}</a>
+                    </div>
+                {% endif %}
+
+                {% if settings.use_hero_slide_6 and settings.hero_item_6_url.size > 0 %}
+                    <div class="carousel-image">
+                        <a href="{{ settings.hero_item_6_url }}">{{ 'hero_item_6_image.jpg' | asset_url | img_tag }}</a>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+{% endif %}

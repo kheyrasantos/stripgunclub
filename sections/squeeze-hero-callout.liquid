@@ -1,0 +1,111 @@
+<!-- /sections/squeeze-hero-callout.liquid -->
+<div class="hero-callout-container">
+    {% if section.settings.image_url != blank %}
+    <a href="{{ section.settings.image_url }}">
+    {% endif %}
+    <div class="hero-callout-wrapper text-center">
+        <div class="grid">
+            <div class="grid__item one-whole">
+                <div class="image-container">
+                    <img src="{{ section.settings.image | img_url: '2000x' | format: 'jpg' }}" alt="{{ section.settings.subheading }}" class="desktop-image" />
+
+                    <img src="{{ section.settings.mobile_image | img_url: '2000x' | format: 'jpg' }}" alt="{{ section.settings.subheading }}" class="mobile-image" />
+
+                    <div class="text-container">
+                        {% if section.settings.subheading != blank %}
+                        <h1 class="white h3 text-uppercase title">{{ section.settings.title }}</h1>
+                        {% endif %}
+                        {% if section.settings.title != blank %}
+                        <h2 class="white bolder h1 subtitle">{{ section.settings.subheading }}</h2>
+                        {% endif %}
+                        {% if section.settings.url != blank %}
+                        <a href="{{ section.settings.url }}" class="learn-more-button text-uppercase">{{ section.settings.button_text }}</a>
+                        {% endif %}
+                    </div>
+
+                    {% if section.settings.video_reveal_enable %}
+                    <div class="text-center">
+                        <a href="#" data-reveal-id="videoReveal" data-animation="fadeAndPop" class="reveal-link">
+                            <img src="{{ 'play-button.png' | asset_url }}" class="home-play-button">
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if section.settings.image_url != blank %}
+    </a>
+    {% endif %}
+
+    {% if section.settings.video_reveal_enable %}
+    <div id="videoReveal" class="modal reveal-modal text-center video-reveal">
+        <div class="grid">
+            <div class="grid__item one-whole">
+                <video id="reveal-video" playsinline muted controls>
+                    <source src="{{ section.settings.video_reveal_url }}" media="screen and (min-width:641px)">
+                    <source src="{{ section.settings.video_reveal_url }}" media="screen and (max-width:640px)">
+                </video>
+
+                <button class="close-button home-page-close-button close-reveal-modal" data-close type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% schema %}
+  {
+    "name": "Hero Image with Title",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "mobile_image",
+        "label": "Mobile Image"
+      },
+      {
+        "type": "text",
+        "id": "subheading",
+        "label": "Subheading"
+       },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text",
+        "default": "SHOP NOW"
+      },
+      {
+        "type": "url",
+        "id": "url",
+        "label": "Button URL"
+      },
+      {
+        "type": "url",
+        "id": "image_url",
+        "label": "If no button, make whole container a link"
+      },
+      {
+        "type": "checkbox",
+        "id": "video_reveal_enable",
+        "label": "Show Video Reveal"
+      },
+      {
+        "type": "url",
+        "id": "video_reveal_url",
+        "label": "Reveal Video URL"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,92 @@
+<!-- sections/deuces-wild.liquid -->
+<div class="product-hero">
+    <div class="pp-section">
+
+        {% if section.settings.pp_banner_img != blank %}
+        <div class="pp-header">
+          <img src="{{ section.settings.pp_banner_img | img_url: 'master' }}">
+        </div>
+        {% endif %}
+      
+        <div class="pp-container">
+      
+          {% if section.settings.pp_video_bg != blank %}
+          <video class="pp-video-bg" autoplay muted loop playsinline>
+            <source src="{{ section.settings.pp_video_bg }}" type="video/mp4">
+          Your browser does not support the video tag.
+          </video>
+          {% endif %}
+      
+          <div class="pp-wrapper">
+          
+            {% if section.settings.pp_banner_img_elem != blank %}
+            <div class="pp-embed">
+              <div class="pp-embed-wrapper">
+                <img src="{{ section.settings.pp_banner_img_elem | img_url: 'master' }}">
+              </div>
+            </div>
+            {% endif %}
+
+            {% if section.settings.pp_embed_video != blank %}
+            <div class="pp-embed">
+              <div class="pp-embed-wrapper">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ section.settings.pp_embed_video.id }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+            </div>
+            {% endif %}
+      
+            <div class="pp-description">
+              {{ section.settings.collection_desc }}
+
+              <div class="button-container">
+                <a href="/pages/booking" title="Book Now" class="btn">Book Now</a>
+              </div>
+            </div>
+      
+          </div>
+      
+        </div>
+      </div>
+</div>
+  
+  
+  {% schema %}
+    {
+    "name": "Product Header",
+    "settings" : [
+        {
+          "type": "header",
+          "content": "Background Video"
+        },
+        {
+            "type": "text",
+            "id": "pp_video_bg",
+            "label": "URL"
+        },
+        {
+          "type": "header",
+          "content": "Youtube Video"
+        },
+        {
+          "type": "image_picker",
+          "id": "pp_banner_img_elem",
+          "label": "Image Element"
+        },
+        {
+          "type": "video_url",
+          "id": "pp_embed_video",
+          "label": "URL",
+          "accept": ["youtube"]
+        },
+        {
+          "type": "header",
+          "content": "Collection Description"
+        },
+        {
+          "type": "textarea",
+          "id": "collection_desc",
+          "label": "Collection Description"
+        }
+    ]
+  }
+  {% endschema %}

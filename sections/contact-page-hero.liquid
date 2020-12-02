@@ -1,0 +1,24 @@
+<!-- /sections/contact-hero.liquid -->
+{% if section.settings.image != blank %}
+<div data-section-id="{{ section.id }}" data-section-type="events-hero-section" id="events-hero-section" class="text-center">
+    <img src="{{ section.settings.image | img_url: '2048x' | format: 'jpg' }}" alt="Events">
+</div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Contact Page Hero",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+    },
+    {
+        "type": "text",
+        "id": "title",
+        "label": "Hero Title"
+    }
+    ]
+  }
+{% endschema %}

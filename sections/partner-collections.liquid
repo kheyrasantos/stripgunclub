@@ -1,0 +1,65 @@
+<div class="featured-partner-collections text-center">
+    {% for block in section.blocks %}
+    <div class="container">
+        <div class="image-container">
+            <div class="image-inner">
+                <img src="{{ block.settings.image | img_url: '2000x' | format: 'jpg' }}" />
+                <a href="{{ block.settings.url }}" class="section-button button" style="background-color: {{ block.settings.button_bgcolor }}; color: {{ block.settings.button_color }}">{{ block.settings.button_text }}</a>
+            </div>
+        </div>
+        <div class="wrapper">
+            <p>
+                {{ block.settings.text }}
+            </p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "Featured Collections",
+  "max_blocks": 20,
+  "blocks" : [
+    {
+      "type": "text",
+      "name": "Featured Collection",
+      "settings": [
+        {
+         "type": "image_picker",
+          "id": "image",
+          "label": "Featured Collection Image"
+        },
+        {
+         "type": "url",
+          "id": "url",
+          "label": "Button URL"
+        },
+        {
+         "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "VIEW COLLECTION"
+        },
+        {
+         "type": "color",
+          "id": "button_color",
+          "label": "Button Text Color",
+          "default": "#ffffff"
+        },
+        {
+         "type": "color",
+          "id": "button_bgcolor",
+          "label": "Button Background Color",
+          "default": "#222222"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Featured Collection Text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

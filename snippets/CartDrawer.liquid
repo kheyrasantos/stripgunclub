@@ -1,0 +1,34 @@
+<div id="CartDrawer" class="drawer drawer--right">
+  <div class="drawer__header">
+    <div class="drawer__title h3">{{ 'cart.general.title' | t }}</div>
+    <div class="drawer__close js-drawer-close">
+      <button type="button" class="icon-fallback-text">
+        <span class="icon icon-x" aria-hidden="true"></span>
+        <span class="fallback-text">{{ 'cart.general.close_cart' | t | json }}</span>
+      </button>
+    </div>
+  </div>
+  <div id="CartContainer"></div>
+</div>
+
+{% comment %}
+<script>
+$(document).ready(function() {
+
+    {% if customer.tags contains 'Wholesaler' %}
+
+    window.setInterval(function(){
+        if(! check_dealer_cart('#total_price p', '#cart_drawer_checkout') ) {
+            $('#wholesaler-cart-notice').show();
+        } else {
+            $('#wholesaler-cart-notice').hide();
+        }
+    }, 500);
+
+    {% else %}
+        $('#wholesaler-cart-notice').hide();
+    {% endif %}
+
+});
+</script>
+{% endcomment %}

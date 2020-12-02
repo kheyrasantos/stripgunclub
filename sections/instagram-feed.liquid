@@ -1,0 +1,37 @@
+<!-- Instagram -->
+<section class="instagram-section">
+    <div class="grid">
+        <div class="grid__item one-whole">
+            <div class="text-center">
+                <h2 class="text-uppercase section-header__title" style="margin-bottom: 20px;">
+                    Follow @STRIPGUNCLUB
+                    <a href="https://www.instagram.com/stripgunclub/" target="_blank" class="gold">
+                        <i class="fab fa-instagram" aria-hidden="true"></i>
+                    </a>
+                </h2>
+            </div>
+        </div>
+        <div class="grid__item one-whole">
+            <div class="instagram-container-container" style="max-width: 100%; margin-left: auto; margin-right: auto;">
+                <!--<div id="instagram" class="grid"></div>-->
+                <div style="width: 100%; height: auto; margin: 0; overflow: hidden;" id="insta-feed"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% schema %}
+    {
+        "name": "Instagram Feed",
+        "settings": [
+
+        ],
+        "presets": [
+            {
+                "name": "Instagram Feed for Instafeed",
+                "category": "Custom Stuff"
+            }
+        ]
+    }
+{% endschema %}

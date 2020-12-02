@@ -1,0 +1,34 @@
+<div class="promo-code-section">
+  <div class="wrapper">
+      <p class="promo-description">
+          {{ section.settings.description }}
+      </p>
+      <p class="promo-code-container">
+          Promo Code
+          <span class="promo-code">{{ section.settings.promo_code }}</span>
+      </p>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Promo Code Callout",
+    "settings": [
+      {
+          "type": "text",
+          "id": "description",
+          "label": "Promo Description"
+      },
+      {
+          "type": "text",
+          "id": "promo_code",
+          "label": "Promo Code"
+      }
+    ],
+    "presets": [{
+      "name": "Promo Code Callout",
+      "category": "Promotional"
+    }],
+    "blocks" : []
+  }
+{% endschema %}

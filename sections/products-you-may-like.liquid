@@ -1,0 +1,95 @@
+{% stylesheet %}
+
+@media(min-width: 780px) {
+
+    #shopify-section-products-you-may-like {
+        padding-bottom: 100px;
+    }
+
+}
+
+{% endstylesheet %}
+
+<div id="CollectionSection" data-section-id="{{ section.id }}" data-section-type="collection-template" data-grid-type="{{ section.settings.collection_products_grid }}" class="position-relative products-you-may-like-section">
+  <div class="wrapper">
+
+      {% if section.settings.title != blank %}
+      <h2 class="section-header__title text-uppercase">{{ section.settings.title | escape }}</h2>
+      {% else %}
+      <h2 class="text-uppercase text-center">{{ collections.featured-products.title }}</h2>
+      {% endif %}
+
+      {% comment %}
+        Use class grid-uniform to have evenly sized columns clear
+        each other properly at each breakpoint.
+      {% endcomment %}
+      {% if section.settings.home_featured_products != blank or collections[section.settings.home_featured_products] != empty or collections[section.settings.home_featured_products].products_count != 0 %}
+      <div class="container">
+
+        {% comment %}
+          Loop through products in your Frontpage collection.
+          This collection is created by default, but you must add products to it.
+        {% endcomment %}
+        {% for product in collections[section.settings.home_featured_products].products limit:4 %}
+  {% if product.object_type == 'product' and product.type == 'SHOPSTORM_HIDDEN_PRODUCT' %}{% continue %}{% endif %}
+
+
+          {% comment %}
+            Change the grid item width by using classes from the grid in
+            the grid_item_width variable.
+
+            Example:
+              - {% assign grid_item_width = 'large--one-third medium--one-half' %}
+          {% endcomment %}
+          {% assign grid_item_width = 'large--one-quarter medium--one-half small--one-whole' %}
+          {% include 'product-grid-item' %}
+
+        {% else %}
+          {% comment %}
+            For onboarding new users to your theme, we add some default products and onboarding tutorials to help populate their store
+          {% endcomment %}
+          {% unless emptyState %}
+            {{ 'theme-onboarding.css' | global_asset_url | stylesheet_tag }}
+            {% assign emptyState = true %}
+          {% endunless %}
+
+          {% include 'onboarding-featured-products' %}
+
+        {% endfor %}
+
+      </div>
+
+      <div class="grid">
+          <div class="grid__item large--one-whole">
+              <div class="text-center">
+                  <a href="{{ collections[section.settings.home_featured_products].url }}" class="see-more-button white">See All Products</a>
+              </div>
+          </div>
+      </div>
+      {% endif %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Products you may like",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Products you may like"
+      },
+      {
+        "type": "collection",
+        "id": "home_featured_products",
+        "label": "Collection"
+      }
+    ],
+    "presets": [{
+      "name": "Products you may like",
+      "category": "Collection"
+    }],
+    "blocks" : []
+  }
+{% endschema %}

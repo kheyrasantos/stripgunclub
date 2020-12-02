@@ -1,0 +1,220 @@
+<!-- /sections/from-the-blog-mobile.liquid -->
+{% comment %}
+    Show up to three featured posts
+{% endcomment %}
+
+{% if section.settings.use_featured_posts %}
+
+<div class="from-blog-container-mobile hide-for-desktop">
+    <div class="wrapper">
+        <div class="h2-container medium--text-center">
+            <h2 id="from-the-blog">{{ section.settings.title }}</h2>
+        </div>
+
+        <div class="grid">
+
+            {% if section.settings.use_featured_post_1 %}
+
+                <div class="grid__item small--one-whole medium--one-whole large--one-third news">
+
+                    <a target="_blank" href="{{ section.settings.featured_post_item_1_url }}">
+                        <div class="blog-image-container">
+                            <div class="image-frame">
+                                <div style="background-image: url({{ section.settings.featured_post_item_1_image | img_url:'857x' }}); display: block; background-size: cover; width: 100%; height: 300px; margin-bottom: 10px;"></div>
+                            </div>
+                            <div class="time-container">{{ section.settings.featured_post_item_1_date }}</div>
+                        </div>
+                    </a>
+                    <div class="blog-text-container">
+                        <h3><a target="_blank" href="{{ section.settings.featured_post_item_1_url }}">{{ section.settings.featured_post_item_1_title}}</a></h3>
+                        <p class="article-preview-text">{{ section.settings.featured_post_item_1_excerpt | truncate: 200 }}</p>
+
+                        <div class="read-more text-center">
+                            <a target="_blank" href="{{ section.settings.featured_post_item_1_url  }}">read more</a>
+                        </div>
+                    </div>
+                </div>
+
+            {% endif %}
+
+            {% if section.settings.use_featured_post_2 %}
+
+                <div class="grid__item small--one-whole medium--one-whole large--one-third news">
+
+                    <a target="_blank" href="{{ section.settings.featured_post_item_2_url }}">
+                        <div class="blog-image-container">
+                            <div class="image-frame">
+                                <div style="background-image: url({{ section.settings.featured_post_item_2_image | img_url:'857x' }}); display: block; background-size: cover; width: 100%; height: 300px; margin-bottom: 10px;"></div>
+                            </div>
+                            <div class="time-container">{{ section.settings.featured_post_item_2_date }}</div>
+                        </div>
+                    </a>
+                    <div class="blog-text-container">
+                        <h3><a target="_blank" href="{{ section.settings.featured_post_item_2_url }}">{{ section.settings.featured_post_item_2_title }}</a></h3>
+
+                        <p class="article-preview-text">{{ section.settings.featured_post_item_2_excerpt | truncate: 200 }}</p>
+
+                        <div class="read-more text-center">
+                            <a target="_blank" href="{{ section.settings.featured_post_item_2_url }}">read more</a>
+                        </div>
+                    </div>
+                </div>
+
+            {% endif %}
+
+            {% if section.settings.use_featured_post_3 %}
+
+                <div class="grid__item small--one-whole medium--one-whole large--one-third news">
+
+                    <a target="_blank" href="{{ section.settings.featured_post_item_3_url }}">
+                        <div class="blog-image-container">
+                            <div class="image-frame">
+                                <div style="background-image: url({{ section.settings.featured_post_item_3_image | img_url:'857x' }}); display: block; background-size: cover; width: 100%; height: 300px; margin-bottom: 10px;"></div>
+                            </div>
+                            <div class="time-container">{{ section.settings.featured_post_item_3_date }}</div>
+                        </div>
+                    </a>
+                    <div class="blog-text-container">
+                        <h3><a target="_blank" href="{{ section.settings.featured_post_item_3_url }}">{{ section.settings.featured_post_item_3_title }}</a></h3>
+
+                        <p class="article-preview-text">{{ section.settings.featured_post_item_3_excerpt | truncate: 200 }}</p>
+
+                        <div class="read-more text-center">
+                            <a target="_blank" href="{{ section.settings.featured_post_item_3_url }}">read more</a>
+                        </div>
+                    </div>
+                </div>
+
+            {% endif %}
+
+            {% if section.settings.use_featured_post_blog_url %}
+                <div class="grid__item">
+                    <div class="link-container text-center">
+                        <a href="{{ section.settings.featured_post_blog_url }}">view the blog</a>
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+{% schema %}
+  {
+    "name": "From The Blog (Mobile)",
+    "settings": [
+    {
+        "type": "checkbox",
+        "id": "use_featured_posts",
+        "label": "Show Featured Posts"
+    },
+    {
+        "type": "text",
+        "id": "title",
+        "label": "Section Title"
+    },
+    {
+        "type": "checkbox",
+        "id": "use_featured_post_1",
+        "label": "Show Featured Post 1"
+    },
+    {
+        "type": "url",
+        "id": "featured_post_item_1_url",
+        "label": "Featured Post Item 1 URL"
+    },
+    {
+        "type": "image_picker",
+        "id": "featured_post_item_1_image",
+        "label": "Featured Post Item 1 Image"
+    },
+    {
+        "type": "text",
+        "id": "featured_post_item_1_date",
+        "label": "Featured Post Item 1 Date"
+    },
+    {
+        "type": "text",
+        "id": "featured_post_item_1_title",
+        "label": "Featured Post Item 1 Title"
+    },
+    {
+        "type": "textarea",
+        "id": "featured_post_item_1_excerpt",
+        "label": "Featured Post Item 1 Excerpt"
+    },
+    {
+        "type": "checkbox",
+        "id": "use_featured_post_2",
+        "label": "Show Featured Post 2"
+    },
+    {
+        "type": "url",
+        "id": "featured_post_item_2_url",
+        "label": "Featured Post Item 2 URL"
+    },
+    {
+        "type": "image_picker",
+        "id": "featured_post_item_2_image",
+        "label": "Featured Post Item 2 Image"
+    },
+    {
+        "type": "text",
+        "id": "featured_post_item_2_date",
+        "label": "Featured Post Item 2 Date"
+    },
+    {
+        "type": "text",
+        "id": "featured_post_item_2_title",
+        "label": "Featured Post Item 2 Title"
+    },
+    {
+        "type": "textarea",
+        "id": "featured_post_item_2_excerpt",
+        "label": "Featured Post Item 2 Excerpt"
+    },
+    {
+        "type": "checkbox",
+        "id": "use_featured_post_3",
+        "label": "Show Featured Post 3"
+    },
+    {
+        "type": "url",
+        "id": "featured_post_item_3_url",
+        "label": "Featured Post Item 3 URL"
+    },
+    {
+        "type": "image_picker",
+        "id": "featured_post_item_3_image",
+        "label": "Featured Post Item 3 Image"
+    },
+    {
+        "type": "text",
+        "id": "featured_post_item_3_date",
+        "label": "Featured Post Item 3 Date"
+    },
+    {
+        "type": "text",
+        "id": "featured_post_item_3_title",
+        "label": "Featured Post Item 3 Title"
+    },
+    {
+        "type": "textarea",
+        "id": "featured_post_item_3_excerpt",
+        "label": "Featured Post Item 3 Excerpt"
+    },
+    {
+        "type": "checkbox",
+        "id": "use_featured_post_blog_url",
+        "label": "Show button to view all blog posts"
+    },
+    {
+        "type": "url",
+        "id": "featured_post_blog_url",
+        "label": "URL to view all blog posts"
+    }
+    ]
+  }
+{% endschema %}

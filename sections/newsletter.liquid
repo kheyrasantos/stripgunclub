@@ -1,0 +1,56 @@
+<div class="newsletter newsletter-section">
+  <div class="wrapper">
+      <div class="grid">
+          <div class="grid__item small--one-whole large--one-half">
+              <p>
+                  <strong>
+                      JOIN OUR LIST TO RECEIVE SPECIAL OFFERS, UPDATES, AND EVERYTHING STRIP GUN CLUB.
+                  </strong>
+              </p>
+          </div>
+          <div class="grid__item small--one-whole large--one-half">
+              {% form 'customer' %}
+                {{ form.errors | default_errors }}
+                {% if form.posted_successfully? %}
+                  <div class="newsletter--form">
+                    <div class="note form-success">{{ 'general.newsletter_form.newsletter_confirmation' | t }}</div>
+                  </div>
+                {% else %}
+                  <label for="Email" class="newsletter__label hidden-label">{{ 'general.newsletter_form.newsletter_email' | t }}</label>
+                  <input type="hidden" name="contact[tags]" value="newsletter">
+                  <div class="newsletter--form">
+                    <div class="input-group">
+                      <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="contact[email]" id="Email" class="input-group-field newsletter__input" autocorrect="off" autocapitalize="off">
+                      <span class="input-group-btn">
+                        <button type="submit" class="btn newsletter__submit" name="commit" id="Subscribe">
+                          <span class="newsletter__submit-text--large">{{ 'general.newsletter_form.submit' | t }}</span>
+                          <span class="newsletter__submit-text--small">
+                            <span class="icon icon-arrow-right" aria-hidden="true"></span>
+                          </span>
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endform %}
+          </div>
+      </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Newsletter",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Any customers who sign up will have an account created for them in Shopify. [View customers](/admin/customers?query=&accepts_marketing=1)"
+      }
+    ],
+    "presets": [{
+      "name": "Newsletter signup",
+      "category": "Promotional"
+    }],
+    "blocks" : []
+  }
+{% endschema %}

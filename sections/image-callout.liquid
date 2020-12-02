@@ -1,0 +1,74 @@
+<!-- /sections/image-callout.liquid -->
+<div class="image-callout-container">
+    {% if section.settings.image_url != blank %}
+    <a href="{{ section.settings.image_url }}" title="{{ section.settings.desc }}">
+    {% endif %}
+
+    {% comment %}
+    hardcoded button for layout
+    {% endcomment %}
+    <a href="/pages/how-to" title="Get Your Entries" class="get-entries">
+      <img src="{{ 'get-entries.png' | asset_url }}" alt="Get Your Entries">
+    </a>
+
+        <img src="{{ section.settings.image | img_url: '1600x' }}" alt="{{ section.settings.desc }}" class="entry-5" />
+
+        <div class="overlay"></div>
+
+        <div class="text-container">
+            {% if section.settings.title != blank %}
+            <h2 class="h1">{{ section.settings.title }}</h2>
+            {% endif %}
+            {% if section.settings.cta_link != blank %}
+            <a href="{{ section.settings.cta_link }}" class="btn" title="{{ section.settings.cta_text }}">
+                {{ section.settings.cta_text }}
+            </a>
+            {% endif %}
+        </div>
+
+    {% if section.settings.image_url != blank %}
+    </a>
+    {% endif %}
+</div>
+
+{% schema %}
+  {
+    "name": "Image Callout",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "text",
+        "id": "desc",
+        "label": "Image Description"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Section Title"
+      },
+      {
+        "type": "url",
+        "id": "cta_link",
+        "label": "CTA Link"
+      },
+      {
+        "type": "text",
+        "id": "cta_text",
+        "label": "CTA Text"
+      },
+      {
+        "type": "url",
+        "id": "image_url",
+        "label": "URL for hero"
+      }
+    ],
+    "presets": [{
+      "name": "Image Callout",
+      "category": "Image"
+    }]
+  }
+{% endschema %}

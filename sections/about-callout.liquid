@@ -1,0 +1,143 @@
+<div id="AboutCallout" data-section-id="{{ section.id }}">
+    <div class="about-callout-row"{% if section.settings.backgroundImage != blank %} style="background-image: url({{ section.settings.backgroundImage | img_url: '2000x2000' | format: 'jpg' }});"{% else %} style="background-image: url({{ 'about-callout.jpg' | asset_url }});"{% endif %}>
+        <div class="wrapper">
+          <div class="grid text-center">
+            <div class="grid__item small--one-whole large--one-third">
+                {% if section.settings.image1 != blank %}
+                <a href="{{ section.settings.link1 }}" class="icon-image-link">
+                    {{ section.settings.image1 | img_url: '100x100' | img_tag: section.settings.image1.alt, 'image-icon' }}
+                </a>
+                {% endif %}
+                {% if section.settings.title1 != blank %}
+                 <a href="{{ section.settings.link1 }}" class="icon-title-link">
+                     <h2 class="h3">{{ section.settings.title1 | escape }}</h2>
+                 </a>
+                {% endif %}
+                {% if section.settings.text1 != blank %}
+                <a href="{{ section.settings.link1 }}" class="icon-title-link">
+                    <div class="rte-setting featured-row__subtext">{{ section.settings.text1 }}</div>
+                  </a>
+                {% endif %}
+            </div>
+            <div class="grid__item small--one-whole large--one-third">
+                {% if section.settings.image2 != blank %}
+                <a href="{{ section.settings.link2 }}" class="icon-image-link">
+                  {{ section.settings.image2 | img_url: '100x100' | img_tag: section.settings.image2.alt, 'image-icon' }}
+                </a>
+                {% endif %}
+                {% if section.settings.title2 != blank %}
+                <a href="{{ section.settings.link2 }}" class="icon-title-link">
+                  <h2 class="h3">{{ section.settings.title2 | escape }}</h2>
+                </a>
+                {% endif %}
+                {% if section.settings.text2 != blank %}
+                 <a href="{{ section.settings.link2 }}" class="icon-title-link">
+                     <div class="rte-setting featured-row__subtext">{{ section.settings.text2 }}</div>
+                 </a>
+                {% endif %}
+            </div>
+            <div class="grid__item small--one-whole large--one-third">
+                {% if section.settings.image3 != blank %}
+                <a href="{{ section.settings.link3 }}" class="icon-image-link">
+                  {{ section.settings.image3 | img_url: '100x100' | img_tag: section.settings.image3.alt, 'image-icon' }}
+                </a>
+                {% endif %}
+                {% if section.settings.title3 != blank %}
+                <a href="{{ section.settings.link3 }}" class="icon-title-link">
+                  <h2 class="h3">{{ section.settings.title3 | escape }}</h2>
+                </a>
+                {% endif %}
+                {% if section.settings.text3 != blank %}
+                <a href="{{ section.settings.link3 }}" class="icon-title-link">
+                  <div class="rte-setting featured-row__subtext">{{ section.settings.text3 }}</div>
+                </a>
+                {% endif %}
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Icons with Text",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "backgroundImage",
+        "label": "Background Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "image1",
+        "label": "Image"
+      },
+      {
+        "type": "url",
+        "id": "link1",
+        "label": "Link 1"
+      },
+      {
+        "type": "text",
+        "id": "title1",
+        "label": "Heading",
+        "default": "Lowest Price Guaranteed"
+      },
+      {
+        "type": "richtext",
+        "id": "text1",
+        "label": "Text",
+        "default": "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>"
+      },
+      {
+        "type": "image_picker",
+        "id": "image2",
+        "label": "Image"
+      },
+      {
+        "type": "url",
+        "id": "link2",
+        "label": "Link 2"
+      },
+      {
+        "type": "text",
+        "id": "title2",
+        "label": "Heading",
+        "default": "Extraordinary Customer Service"
+      },
+      {
+        "type": "richtext",
+        "id": "text2",
+        "label": "Text",
+        "default": "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>"
+      },
+      {
+        "type": "image_picker",
+        "id": "image3",
+        "label": "Image"
+      },
+      {
+        "type": "url",
+        "id": "link3",
+        "label": "Link 3"
+      },
+      {
+        "type": "text",
+        "id": "title3",
+        "label": "Heading",
+        "default": "Lorem ipsum dolor sit amet"
+      },
+      {
+        "type": "richtext",
+        "id": "text3",
+        "label": "Text",
+        "default": "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>"
+      }
+    ],
+    "presets": [{
+      "name": "Icons with Text",
+      "category": "Text"
+    }],
+    "blocks" : []
+  }
+{% endschema %}

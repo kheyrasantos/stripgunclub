@@ -1,0 +1,42 @@
+<!-- sections/google-map.liquid-->
+
+<div class="google-map-container">
+    <div id="map"></div>
+</div>
+
+<!-- Google Script -->
+<script>
+    // Google maps
+    window.initMap = function() {
+        var myLatLng = {lat:36.144873, lng: -115.156302};
+        var mapDiv = document.getElementById('map');
+        var map = new google.maps.Map(mapDiv, {
+           center: {lat: 36.144873, lng: -115.156302},
+           zoom: 18,
+           scrollwheel: false
+        });
+
+        var marker = new google.maps.Marker({
+           position: myLatLng,
+           map: map,
+           animation: google.maps.Animation.DROP,
+           title: 'Strip Gun Club',
+        });
+    }
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpIBgs1Hk4gtGzHvYspCyiOc2I2MCdXzc&callback=initMap">
+    </script>
+
+{% schema %}
+{
+  "name": "Google Maps",
+  "settings" : [
+      {
+          "type": "text",
+          "id": "title",
+          "label" : "Google Maps"
+      }
+  ]
+}
+{% endschema %}

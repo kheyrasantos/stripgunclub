@@ -1,0 +1,52 @@
+<!-- sections/events-packages.liquid-->
+<div class="event-packages-container">
+    {% for block in section.blocks %}
+    <div class="grid">
+        <div class="small--one-whole medium--one-half large--one-half grid__item">
+            <img src="{{ block.settings.image | img_url: '800x' | format: 'png' }}" alt="{{ block.settings.title }}" />
+        </div>
+        <div class="small--one-whole medium--one-half large--one-half grid__item">
+            <h2>{{ block.settings.title }}</h2>
+            <div class="description">
+                {{ block.settings.text }}
+            </div>
+            <a href="#book-now" title="Book Now" class="btn page-scroll">Event Booking</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "Event Packages",
+  "max_blocks": 20,
+  "blocks" : [
+    {
+      "type": "text",
+      "name": "Event Package",
+      "settings": [
+        {
+         "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+            "type": "textarea",
+            "id": "text",
+            "label": "Description"
+        },
+        {
+            "type": "url",
+            "id": "link",
+            "label": "Book Now Link"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,60 @@
+<!-- sections/driving-direction.liquid -->
+<div class="driving-direction-container">
+    <div class="grid">
+        <div class="grid__item small--one-whole large--one-half">
+            <div class="directions">
+                {{ section.settings.text }}
+                <br>
+                <a href="{{ section.settings.link }}" title="Driving Directions" target="_blank" class="btn">
+                    <i class="fas fa-car"></i> Google Driving Directions
+                </a>
+            </div>
+        </div>
+        <div class="grid__item small--one-whole large--one-half">
+            <div id="map"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Google Script -->
+<script>
+    // Google maps
+    window.initMap = function() {
+        var myLatLng = {lat:36.144873, lng: -115.156302};
+        var mapDiv = document.getElementById('map');
+        var map = new google.maps.Map(mapDiv, {
+           center: {lat: 36.144873, lng: -115.156302},
+           zoom: 18,
+           scrollwheel: false
+        });
+
+        var marker = new google.maps.Marker({
+           position: myLatLng,
+           map: map,
+           animation: google.maps.Animation.DROP,
+           title: 'Strip Gun Club',
+        });
+    }
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpIBgs1Hk4gtGzHvYspCyiOc2I2MCdXzc&callback=initMap">
+</script>
+
+
+{% schema %}
+{
+"name": "Driving Directions",
+"settings" : [
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Driving Directions"
+    },
+    {
+        "type": "url",
+        "id": "link",
+        "label": "Driving Directions URL"
+    }
+  ]
+}
+{% endschema %}

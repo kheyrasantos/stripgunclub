@@ -1,0 +1,1831 @@
+<!-- /sections/mega-menu.liquid -->
+<style>
+  /* =================
+    Mega Menu Icons (Hamburger and Cart)
+  ================= */
+  .mobile-menu,
+  .mobile-cart {
+    position: absolute;
+    top: 25px;
+    color: #fff;
+  }
+  .mobile-menu {
+    left: 10%;
+  }
+  .mobile-cart {
+    right: 10%;
+  }
+  #mobile-menu-icon {
+    display: none;
+  }
+  #mobile-menu-icon + label {
+    cursor: pointer;
+  }
+  #mobile-menu-icon + label:hover,
+  #mobile-menu-icon:checked + label span {
+    color: #f90;
+  }
+  @media (min-width: 769px) {
+    .mobile-cart, .mobile-menu, .mega-menu-item-mobile { display: none !important; }
+  }
+  /* =================
+    Mega Menu Logo
+  ================= */
+  .mega-menu-logo-container {
+    text-align: center;
+  }
+  .mega-menu-logo-container a {
+    display: inline-block;
+  }
+  .mega-menu-logo-container img {
+    width: 100%;
+    max-width: 90px;
+  }
+  /* =================
+    Mega Menu Item
+  ================= */
+  .flex-row {
+    display: flex;
+  }
+  #shopify-section-mega-menu {
+    position: relative;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  #mega-menu-container ul {
+    list-style-type: none;
+    margin-left: 0;
+    line-height: 1.4;
+  }
+  #mega-menu-container {
+    text-align: center;
+    margin: 0;
+    /* margin-top: -45px; */
+  }
+  .mega-menu-item {
+    display: inline-block;
+    text-align: left;
+    margin-bottom: 0;
+    /* padding-bottom: 15px; */
+  }
+  .mega-menu-item > a {
+    padding-bottom: 5px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 4px solid transparent;
+  }
+  .mega-menu-item > a > .icon-arrow-down {
+    font-size: 10px;
+    padding-left: 5.5px;
+  }
+  .mega-menu-item:hover .mega-menu-dropdown-container {
+    margin-top: 7px;
+    top: 25px;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+  }
+  .mega-menu-item:hover > a {
+    color: #f90;
+    border-color: #f90;
+  }
+  .mega-menu-item:not(:last-child) {
+    margin-right: 15px;
+  }
+  .mega-menu-dropdown-container {
+    position: absolute;
+    pointer-events: none;
+    top: 25px;
+    left: 0;
+    right: 0;
+    background: #111;
+    margin-top: -10px;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 10;
+    transition: 0.5s;
+  }
+  .mega-menu-dropdown-inner {
+    width: 100%;
+    max-width: 1000px;
+    padding: 5px 5px 20px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .mega-menu-dropdown-inner .flex-col {
+    flex-grow: 1;
+    padding-left: 15px;
+  }
+  .mega-menu-dropdown-inner .mega-menu-mobile-col {
+    display: none;
+    margin-top: -5px;
+  }
+  .mega-menu-dropdown-inner .mega-menu-mobile-col a {
+    color: #f90;
+  }
+  .mega-menu-dropdown-inner .flex-col:not(.mega-menu-image) > ul:not(:last-child) {
+    margin-bottom: 15px;
+  }
+  .mega-menu-dropdown-inner .main-title {
+    font-family: "Bebas", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    color: #fff;
+    letter-spacing: 0.9px;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  .mega-menu-dropdown-inner .main-title + ul a {
+    color: #a7a7a7;
+  }
+  .mega-menu-dropdown-inner .main-title + ul a:hover {
+    color: #f90;
+  }
+  .mega-menu-dropdown-inner .main-title span {
+    color: #fff;
+  }
+  .mega-menu-image {
+    display: flex;
+  }
+  .mega-menu-image ul {
+    display: flex;
+    flex-grow: 1;
+  }
+  .mega-menu-image ul:last-child {
+    padding-left: 15px;
+  }
+  .mega-menu-image a {
+    display: flex;
+    flex-direction: column;
+  }
+  .mega-menu-image span {
+    transition: 0.2s;
+  }
+  .mega-menu-image img {
+    margin-top: 5px;
+    transition: 0.2s;
+  }
+  .mega-menu-image a:hover span {
+    color: #f90;
+  }
+  .mega-menu-image a:hover img {
+    opacity: 0.9;
+  }
+  .mobile-cart .icon-cart {
+      padding: 0;
+  }
+  /* Testing */
+  @media (max-width: 768px) {
+    #shopify-section-mega-menu {
+      z-index: 100;
+    }
+    #mega-menu-container {
+      padding: 15px;
+      transform: translateY(-101%);
+      width: 100%;
+      background: #111;
+      border-top: 2px solid #f90;
+      position: absolute;
+      z-index: 1;
+      transition: 0.5s;
+      display: none;
+    }
+    #mega-menu-container.active-menu {
+        transform: translateY(0);
+        display: block;
+    }
+    .mega-menu-item > a.has-dropdown.active-dropdown {
+        color: #f90;
+    }
+    .mega-menu-logo-container {
+        padding-top: 15px;
+        margin-top: -15px;
+        position: relative;
+        z-index: 2;
+        background: #111;
+    }
+    .mega-menu-item:hover .mega-menu-dropdown-container,
+    .mega-menu-dropdown-container  {
+      transform: translateY(0);
+      margin-top: 0;
+    }
+    .mega-menu-dropdown-container {
+      display: none; /*  hiding dropdowns on mobile */
+      position: static;
+      pointer-events: none;
+      left: 0;
+      right: 0;
+      background: #111;
+      z-index: 10;
+      opacity: 1;
+      visibility: visible;
+      transition: 0.5s;
+      margin-top: 0;
+    }
+    .mega-menu-item > .active-dropdown + .mega-menu-dropdown-container {
+      display: block;
+    }
+    .mega-menu-item {
+      display: block;
+    }
+    .mega-menu-item:last-child {
+      padding-bottom: 0;
+    }
+    .mega-menu-item > a {
+        display: block;
+        margin: 0;
+        padding: 0;
+        border-bottom: none;
+    }
+    .mega-menu-item:not(:last-child) {
+      margin-right: 0;
+    }
+    #mega-menu-container ul,
+    .mega-menu-dropdown-inner .flex-col:not(.mega-menu-image) > ul:first-child,
+    .mega-menu-dropdown-inner .flex-col:not(.mega-menu-image) > ul {
+      margin: 0 !important;
+    }
+    .mega-menu-dropdown-inner {
+      padding: 10px 0;
+    }
+    .mega-menu-dropdown-inner .mega-menu-mobile-col {
+      display: block;
+    }
+    .mega-menu-dropdown-inner.flex-row,
+    .mega-menu-dropdown-inner .flex-col {
+      flex-direction: column;
+    }
+    .mega-menu-dropdown-inner .flex-col {
+      padding: 0 15px;
+    }
+    .mega-menu-image ul,
+    .mega-menu-image ul:last-child {
+      padding-left: 0;
+    }
+  }
+  /******  Image Col Redimensions **********/
+  .mega-menu-dropdown-inner .mega-menu-image:first-child img,
+  .mega-menu-dropdown-inner .mega-menu-image:nth-child(2) img {
+    max-width: 100%;
+  }
+  /* Fixes */
+  .template-index .nav-bar {
+    background: #111;
+  }
+  @media (max-width: 768px) {
+    .mobile-search-container .search-featured-collection {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1023px) {
+      .search-bar input {
+          background-color: white !important;
+          border-right: none;
+      }
+  }
+
+  @media (min-width: 1024px) {
+      .mega-menu-logo {
+          display: none;
+      }
+  }
+
+  /* =================
+    Notification Bar Container
+  ================= */
+  .notification-bar-container {
+    text-align: center;
+    padding: 7px 15px;
+    position: relative;
+    width: 100vw;
+    margin-left: -50vw;
+    left: 50%;
+    font-size: 0.95em;
+    background-color: {{ section.settings.mega_menu_notification_bar_bg_color }};
+    color: {{ section.settings.mega_menu_notification_bar_text_color }};
+    transform: all 0.3s;
+  }
+
+  .notification-bar-container:hover {
+    background-color: {{ section.settings.mega_menu_notification_bar_bg_color }};
+    color: {{ section.settings.mega_menu_notification_bar_text_color }};
+  }
+
+  .notification-bar-container a:hover {
+    color: white;
+  }
+</style>
+
+
+{% if section.settings.enable_mega_menu %}
+
+<!-- ------------------- Mega Menu Logo ------------------- -->
+{% if section.settings.mega_menu_logo_text != blank and section.settings.mega_menu_logo_link != blank and section.settings.mega_menu_logo_image != blank %}
+<nav role="navigation" class="mega-menu-logo-container">
+  <div class="mobile-menu">
+    <input type="checkbox" id="mobile-menu-icon">
+    <label>
+      <span class="icon icon-hamburger" aria-hidden="true" ></span>
+    </label>
+  </div>
+  <a href="{{ section.settings.mega_menu_logo_link }}" title="{{ section.settings.mega_menu_logo_text }}">
+    <img src="{{ section.settings.mega_menu_logo_image | img_url: '200x' }}" alt="{{ section.settings.mega_menu_logo_text }}" class="mega-menu-logo" />
+  </a>
+  <div class="mobile-cart">
+    <a href="/cart" style="display: table-cell; vertical-align: middle;" class="icon icon-cart js-drawer-open-right site-nav__link" title="Cart"></a>
+  </div>
+</nav>
+{% endif %}
+<!-- ------------------- End Mega Menu Logo ------------------- -->
+
+<!-- ------------------- Mega Menu  ------------------- -->
+<ul id="mega-menu-container">
+{% if section.blocks.size > 0 %}
+  {% for block in section.blocks %}
+  <!-- ------------------- Mega Menu Item Begin ------------------- -->
+  <li class="mega-menu-item">
+    <a href="{{ block.settings['mega_menu_main_item_link'] }}" class="{% if block.settings['enable_mega_menu_dropdown'] == true %}has-dropdown{% endif %}" title="{{ block.settings["mega_menu_main_item_text"] }}">{{ block.settings["mega_menu_main_item_text"] }} {% if block.settings["enable_mega_menu_dropdown"] == true %}<span class="icon icon-arrow-down" aria-hidden="true"></span> {% endif %}</a>
+    {% if block.settings["enable_mega_menu_dropdown"] == true %}
+      <!-- Container -->
+      <div class="mega-menu-dropdown-container">
+        <!-- Inner -->
+        <div class="mega-menu-dropdown-inner flex-row">
+          <!-- See Full Collection -->
+          <div class="flex-col mega-menu-mobile-col">
+            <ul>
+              <li class="main-title"><a href="{{ block.settings['mega_menu_main_item_link'] }}" title="See Full Collection">See Full Collection</a></li>
+            </ul>
+          </div>
+          <!-- End See Full Collection -->
+          {% if block.settings["mega_menu_main_dropdown_left_main_title_1"] != blank %}
+          <!-- Left Side -->
+          <div class="mega-menu-left flex-col">
+            {% if block.settings["mega_menu_main_dropdown_left_main_title_1"] != blank %}
+              <ul>
+                <li class="main-title">{{ block.settings["mega_menu_main_dropdown_left_main_title_1"] }}</li>
+                <ul>
+                  {% if block.settings["mega_menu_main_dropdown_left_title_1_1"] != blank and block.settings["mega_menu_main_dropdown_left_link_1_1"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_1_1'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_1_1'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_1_1"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_1_2"] != blank and block.settings["mega_menu_main_dropdown_left_link_1_2"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_1_2'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_1_2'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_1_2"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_1_3"] != blank and block.settings["mega_menu_main_dropdown_left_link_1_3"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_1_3'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_1_3'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_1_3"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_1_4"] != blank and block.settings["mega_menu_main_dropdown_left_link_1_4"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_1_4'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_1_4'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_1_4"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_1_5"] != blank and block.settings["mega_menu_main_dropdown_left_link_1_5"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_1_5'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_1_5'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_1_5"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_1_6"] != blank and block.settings["mega_menu_main_dropdown_left_link_1_6"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_1_6'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_1_6'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_1_6"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_1_7"] != blank and block.settings["mega_menu_main_dropdown_left_link_1_7"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_1_7'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_1_7'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_1_7"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_1_8"] != blank and block.settings["mega_menu_main_dropdown_left_link_1_8"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_1_8'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_1_8'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_1_8"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_1_9"] != blank and block.settings["mega_menu_main_dropdown_left_link_1_9"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_1_9'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_1_9'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_1_9"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_1_10"] != blank and block.settings["mega_menu_main_dropdown_left_link_1_10"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_1_10'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_1_10'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_1_10"] }}</a></li> {% endif %}
+                </ul>
+              </ul>
+            {% endif %}
+            {% if block.settings["mega_menu_main_dropdown_left_main_title_2"] != blank %}
+              <ul>
+                <li class="main-title">{{ block.settings["mega_menu_main_dropdown_left_main_title_2"] }}</li>
+                <ul>
+                  {% if block.settings["mega_menu_main_dropdown_left_title_2_1"] != blank and block.settings["mega_menu_main_dropdown_left_link_2_1"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_2_1'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_2_1'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_2_1"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_2_2"] != blank and block.settings["mega_menu_main_dropdown_left_link_2_2"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_2_2'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_2_2'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_2_2"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_2_3"] != blank and block.settings["mega_menu_main_dropdown_left_link_2_3"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_2_3'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_2_3'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_2_3"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_2_4"] != blank and block.settings["mega_menu_main_dropdown_left_link_2_4"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_2_4'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_2_4'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_2_4"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_2_5"] != blank and block.settings["mega_menu_main_dropdown_left_link_2_5"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_2_5'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_2_5'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_2_5"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_2_6"] != blank and block.settings["mega_menu_main_dropdown_left_link_2_6"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_2_6'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_2_6'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_2_6"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_2_7"] != blank and block.settings["mega_menu_main_dropdown_left_link_2_7"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_2_7'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_2_7'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_2_7"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_2_8"] != blank and block.settings["mega_menu_main_dropdown_left_link_2_8"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_2_8'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_2_8'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_2_8"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_2_9"] != blank and block.settings["mega_menu_main_dropdown_left_link_2_9"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_2_9'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_2_9'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_2_9"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_2_10"] != blank and block.settings["mega_menu_main_dropdown_left_link_2_10"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_2_10'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_2_10'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_2_10"] }}</a></li> {% endif %}
+                </ul>
+              </ul>
+            {% endif %}
+            {% if block.settings["mega_menu_main_dropdown_left_main_title_3"] != blank %}
+              <ul>
+                <li class="main-title">{{ block.settings["mega_menu_main_dropdown_left_main_title_3"] }}</li>
+                <ul>
+                  {% if block.settings["mega_menu_main_dropdown_left_title_3_1"] != blank and block.settings["mega_menu_main_dropdown_left_link_3_1"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_3_1'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_3_1'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_3_1"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_3_2"] != blank and block.settings["mega_menu_main_dropdown_left_link_3_2"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_3_2'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_3_2'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_3_2"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_3_3"] != blank and block.settings["mega_menu_main_dropdown_left_link_3_3"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_3_3'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_3_3'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_3_3"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_3_4"] != blank and block.settings["mega_menu_main_dropdown_left_link_3_4"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_3_4'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_3_4'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_3_4"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_3_5"] != blank and block.settings["mega_menu_main_dropdown_left_link_3_5"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_3_5'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_3_5'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_3_5"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_3_6"] != blank and block.settings["mega_menu_main_dropdown_left_link_3_6"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_3_6'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_3_6'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_3_6"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_3_7"] != blank and block.settings["mega_menu_main_dropdown_left_link_3_7"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_3_7'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_3_7'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_3_7"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_3_8"] != blank and block.settings["mega_menu_main_dropdown_left_link_3_8"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_3_8'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_3_8'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_3_8"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_3_9"] != blank and block.settings["mega_menu_main_dropdown_left_link_3_9"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_3_9'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_3_9'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_3_9"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_left_title_3_10"] != blank and block.settings["mega_menu_main_dropdown_left_link_3_10"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_left_link_3_10'] }}" title="{{ block.settings['mega_menu_main_dropdown_left_title_3_10'] }}">{{ block.settings["mega_menu_main_dropdown_left_title_3_10"] }}</a></li> {% endif %}
+                </ul>
+              </ul>
+            {% endif %}
+          </div>
+          <!-- End Left Side -->
+          {% endif %}
+          {% if block.settings["mega_menu_main_dropdown_middle_main_title_1"] != blank %}
+          <!-- Middle Side -->
+          <div class="mega-menu-middle flex-col">
+            {% if block.settings["mega_menu_main_dropdown_middle_main_title_1"] != blank %}
+              <ul>
+                <li class="main-title">{{ block.settings["mega_menu_main_dropdown_middle_main_title_1"] }}</li>
+                <ul>
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_1_1"] != blank and block.settings["mega_menu_main_dropdown_middle_link_1_1"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_1_1'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_1_1'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_1_1"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_1_2"] != blank and block.settings["mega_menu_main_dropdown_middle_link_1_2"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_1_2'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_1_2'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_1_2"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_1_3"] != blank and block.settings["mega_menu_main_dropdown_middle_link_1_3"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_1_3'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_1_3'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_1_3"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_1_4"] != blank and block.settings["mega_menu_main_dropdown_middle_link_1_4"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_1_4'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_1_4'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_1_4"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_1_5"] != blank and block.settings["mega_menu_main_dropdown_middle_link_1_5"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_1_5'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_1_5'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_1_5"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_1_6"] != blank and block.settings["mega_menu_main_dropdown_middle_link_1_6"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_1_6'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_1_6'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_1_6"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_1_7"] != blank and block.settings["mega_menu_main_dropdown_middle_link_1_7"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_1_7'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_1_7'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_1_7"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_1_8"] != blank and block.settings["mega_menu_main_dropdown_middle_link_1_8"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_1_8'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_1_8'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_1_8"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_1_9"] != blank and block.settings["mega_menu_main_dropdown_middle_link_1_9"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_1_9'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_1_9'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_1_9"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_1_10"] != blank and block.settings["mega_menu_main_dropdown_middle_link_1_10"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_1_10'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_1_10'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_1_10"] }}</a></li> {% endif %}
+                </ul>
+              </ul>
+            {% endif %}
+            {% if block.settings["mega_menu_main_dropdown_middle_main_title_2"] != blank %}
+              <ul>
+                <li class="main-title">{{ block.settings["mega_menu_main_dropdown_middle_main_title_2"] }}</li>
+                <ul>
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_2_1"] != blank and block.settings["mega_menu_main_dropdown_middle_link_2_1"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_2_1'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_2_1'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_2_1"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_2_2"] != blank and block.settings["mega_menu_main_dropdown_middle_link_2_2"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_2_2'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_2_2'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_2_2"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_2_3"] != blank and block.settings["mega_menu_main_dropdown_middle_link_2_3"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_2_3'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_2_3'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_2_3"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_2_4"] != blank and block.settings["mega_menu_main_dropdown_middle_link_2_4"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_2_4'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_2_4'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_2_4"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_2_5"] != blank and block.settings["mega_menu_main_dropdown_middle_link_2_5"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_2_5'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_2_5'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_2_5"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_2_6"] != blank and block.settings["mega_menu_main_dropdown_middle_link_2_6"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_2_6'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_2_6'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_2_6"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_2_7"] != blank and block.settings["mega_menu_main_dropdown_middle_link_2_7"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_2_7'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_2_7'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_2_7"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_2_8"] != blank and block.settings["mega_menu_main_dropdown_middle_link_2_8"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_2_8'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_2_8'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_2_8"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_2_9"] != blank and block.settings["mega_menu_main_dropdown_middle_link_2_9"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_2_9'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_2_9'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_2_9"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_2_10"] != blank and block.settings["mega_menu_main_dropdown_middle_link_2_10"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_2_10'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_2_10'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_2_10"] }}</a></li> {% endif %}
+                </ul>
+              </ul>
+            {% endif %}
+            {% if block.settings["mega_menu_main_dropdown_middle_main_title_3"] != blank %}
+              <ul>
+                <li class="main-title">{{ block.settings["mega_menu_main_dropdown_middle_main_title_3"] }}</li>
+                <ul>
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_3_1"] != blank and block.settings["mega_menu_main_dropdown_middle_link_3_1"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_3_1'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_3_1'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_3_1"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_3_2"] != blank and block.settings["mega_menu_main_dropdown_middle_link_3_2"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_3_2'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_3_2'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_3_2"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_3_3"] != blank and block.settings["mega_menu_main_dropdown_middle_link_3_3"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_3_3'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_3_3'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_3_3"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_3_4"] != blank and block.settings["mega_menu_main_dropdown_middle_link_3_4"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_3_4'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_3_4'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_3_4"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_3_5"] != blank and block.settings["mega_menu_main_dropdown_middle_link_3_5"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_3_5'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_3_5'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_3_5"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_3_6"] != blank and block.settings["mega_menu_main_dropdown_middle_link_3_6"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_3_6'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_3_6'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_3_6"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_3_7"] != blank and block.settings["mega_menu_main_dropdown_middle_link_3_7"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_3_7'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_3_7'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_3_7"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_3_8"] != blank and block.settings["mega_menu_main_dropdown_middle_link_3_8"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_3_8'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_3_8'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_3_8"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_3_9"] != blank and block.settings["mega_menu_main_dropdown_middle_link_3_9"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_3_9'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_3_9'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_3_9"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_middle_title_3_10"] != blank and block.settings["mega_menu_main_dropdown_middle_link_3_10"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_middle_link_3_10'] }}" title="{{ block.settings['mega_menu_main_dropdown_middle_title_3_10'] }}">{{ block.settings["mega_menu_main_dropdown_middle_title_3_10"] }}</a></li> {% endif %}
+                </ul>
+              </ul>
+            {% endif %}
+          </div>
+          <!-- End Middle Side -->
+          {% endif %}
+          {% if block.settings["mega_menu_main_dropdown_right_main_title_1"] != blank %}
+          <!-- Right Side -->
+          <div class="mega-menu-right flex-col">
+            {% if block.settings["mega_menu_main_dropdown_right_main_title_1"] != blank %}
+              <ul>
+                <li class="main-title">{{ block.settings["mega_menu_main_dropdown_right_main_title_1"] }}</li>
+                <ul>
+                  {% if block.settings["mega_menu_main_dropdown_right_title_1_1"] != blank and block.settings["mega_menu_main_dropdown_right_link_1_1"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_1_1'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_1_1'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_1_1"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_1_2"] != blank and block.settings["mega_menu_main_dropdown_right_link_1_2"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_1_2'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_1_2'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_1_2"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_1_3"] != blank and block.settings["mega_menu_main_dropdown_right_link_1_3"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_1_3'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_1_3'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_1_3"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_1_4"] != blank and block.settings["mega_menu_main_dropdown_right_link_1_4"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_1_4'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_1_4'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_1_4"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_1_5"] != blank and block.settings["mega_menu_main_dropdown_right_link_1_5"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_1_5'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_1_5'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_1_5"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_1_6"] != blank and block.settings["mega_menu_main_dropdown_right_link_1_6"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_1_6'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_1_6'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_1_6"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_1_7"] != blank and block.settings["mega_menu_main_dropdown_right_link_1_7"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_1_7'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_1_7'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_1_7"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_1_8"] != blank and block.settings["mega_menu_main_dropdown_right_link_1_8"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_1_8'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_1_8'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_1_8"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_1_9"] != blank and block.settings["mega_menu_main_dropdown_right_link_1_9"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_1_9'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_1_10'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_1_9"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_1_10"] != blank and block.settings["mega_menu_main_dropdown_right_link_1_10"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_1_10'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_1_10'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_1_10"] }}</a></li> {% endif %}
+                </ul>
+              </ul>
+            {% endif %}
+            {% if block.settings["mega_menu_main_dropdown_right_main_title_2"] != blank %}
+              <ul>
+                <li class="main-title">{{ block.settings["mega_menu_main_dropdown_right_main_title_2"] }}</li>
+                <ul>
+                  {% if block.settings["mega_menu_main_dropdown_right_title_2_1"] != blank and block.settings["mega_menu_main_dropdown_right_link_2_1"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_2_1'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_2_1'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_2_1"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_2_2"] != blank and block.settings["mega_menu_main_dropdown_right_link_2_2"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_2_2'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_2_2'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_2_2"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_2_3"] != blank and block.settings["mega_menu_main_dropdown_right_link_2_3"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_2_3'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_2_3'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_2_3"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_2_4"] != blank and block.settings["mega_menu_main_dropdown_right_link_2_4"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_2_4'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_2_4'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_2_4"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_2_5"] != blank and block.settings["mega_menu_main_dropdown_right_link_2_5"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_2_5'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_2_5'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_2_5"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_2_6"] != blank and block.settings["mega_menu_main_dropdown_right_link_2_6"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_2_6'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_2_6'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_2_6"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_2_7"] != blank and block.settings["mega_menu_main_dropdown_right_link_2_7"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_2_7'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_2_7'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_2_7"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_2_8"] != blank and block.settings["mega_menu_main_dropdown_right_link_2_8"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_2_8'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_2_8'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_2_8"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_2_9"] != blank and block.settings["mega_menu_main_dropdown_right_link_2_9"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_2_9'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_2_9'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_2_9"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_2_10"] != blank and block.settings["mega_menu_main_dropdown_right_link_2_10"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_2_10'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_2_10'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_2_10"] }}</a></li> {% endif %}
+                </ul>
+              </ul>
+            {% endif %}
+            {% if block.settings["mega_menu_main_dropdown_right_main_title_3"] != blank %}
+              <ul>
+                <li class="main-title">{{ block.settings["mega_menu_main_dropdown_right_main_title_3"] }}</li>
+                <ul>
+                  {% if block.settings["mega_menu_main_dropdown_right_title_3_1"] != blank and block.settings["mega_menu_main_dropdown_right_link_3_1"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_3_1'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_3_1'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_3_1"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_3_2"] != blank and block.settings["mega_menu_main_dropdown_right_link_3_2"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_3_2'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_3_2'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_3_2"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_3_3"] != blank and block.settings["mega_menu_main_dropdown_right_link_3_3"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_3_3'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_3_3'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_3_3"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_3_4"] != blank and block.settings["mega_menu_main_dropdown_right_link_3_4"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_3_4'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_3_4'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_3_4"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_3_5"] != blank and block.settings["mega_menu_main_dropdown_right_link_3_5"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_3_5'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_3_5'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_3_5"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_3_6"] != blank and block.settings["mega_menu_main_dropdown_right_link_3_6"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_3_6'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_3_6'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_3_6"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_3_7"] != blank and block.settings["mega_menu_main_dropdown_right_link_3_7"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_3_7'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_3_7'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_3_7"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_3_8"] != blank and block.settings["mega_menu_main_dropdown_right_link_3_8"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_3_8'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_3_8'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_3_8"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_3_9"] != blank and block.settings["mega_menu_main_dropdown_right_link_3_9"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_3_9'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_3_9'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_3_9"] }}</a></li> {% endif %}
+                  {% if block.settings["mega_menu_main_dropdown_right_title_3_10"] != blank and block.settings["mega_menu_main_dropdown_right_link_3_10"] != blank %}<li><a href="{{ block.settings['mega_menu_main_dropdown_right_link_3_10'] }}" title="{{ block.settings['mega_menu_main_dropdown_right_title_3_10'] }}">{{ block.settings["mega_menu_main_dropdown_right_title_3_10"] }}</a></li> {% endif %}
+                </ul>
+              </ul>
+            {% endif %}
+          </div>
+          {% endif %}
+          <!-- End Right Side -->
+          <!-- Image Side -->
+          {% if block.settings["hide_mega_menu_dropdown_image"] == blank %}
+          <div class="mega-menu-image flex-col">
+            {% if block.settings["mega_menu_main_dropdown_image_link_1"] != blank and block.settings["mega_menu_main_dropdown_image_1"] != blank %}
+            <ul>
+              <li class="main-title">
+                <a href="{{ block.settings['mega_menu_main_dropdown_image_link_1'] }}"{% if block.settings["mega_menu_main_dropdown_image_title_1"] != blank %} title="{{ block.settings['mega_menu_main_dropdown_image_title_1'] }}"{% endif %}>
+                  <span>{{ block.settings["mega_menu_main_dropdown_image_title_1"] }}</span>
+                  <img src="{{ block.settings['mega_menu_main_dropdown_image_1'] | img_url: 'large' }}"{% if block.settings["mega_menu_main_dropdown_image_title_1"] != blank %} alt="{{ block.settings['mega_menu_main_dropdown_image_title_1'] }}"{% endif %}>
+                </a>
+              </li>
+            </ul>
+            {% endif %}
+            {% if block.settings["mega_menu_main_dropdown_image_link_2"] != blank and block.settings["mega_menu_main_dropdown_image_2"] != blank %}
+            <ul>
+              <li class="main-title">
+                <a href="{{ block.settings['mega_menu_main_dropdown_image_link_2'] }}"{% if block.settings["mega_menu_main_dropdown_image_title_2"] != blank %} title="{{ block.settings['mega_menu_main_dropdown_image_title_2'] }}"{% endif %}>
+                  <span>{{ block.settings["mega_menu_main_dropdown_image_title_2"] }}</span>
+                  <img src="{{ block.settings['mega_menu_main_dropdown_image_2'] | img_url: 'large' }}"{% if block.settings["mega_menu_main_dropdown_image_title_2"] != blank %} alt="{{ block.settings['mega_menu_main_dropdown_image_title_2'] }}"{% endif %}>
+                </a>
+              </li>
+            </ul>
+            {% endif %}
+          </div>
+          <!-- End Image Side -->
+          {% endif %}
+        </div>
+        <!-- End Inner -->
+      </div>
+      <!-- End Container -->
+    {% endif %}
+  </li>
+  <!-- ------------------- Mega Menu Item End ------------------- -->
+  {% endfor%}
+
+  {% if customer %}
+    <li class="mega-menu-item mega-menu-item-mobile"><a href="/account" title="My Account">My Account</a></li>
+    <li class="mega-menu-item mega-menu-item-mobile">{{ 'layout.customer.log_out' | t | customer_logout_link }}</li>
+  {% else %}
+    <li class="mega-menu-item mega-menu-item-mobile"><a href="/account/login" title="Log In">Log In</a></li>
+    <li class="mega-menu-item mega-menu-item-mobile"><a href="/account/register" title="Create Account">Create Account</a></li>
+  {% endif %}
+{% endif %}
+</ul>
+<!-- ------------------- End Mega Menu  ------------------- -->
+{% else %}
+    {% comment %}
+    If Mega Menu is not enabled, show default menu options
+    {% endcomment %}
+
+    {% comment %}
+    Primary Nav that appears on tablet/desktop
+    {% endcomment %}
+    {% include "DesktopPrimaryNav" %}
+
+    {% comment %}
+    Primary Nav that appears on mobile
+    {% endcomment %}
+
+    {% include "MobilePrimaryNav" %}
+{% endif %}
+<!-- ------------------- Notification Bar  ------------------- -->
+{% if section.settings.mega_menu_notification_bar %}
+<div class="notification-bar-container">
+  {{ section.settings.mega_menu_notification_bar_text }}
+</div>
+{% endif %}
+<!-- ------------------- End Notification Bar  ------------------- -->
+
+{% schema %}
+  {
+    "name": "Mega Menu",
+    "max_blocks": 100,
+    "settings": [
+      {
+        "type": "header",
+        "content": "Mega Menu"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_mega_menu",
+        "label": "Enable Mega Menu"
+      },
+      {
+        "type": "image_picker",
+        "id": "mega_menu_logo_image",
+        "label": "Logo"
+      },
+      {
+        "type": "url",
+        "id": "mega_menu_logo_link",
+        "label": "Link"
+      },
+      {
+        "type": "text",
+        "id": "mega_menu_logo_text",
+        "label": "Logo Alt Text (Description)"
+      },
+      {
+        "type": "header",
+        "content": "Notification Bar"
+      },
+      {
+        "type": "checkbox",
+        "id": "mega_menu_notification_bar",
+        "label": "Enable Notification Bar"
+      },
+      {
+        "type": "color",
+        "id": "mega_menu_notification_bar_bg_color",
+        "label": "Background Color",
+        "default": "#4a4949"
+      },
+      {
+        "type": "color",
+        "id": "mega_menu_notification_bar_text_color",
+        "label": "Text Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "textarea",
+        "id": "mega_menu_notification_bar_text",
+        "label": "Content"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "mega-menu-item",
+        "name": "Navigation Element",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Mega Menu Title/Link"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_item_text",
+            "label": "Title"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_item_link",
+            "label": "Link"
+          },
+          {
+            "type": "header",
+            "content": "Mega Menu Dropdowns"
+          },
+          {
+            "type": "checkbox",
+            "id": "enable_mega_menu_dropdown",
+            "label": "Enable Mega Menu Dropdowns"
+          },
+          {
+            "type": "header",
+            "content": "========================="
+          },
+          {
+            "type": "header",
+            "content": "LEFT"
+          },
+          {
+            "type": "header",
+            "content": "========================="
+          },
+          {
+            "type": "checkbox",
+            "id": "hide_mega_menu_dropdown_left",
+            "label": "Hide this section (LEFT)"
+          },
+          {
+            "type": "header",
+            "content": "*** Mega Menu Dropdown #1 ***"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_main_title_1",
+            "label": "Dropdown Main Title"
+          },
+          {
+            "type": "header",
+            "content": "******"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_1_1",
+            "label": "Dropdown Title #1"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_1_1",
+            "label": "Dropdown Link #1"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_1_2",
+            "label": "Dropdown Title #2"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_1_2",
+            "label": "Dropdown Link #2"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_1_3",
+            "label": "Dropdown Title #3"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_1_3",
+            "label": "Dropdown Link #3"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_1_4",
+            "label": "Dropdown Title #4"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_1_4",
+            "label": "Dropdown Link #4"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_1_5",
+            "label": "Dropdown Title #5"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_1_5",
+            "label": "Dropdown Link #5"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_1_6",
+            "label": "Dropdown Title #6"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_1_6",
+            "label": "Dropdown Link #6"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_1_7",
+            "label": "Dropdown Title #7"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_1_7",
+            "label": "Dropdown Link #7"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_1_8",
+            "label": "Dropdown Title #8"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_1_8",
+            "label": "Dropdown Link #8"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_1_9",
+            "label": "Dropdown Title #9"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_1_9",
+            "label": "Dropdown Link #9"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_1_10",
+            "label": "Dropdown Title #10"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_1_10",
+            "label": "Dropdown Link #10"
+          },
+          {
+            "type": "header",
+            "content": "*** Mega Menu Dropdown #2 ***"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_main_title_2",
+            "label": "Dropdown Main Title"
+          },
+          {
+            "type": "header",
+            "content": "******"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_2_1",
+            "label": "Dropdown Title #1"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_2_1",
+            "label": "Dropdown Link #1"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_2_2",
+            "label": "Dropdown Title #2"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_2_2",
+            "label": "Dropdown Link #2"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_2_3",
+            "label": "Dropdown Title #3"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_2_3",
+            "label": "Dropdown Link #3"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_2_4",
+            "label": "Dropdown Title #4"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_2_4",
+            "label": "Dropdown Link #4"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_2_5",
+            "label": "Dropdown Title #5"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_2_5",
+            "label": "Dropdown Link #5"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_2_6",
+            "label": "Dropdown Title #6"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_2_6",
+            "label": "Dropdown Link #6"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_2_7",
+            "label": "Dropdown Title #7"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_2_7",
+            "label": "Dropdown Link #7"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_2_8",
+            "label": "Dropdown Title #8"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_2_8",
+            "label": "Dropdown Link #8"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_2_9",
+            "label": "Dropdown Title #9"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_2_9",
+            "label": "Dropdown Link #9"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_2_10",
+            "label": "Dropdown Title #10"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_2_10",
+            "label": "Dropdown Link #10"
+          },
+          {
+            "type": "header",
+            "content": "*** Mega Menu Dropdown #3 ***"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_main_title_3",
+            "label": "Dropdown Main Title"
+          },
+          {
+            "type": "header",
+            "content": "******"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_3_1",
+            "label": "Dropdown Title #1"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_3_1",
+            "label": "Dropdown Link #1"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_3_2",
+            "label": "Dropdown Title #2"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_3_2",
+            "label": "Dropdown Link #2"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_3_3",
+            "label": "Dropdown Title #3"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_3_3",
+            "label": "Dropdown Link #3"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_3_4",
+            "label": "Dropdown Title #4"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_3_4",
+            "label": "Dropdown Link #4"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_3_5",
+            "label": "Dropdown Title #5"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_3_5",
+            "label": "Dropdown Link #5"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_3_6",
+            "label": "Dropdown Title #6"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_3_6",
+            "label": "Dropdown Link #6"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_3_7",
+            "label": "Dropdown Title #7"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_3_7",
+            "label": "Dropdown Link #7"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_3_8",
+            "label": "Dropdown Title #8"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_3_8",
+            "label": "Dropdown Link #8"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_3_9",
+            "label": "Dropdown Title #9"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_3_9",
+            "label": "Dropdown Link #9"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_left_title_3_10",
+            "label": "Dropdown Title #10"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_left_link_3_10",
+            "label": "Dropdown Link #10"
+          },
+          {
+            "type": "header",
+            "content": "========================="
+          },
+          {
+            "type": "header",
+            "content": "MIDDLE"
+          },
+          {
+            "type": "header",
+            "content": "========================="
+          },
+          {
+            "type": "checkbox",
+            "id": "hide_mega_menu_dropdown_middle",
+            "label": "Hide this section (MIDDLE)"
+          },
+          {
+            "type": "header",
+            "content": "*** Mega Menu Dropdown #1 ***"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_main_title_1",
+            "label": "Dropdown Main Title"
+          },
+          {
+            "type": "header",
+            "content": "******"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_1_1",
+            "label": "Dropdown Title #1"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_1_1",
+            "label": "Dropdown Link #1"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_1_2",
+            "label": "Dropdown Title #2"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_1_2",
+            "label": "Dropdown Link #2"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_1_3",
+            "label": "Dropdown Title #3"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_1_3",
+            "label": "Dropdown Link #3"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_1_4",
+            "label": "Dropdown Title #4"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_1_4",
+            "label": "Dropdown Link #4"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_1_5",
+            "label": "Dropdown Title #5"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_1_5",
+            "label": "Dropdown Link #5"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_1_6",
+            "label": "Dropdown Title #6"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_1_6",
+            "label": "Dropdown Link #6"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_1_7",
+            "label": "Dropdown Title #7"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_1_7",
+            "label": "Dropdown Link #7"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_1_8",
+            "label": "Dropdown Title #8"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_1_8",
+            "label": "Dropdown Link #8"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_1_9",
+            "label": "Dropdown Title #9"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_1_9",
+            "label": "Dropdown Link #9"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_1_10",
+            "label": "Dropdown Title #10"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_1_10",
+            "label": "Dropdown Link #10"
+          },
+          {
+            "type": "header",
+            "content": "*** Mega Menu Dropdown #2 ***"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_main_title_2",
+            "label": "Dropdown Main Title"
+          },
+          {
+            "type": "header",
+            "content": "******"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_2_1",
+            "label": "Dropdown Title #1"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_2_1",
+            "label": "Dropdown Link #1"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_2_2",
+            "label": "Dropdown Title #2"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_2_2",
+            "label": "Dropdown Link #2"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_2_3",
+            "label": "Dropdown Title #3"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_2_3",
+            "label": "Dropdown Link #3"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_2_4",
+            "label": "Dropdown Title #4"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_2_4",
+            "label": "Dropdown Link #4"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_2_5",
+            "label": "Dropdown Title #5"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_2_5",
+            "label": "Dropdown Link #5"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_2_6",
+            "label": "Dropdown Title #6"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_2_6",
+            "label": "Dropdown Link #6"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_2_7",
+            "label": "Dropdown Title #7"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_2_7",
+            "label": "Dropdown Link #7"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_2_8",
+            "label": "Dropdown Title #8"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_2_8",
+            "label": "Dropdown Link #8"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_2_9",
+            "label": "Dropdown Title #9"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_2_9",
+            "label": "Dropdown Link #9"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_2_10",
+            "label": "Dropdown Title #10"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_2_10",
+            "label": "Dropdown Link #10"
+          },
+
+          {
+            "type": "header",
+            "content": "*** Mega Menu Dropdown #3 ***"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_main_title_3",
+            "label": "Dropdown Main Title"
+          },
+          {
+            "type": "header",
+            "content": "******"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_3_1",
+            "label": "Dropdown Title #1"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_3_1",
+            "label": "Dropdown Link #1"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_3_2",
+            "label": "Dropdown Title #2"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_3_2",
+            "label": "Dropdown Link #2"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_3_3",
+            "label": "Dropdown Title #3"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_3_3",
+            "label": "Dropdown Link #3"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_3_4",
+            "label": "Dropdown Title #4"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_3_4",
+            "label": "Dropdown Link #4"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_3_5",
+            "label": "Dropdown Title #5"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_3_5",
+            "label": "Dropdown Link #5"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_3_6",
+            "label": "Dropdown Title #6"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_3_6",
+            "label": "Dropdown Link #6"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_3_7",
+            "label": "Dropdown Title #7"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_3_7",
+            "label": "Dropdown Link #7"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_3_8",
+            "label": "Dropdown Title #8"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_3_8",
+            "label": "Dropdown Link #8"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_3_9",
+            "label": "Dropdown Title #9"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_3_9",
+            "label": "Dropdown Link #9"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_middle_title_3_10",
+            "label": "Dropdown Title #10"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_middle_link_3_10",
+            "label": "Dropdown Link #10"
+          },
+          {
+            "type": "header",
+            "content": "========================="
+          },
+         {
+            "type": "header",
+            "content": "RIGHT (TEXT)"
+          },
+          {
+            "type": "header",
+            "content": "========================="
+          },
+          {
+            "type": "checkbox",
+            "id": "hide_mega_menu_dropdown_right",
+            "label": "Hide this section (RIGHT TEXT)"
+          },
+          {
+            "type": "header",
+            "content": "*** Mega Menu Dropdown #1 ***"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_main_title_1",
+            "label": "Dropdown Main Title"
+          },
+          {
+            "type": "header",
+            "content": "******"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_1_1",
+            "label": "Dropdown Title #1"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_1_1",
+            "label": "Dropdown Link #1"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_1_2",
+            "label": "Dropdown Title #2"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_1_2",
+            "label": "Dropdown Link #2"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_1_3",
+            "label": "Dropdown Title #3"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_1_3",
+            "label": "Dropdown Link #3"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_1_4",
+            "label": "Dropdown Title #4"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_1_4",
+            "label": "Dropdown Link #4"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_1_5",
+            "label": "Dropdown Title #5"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_1_5",
+            "label": "Dropdown Link #5"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_1_6",
+            "label": "Dropdown Title #6"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_1_6",
+            "label": "Dropdown Link #6"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_1_7",
+            "label": "Dropdown Title #7"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_1_7",
+            "label": "Dropdown Link #7"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_1_8",
+            "label": "Dropdown Title #8"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_1_8",
+            "label": "Dropdown Link #8"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_1_9",
+            "label": "Dropdown Title #9"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_1_9",
+            "label": "Dropdown Link #9"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_1_10",
+            "label": "Dropdown Title #10"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_1_10",
+            "label": "Dropdown Link #10"
+          },
+          {
+            "type": "header",
+            "content": "*** Mega Menu Dropdown #2 ***"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_main_title_2",
+            "label": "Dropdown Main Title"
+          },
+          {
+            "type": "header",
+            "content": "******"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_2_1",
+            "label": "Dropdown Title #1"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_2_1",
+            "label": "Dropdown Link #1"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_2_2",
+            "label": "Dropdown Title #2"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_2_2",
+            "label": "Dropdown Link #2"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_2_3",
+            "label": "Dropdown Title #3"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_2_3",
+            "label": "Dropdown Link #3"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_2_4",
+            "label": "Dropdown Title #4"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_2_4",
+            "label": "Dropdown Link #4"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_2_5",
+            "label": "Dropdown Title #5"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_2_5",
+            "label": "Dropdown Link #5"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_2_6",
+            "label": "Dropdown Title #6"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_2_6",
+            "label": "Dropdown Link #6"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_2_7",
+            "label": "Dropdown Title #7"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_2_7",
+            "label": "Dropdown Link #7"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_2_8",
+            "label": "Dropdown Title #8"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_2_8",
+            "label": "Dropdown Link #8"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_2_9",
+            "label": "Dropdown Title #9"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_2_9",
+            "label": "Dropdown Link #9"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_2_10",
+            "label": "Dropdown Title #10"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_2_10",
+            "label": "Dropdown Link #10"
+          },
+
+          {
+            "type": "header",
+            "content": "*** Mega Menu Dropdown #3 ***"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_main_title_3",
+            "label": "Dropdown Main Title"
+          },
+          {
+            "type": "header",
+            "content": "******"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_3_1",
+            "label": "Dropdown Title #1"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_3_1",
+            "label": "Dropdown Link #1"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_3_2",
+            "label": "Dropdown Title #2"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_3_2",
+            "label": "Dropdown Link #2"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_3_3",
+            "label": "Dropdown Title #3"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_3_3",
+            "label": "Dropdown Link #3"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_3_4",
+            "label": "Dropdown Title #4"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_3_4",
+            "label": "Dropdown Link #4"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_3_5",
+            "label": "Dropdown Title #5"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_3_5",
+            "label": "Dropdown Link #5"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_3_6",
+            "label": "Dropdown Title #6"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_3_6",
+            "label": "Dropdown Link #6"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_3_7",
+            "label": "Dropdown Title #7"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_3_7",
+            "label": "Dropdown Link #7"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_3_8",
+            "label": "Dropdown Title #8"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_3_8",
+            "label": "Dropdown Link #8"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_3_9",
+            "label": "Dropdown Title #9"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_3_9",
+            "label": "Dropdown Link #9"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_right_title_3_10",
+            "label": "Dropdown Title #10"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_right_link_3_10",
+            "label": "Dropdown Link #10"
+          },
+          {
+            "type": "header",
+            "content": "RIGHT (IMAGE)"
+          },
+          {
+            "type": "header",
+            "content": "========================="
+          },
+          {
+            "type": "checkbox",
+            "id": "hide_mega_menu_dropdown_image",
+            "label": "Hide this section (IMAGE)"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_image_title_1",
+            "label": "Image Title #1"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_image_link_1",
+            "label": "Image Link #1"
+          },
+          {
+            "type": "image_picker",
+            "id": "mega_menu_main_dropdown_image_1",
+            "label": "Featured Image #1"
+          },
+          {
+            "type": "text",
+            "id": "mega_menu_main_dropdown_image_title_2",
+            "label": "Image Title #2"
+          },
+          {
+            "type": "url",
+            "id": "mega_menu_main_dropdown_image_link_2",
+            "label": "Image Link #2"
+          },
+          {
+            "type": "image_picker",
+            "id": "mega_menu_main_dropdown_image_2",
+            "label": "Featured Image #2"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+<script>
+// dropdown for mobile menu
+$("#mobile-menu-icon + label").on("click tap", function() {
+  var currentState = $("#mobile-menu-icon").prop("checked");
+  $("#mobile-menu-icon").prop("checked", !currentState);
+//   $("#mobile-menu-icon").prop("checked")
+//     ? $("#mega-menu-container").addClass("active-menu")
+//     : $("#mega-menu-container").removeClass("active-menu");
+
+  if ( $("#mobile-menu-icon").prop("checked") ) {
+    $("#mega-menu-container").addClass("active-menu");
+    $('body').addClass('mobile-menu-active');
+  } else {
+    $("#mega-menu-container").removeClass("active-menu");
+    $('body').removeClass('mobile-menu-active');
+  }
+});
+
+$(".mega-menu-item > a.has-dropdown").on("click", function(e) {
+  if (window.innerWidth <= 768 || /Mobi/.test(navigator.userAgent)) {
+    e.preventDefault();
+    $(this).toggleClass("active-dropdown");
+  } else {
+    $(".mega-menu-item > a.has-dropdown").removeClass("active-dropdown");
+  }
+});
+</script>

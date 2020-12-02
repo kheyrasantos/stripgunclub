@@ -1,0 +1,85 @@
+<!-- /snippets/DesktopPrimaryNav.liquid -->
+{% comment %}
+
+  This snippet provides the HTML for the site's
+  primary navigation when displayed on tablet/desktop
+
+{% endcomment %}
+
+
+<div id="nav-menu">
+    {% comment %}
+      List out your main-menu linklist (default)
+
+      More info on linklists:
+        - http://docs.shopify.com/themes/liquid-variables/linklists
+    {% endcomment %}
+    <!-- begin site-nav -->
+    <ul class="site-nav" id="AccessibleNav">
+      {% assign count = 1 %}
+      {% assign nav_length = linklists.main-menu.links | size %}
+      {% for link in linklists.main-menu.links limit:7 %}
+      {% assign count = increment count %}
+        {% comment %}
+          Create a dropdown menu by naming a linklist the same as a link in the parent nav
+
+          More info on dropdowns:
+            - http://docs.shopify.com/manual/your-website/navigation/create-drop-down-menu
+        {% endcomment %}
+        {% assign child_list_handle = link.title | handleize %}
+        {% if linklists[child_list_handle].links != blank %}
+          <li class="site-nav--has-dropdown{% if link.active %} site-nav--active{% endif %}" aria-haspopup="true">
+            <a href="{{ link.url }}" class="site-nav__link">
+              {{ link.title }}
+              <span class="icon icon-arrow-down" aria-hidden="true"></span>
+            </a>
+            <ul class="site-nav__dropdown submenu">
+              {% for childlink in linklists[child_list_handle].links %}
+                <li{% if childlink.active %} class="site-nav--active"{% endif %}>
+                  <a href="{{ childlink.url }}" class="site-nav__link">{{ childlink.title | escape }}</a>
+                </li>
+              {% endfor %}
+
+            </ul>
+          </li>
+        {% else %}
+            <li {% if link.active %}class="site-nav--active"{% endif %}>
+                {% if link.title == 'Dealers' and customer.tags contains 'dealer' %}
+                      <li class="site-nav--has-dropdown{% if link.active %} site-nav--active{% endif %}" aria-haspopup="true">
+                          <a href="{{ link.url }}" class="site-nav__link">
+                          {{ link.title }}
+                          <span class="icon icon-arrow-down" aria-hidden="true"></span>
+                          </a>
+                          <ul class="site-nav__dropdown submenu">
+                              <li{% if childlink.active %} class="site-nav--active"{% endif %}>
+                                  <a href="/pages/retailers-and-bulk-purchases" class="site-nav__link">Overview</a>
+                              </li>
+                              <li{% if childlink.active %} class="site-nav--active"{% endif %}>
+                                  <a href="/collections/dealers-collection" class="site-nav__link">Wholesale</a>
+                              </li>
+                          </ul>
+                        </li>
+                {% else %}
+                    <a href="{{ link.url }}" class="site-nav__link">{{ link.title }}</a>
+                {% endif %}
+              </li>
+        {% endif %}
+      {% endfor %}
+      {% if nav_length > 7 %}
+          <li class="{% if link.active %}site-nav--active {% endif %} site-nav--has-dropdown">
+            <a id="MoreNavBtn" href="#" class="site-nav__link">More
+                <span class="icon icon-arrow-down" aria-hidden="true"></span>
+            </a>
+            <ul class="site-nav__dropdown submenu">
+                {% for link in linklists.main-menu.links offset:7 %}
+                <li>
+                    <a href="{{ link.url }}" class="site-nav__link">{{ link.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+          </li>
+      {% endif %}
+    </ul>
+    <!-- //site-nav -->
+</div>
+

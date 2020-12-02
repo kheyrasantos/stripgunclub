@@ -1,0 +1,425 @@
+<!doctype html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TBSS6CQ');</script>
+<!-- End Google Tag Manager -->
+  
+  <!-- Basic page needs ================================================== -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  {% if settings.favicon_enable %}
+  <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png" />
+  {% endif %}
+
+  <!-- Title and description ================================================== -->
+  <title>
+  {{ page_title }}{% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  </title>
+
+  {% if page_description %}
+  <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+
+  <!-- Helpers ================================================== -->
+  {% include 'social-meta-tags' %}
+  <link rel="canonical" href="{{ canonical_url }}">
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  <meta name="theme-color" content="{{ settings.color_primary }}">
+
+  <!-- Typekit ================================================== -->
+  <link rel="stylesheet" href="https://use.typekit.net/fqp4wfw.css">
+  <script src="https://kit.fontawesome.com/ede4b199c3.js" crossorigin="anonymous"></script>
+  {{ 'menlo-bold.css' | asset_url | stylesheet_tag }}
+  {{ 'menlo.css' | asset_url | stylesheet_tag }}
+
+
+
+  <!-- Slick Carousel ================================================== -->
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+  {{ 'slick-theme.css' | asset_url | stylesheet_tag }}
+
+  <!-- Reveal Foundation ================================================== -->
+  {{ 'reveal.css' | asset_url | stylesheet_tag }}
+
+  <!-- FontAwesome ================================================== -->
+  {{ 'font-awesome.min.css' | asset_url | stylesheet_tag }}
+
+  <!-- CSS ================================================== -->
+  {{ 'timber.scss.css' | asset_url | stylesheet_tag }}
+
+  <!-- jQuery in head for sorting on collection pages ================================================== -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+  <!-- Sections ================================================== -->
+  <script>
+    window.theme = window.theme || {};
+    theme.strings = {
+        zoomClose: {{ "products.zoom.close" | t | json }},
+        zoomPrev: {{ "products.zoom.prev" | t | json }},
+        zoomNext: {{ "products.zoom.next" | t | json }},
+        moneyFormat: {{ shop.money_format | json }}
+    };
+    theme.settings = {
+        cartType: {{ settings.cart_type | json }},
+        gridType: {{ settings.collection_products_grid | json }}
+    };
+  </script>
+
+  <!-- Header hook for plugins ================================================== -->
+  {{ content_for_header }}
+  {% include 'tipo.booking.script' %}
+  {% include 'oldIE-js' %}
+
+  {{ '//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js' | script_tag }}
+  {{ 'modernizr.min.js' | asset_url | script_tag }}
+
+  {% comment %}
+    If you store has customer accounts disabled, you can remove the following JS file
+  {% endcomment %}
+  {% if template contains 'customers' %}
+    {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+  {% endif %}
+  
+  
+<!-- Global site tag (gtag.js) - Google Ads: 606180112 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-606180112"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-606180112');
+</script>
+
+
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+
+</head>
+
+{% comment %}
+  Add the page template as a class for easy page or template specific styling.
+{% endcomment %}
+<body id="{{ page_title | handle }}" class="{% if customer.tags contains 'Wholesaler' %}wholesaler {% endif %}{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TBSS6CQ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+  
+    {% comment %}
+    Search Reveal
+    {% endcomment %}
+    <div id="searchModal" class="modal reveal-modal text-center">
+        <div class="grid">
+            <div class="grid__item one-whole">
+                <h1>Search Strip Gun Club</h1>
+                {% include 'search-bar' %}
+            </div>
+        </div>
+    </div>
+
+    {% comment %}
+    Login Modal
+    {% endcomment %}
+    {% unless template.name == 'login' %}
+    <div id="loginModal" class="modal reveal-modal text-center">
+        <div class="grid">
+            <div class="grid__item one-whole">
+                <div class="form-vertical">
+                    {% form 'customer_login' %}
+
+                    <h1>Log In To Your Account</h1>
+                    {{ form.errors | default_errors }}
+
+                    <label for="CustomerEmail" class="hidden-label">{{ 'customer.login.email' | t }}</label>
+                    <input type="email" name="customer[email]" id="CustomerEmail" class="input-full{% if form.errors contains 'email' %} error{% endif %}" placeholder="{{ 'customer.login.email' | t }}" autocorrect="off" autocapitalize="off" autofocus>
+
+                    {% if form.password_needed %}
+                      <label for="CustomerPassword" class="hidden-label">{{ 'customer.login.password' | t }}</label>
+                      <input type="password" value="" name="customer[password]" id="CustomerPassword" class="input-full{% if form.errors contains 'password' %} error{% endif %}" placeholder="{{ 'customer.login.password' | t }}">
+                    {% endif %}
+                    <div class="login-button-containers clearfix">
+                        <p class="button-container button-container1">
+                            <span class="btn create-account-button">{{ 'layout.customer.create_account' | t | customer_register_link }}</span>
+                        </p>
+                        <p class="button-container button-container2">
+                            <input type="submit" class="btn login-button" value="{{ 'customer.login.sign_in' | t }}">
+                        </p>
+                    </div>
+                    {% if form.password_needed %}
+                      <p class="recover-password-container">
+                          <a href="/account/login#recover">{{ 'customer.login.forgot_password' | t }}</a>
+                      </p>
+                    {% endif %}
+                    {% endform %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endunless %}
+
+    {% comment %}
+    The NavDrawer contains the entire menu as displayed on mobile.
+    {% endcomment %}
+    {% include 'NavDrawer' %}
+
+
+    {% comment %}
+    The CartDrawer contains the slideout shopping cart code.
+    {% endcomment %}
+    {% if settings.ajax_cart_method == "drawer" %}
+    {% include 'CartDrawer' %}
+    {% endif %}
+
+  <div id="PageContainer" class="is-moved-by-drawer">
+
+    {% comment %}
+    Sitewide Notification Bar for Announcements or Promos
+    {% endcomment %}
+    {% if settings.notification_bar_enable and
+          settings.notification_bar_text.size > 0  %}
+          <div class="notification-bar-container">
+              <div class="grid">
+                  <div class="grid__item one-whole">
+                      <p class="text-center">
+                          {{ settings.notification_bar_text }}
+                      </p>
+                  </div>
+              </div>
+          </div>
+    {% endif %}
+
+    {% comment %}
+    Utility nav that contains Login, Create account, cart, etc.
+    {% endcomment %}
+    {% section 'util-bar' %}
+
+    {% include 'UtilityNav' %}
+
+
+    {% comment %}
+    Primary Navigation
+    {% endcomment %}
+    <nav class="nav-bar" role="navigation">
+
+        {% comment %}
+        Primary Nav that appears on tablet/desktop
+        {% endcomment %}
+
+        {% comment %}
+        {% include "DesktopPrimaryNav" %}
+        {% endcomment %}
+
+        {% comment %}
+        Primary Nav that appears on mobile
+        {% include "MobilePrimaryNav" %}
+        {% endcomment %}
+
+        {% comment %}
+        Search Bar that show underneath menu on mobile
+        <div class="mobile-search-container">
+            {% include 'search-bar' %}
+        </div>
+        {% endcomment %}
+
+    </nav>
+
+    {% if template == "index" %}
+    <div class="video-background">
+        {% if settings.video_header_enabled %}
+        <video id="test" playsinline autoplay muted loop>
+            <source src="{{ settings.desktop_video }}" media="screen and (min-width:641px)">
+            <source src="{{ settings.mobile_video }}" media="screen and (max-width:640px)">
+        </video>
+        {% elsif settings.img_header_enabled %}
+            <img src="{{ settings.desktop_image_header | img_url: 'master' }}" class="desktop_image_header">
+            <img src="{{ settings.mobile_image_header | img_url: 'master' }}" class="mobile_image_header">
+        {% endif %}
+        {% if settings.merge_video == true %}
+            <style>
+                #video-title {
+                    width: 100%;
+                    text-align: center;
+                    font-size: 70px;
+                    color: white;
+                    text-shadow: 0px 0px 24px rgba(0, 0, 0, 0.3);
+                    margin: 0;
+                    text-transform: uppercase;
+                }
+                #video-subtitle {
+                    width: 100%;
+                    text-align: center;
+                    font-size: 20px;
+                    color: white;
+                    text-shadow: 0px 0px 24px rgba(0, 0, 0, 0.3);
+                    margin: 0;
+                    font-weight: 800;
+                    letter-spacing: 3px;
+                    text-transform: uppercase;
+                }
+                #video-title-box {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 100%;
+                    margin-left: auto;
+                    margin-right: auto;
+                    left: 0;
+                    right: 0;
+                    height: auto;
+                    z-index: 1;
+                    padding: 40px;
+                    z-index: 3;
+                }
+                @media only screen and (max-width: 640px) {
+                    #video-title {
+                        font-size: 24px;
+                    }
+                    #video-subtitle {
+                        font-size: 16px;
+                    }
+                }
+            </style>
+            {% if settings.video_header_title %}
+                <div id="video-title-box">
+                    {% if settings.video_header_subtitle and settings.video_header_subtitle_top == true %}
+                        <h1 id="video-subtitle">{{ settings.video_header_subtitle }}</h1>
+                    {% endif %}
+                    <h1 id="video-title">{{ settings.video_header_title }}</h1>
+                    {% if settings.video_header_subtitle and settings.video_header_subtitle_top == false %}
+                        <h1 id="video-subtitle">{{ settings.video_header_subtitle }}</h1>
+                    {% endif %}
+
+                    {% if settings.hero_logo %}
+                    <div class="text-center">
+                        <img src="{{ settings.hero_logo | img_url: 'master' }}" alt="Strip Gun Club" class="hero-logo">
+                    </div>
+                    {% endif %}
+
+                    {% if settings.hero_button_text %}
+                    <div class="text-center">
+                        <a href="{{ settings.hero_button_link}}" alt="{{ settings.hero_button_text }}" class="btn hero_button">
+                            {{ settings.hero_button_text }}
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    {% if settings.video_reveal_enable %}
+                    <div class="text-center">
+                        <a href="#" data-reveal-id="videoReveal" data-animation="fadeAndPop">
+                            <img src="{{ 'play-button.png' | asset_url }}" class="home-play-button">
+                        </a>
+                    </div>
+                    {% endif %}
+ 
+                </div>
+            {% endif %}
+            <div class="overlay"></div>
+
+            {% if settings.video_reveal_enable %}
+            <div id="videoReveal" class="modal reveal-modal text-center video-reveal">
+                <div class="grid">
+                    <div class="grid__item one-whole">
+                        <video id="reveal-video" playsinline autoplay muted controls>
+                            <source src="{{ settings.play_video_reveal }}" media="screen and (min-width:641px)">
+                            <source src="{{ settings.play_video_reveal }}" media="screen and (max-width:640px)">
+                        </video>
+
+                        <button class="close-button home-page-close-button close-reveal-modal" data-close type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+        {% endif %}
+    </div>
+{% endif %}
+
+{% comment %}
+    {% if template == "index" %}
+        {% section 'video-hero' %}
+    {% endif %}
+{% endcomment %}
+
+
+    <main class="main-content" role="main">
+
+      {{ content_for_layout }}
+
+    </main>
+
+    {% comment %}
+    Footer to template
+    {% endcomment %}
+    {% section 'footer' %}
+
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+  <script type="text/javascript" src='{{ "modernizr.min.js" | asset_url }}' defer></script>
+  <script type="text/javascript" src='{{ "fastclick.min.js" | asset_url }}' defer></script>
+  <script type="text/javascript" src='{{ "timber.js" | asset_url }}'></script>
+  <script type="text/javascript" src='{{ "jquery.reveal.js" | asset_url }}' defer></script>
+  <script type="text/javascript" src='{{ "app.js" | asset_url }}'></script>
+
+  {% comment %}
+    Template-specific js
+  {% endcomment %}
+  <script>
+    {% if resetPassword %}
+      $(function() {
+        timber.resetPasswordSuccess();
+      });
+    {% endif %}
+  </script>
+
+  {% comment %}
+    Ajaxify your cart with this plugin.
+    Documentation:
+      - http://shopify.com/timber#ajax-cart
+  {% endcomment %}
+  {% if settings.ajax_cart_method == "drawer" %}
+    {{ 'handlebars.min.js' | asset_url | script_tag }}
+    {% include 'ajax-cart-template' %}
+    {{ 'ajax-cart.js' | asset_url | script_tag }}
+    <script>
+      jQuery(function($) {
+        ajaxCart.init({
+          formSelector: '#AddToCartForm',
+          cartContainer: '#CartContainer',
+          addToCartSelector: '#AddToCart',
+          cartCountSelector: '#CartCount',
+          cartCostSelector: '#CartCost',
+          moneyFormat: {{ shop.money_format | json }}
+        });
+      });
+
+      jQuery(document.body).on('afterCartLoad.ajaxCart', function(evt, cart) {
+        // Bind to 'afterCartLoad.ajaxCart' to run any javascript after the cart has loaded in the DOM
+        timber.RightDrawer.open();
+      });
+    </script>
+  {% endif %}
+
+
+<!-- Back in Stock helper snippet -->
+{% render 'back-in-stock-helper' %}
+<!-- End Back in Stock helper snippet -->
+
+{% render 'special-offers' %}
+
+</body>
+</html>

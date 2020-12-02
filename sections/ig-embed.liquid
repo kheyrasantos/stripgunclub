@@ -1,0 +1,33 @@
+<!-- sections/ig-embed.liquid-->
+<div class="text-center">
+    <img src="{{ 'Our-Videos.png' | asset_url }}" alt="Our Videos" />
+</div>
+
+<div class="ig-embed-container">
+    {% for block in section.blocks %}
+    <div class="item">
+        {{ block.settings.embed }}
+    </div>
+    {% endfor %}
+</div>
+
+
+{% schema %}
+{
+  "name": "IG Embed",
+  "max_blocks": 100,
+  "blocks" : [
+    {
+      "type": "text",
+      "name": "Embed",
+      "settings": [
+        {
+         "type": "textarea",
+          "id": "embed",
+          "label": "Embed Code"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

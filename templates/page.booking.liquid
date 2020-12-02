@@ -1,0 +1,544 @@
+<!-- /templates/page.booking.liquid -->
+<div class="book-app-container">
+  <div class="grid">
+
+    <div class="grid__item">
+
+      <h1>{{ page.title }}</h1>
+
+      {% comment %}
+      Regular page content goes here.
+      {% endcomment %}
+      <div class="rte">
+        {{ page.content }}
+      </div>
+
+      <div class="tpb-booking-form"></div>
+
+    </div>
+
+  </div>
+</div>
+
+
+<!-- List of Packages-->
+<div class="collection-listing-container">
+  <div class="text-center">
+    <h2>Shooting Packages</h2>
+  </div>
+  <div class="grid-uniform">
+    {% for product in collections.packages.products %}
+
+    {% assign hide_product = false %}
+
+    {% for tag in product.tags %}
+    {% if tag contains 'hide' %}
+    {% assign hide_product = true %}
+    {% endif %}
+    {% endfor %}
+
+    {% unless hide_product %}
+    {% include 'product-grid-item-booking' %}
+    {% endunless %}
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Types of Guns -->
+<div class="gun-container">
+  <div class="gun-section">
+    {% section 'byoe-included' %}
+  </div>
+</div>
+
+
+<script>
+  (function ($) {
+
+    $(document).ready(function () {
+
+      /* ===============
+        Helper Functions
+      =============== */
+
+      var format_money = function (amount, decimalCount = 2, decimal = ".", thousands = ",") {
+        try {
+          amount = (amount / 100).toFixed(2);
+          decimalCount = Math.abs(decimalCount);
+          decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+
+          const negativeSign = amount < 0 ? "-" : "";
+
+          let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
+          let j = (i.length > 3) ? i.length % 3 : 0;
+
+          return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
+        } catch (e) {
+          console.log(e)
+        }
+      };
+
+      var retrieve_variant = function (variants_array, variant_to_retrieve) {
+
+        var variant = variants_array.filter(variant => variant.title === variant_to_retrieve)[0];
+
+        return {
+          id: variant.id,
+          price: variant.price,
+          formatted_price: format_money(variant.price)
+        }
+
+      };
+
+      /* ===============
+        App
+      =============== */
+
+      var participants = {{ all_products["participants"] | json }};
+
+      var byoe = {{ all_products["build-your-own-experience"] | json }};
+      var byoe_variants = {};
+      // each Build Your Own Variant
+      byoe.variants.forEach(({ id, title, price }) => ( byoe_variants[title.slice(-1)] = { id, title, price, formatted_price: format_money(price) }));
+
+      var package_obj = {
+        "Pistol Package": {
+          description: `
+            <ul>
+              <li>
+                  Glock (9mm, .40 S&amp;W or .45 ACP) - 10 Rounds (1x10 Round Mag)
+              </li>
+              <li>
+                  Suppressed HK, Glock or FN FNX (9mm or .45 ACP) -10 Rounds (1x10 Rounds)
+              </li>
+              <li>
+                  1911 .45 ACP - 8 or 10 Rounds (1x8 or 10 Round Mag)
+              </li>
+              <li>
+                  .357 Magnum, .44 Magnum or .45 Long Colt Revolver - 1 Full Cylinder
+              </li>
+            </ul>`,
+          bg_url: "{{ 'package-pistol-bg.jpg' | asset_url }}",
+          participants: 0,
+          ...retrieve_variant(participants.variants, "Pistol Package")
+        },
+        "Deuces Wild Package": {
+          description: `
+            <ul>
+              <li>
+                  .22 Rifle - 50 Rounds (2x25 Round Mag)
+              </li>
+              <li>
+                  .22 Pistol or Revolver - 20 Rounds (2x10 Round Mag/Cylinder)
+              </li>
+            </ul>`,
+          bg_url: "{{ 'package-deuceswild-bg.jpg' | asset_url }}",
+          participants: 0,
+          ...retrieve_variant(participants.variants, "Deuces Wild Package")
+        },
+        "Assault Rifle Package": {
+          description: `
+            <ul>
+              <li>
+                  M4 or M16A2 5.56mm - 25 Rounds (1x25 Round Mag)
+              </li>
+              <li>
+                  HK G36C 5.56mm - 25 Rounds (1x25 Round Mag)
+              </li>
+              <li>
+                  AK-47 or AK-74 7.62x39mm or 5.45x39mm - 25 Rounds (1x25 Round Mag)
+              </li>
+              <li>
+                  FN SCAR-L 5.56mm - 25 Rounds (1x25 Round Mag)
+              </li>
+            </ul>`,
+          bg_url: "{{ 'package-asaultrifle-bg.jpg' | asset_url }}",
+          participants: 0,
+          ...retrieve_variant(participants.variants, "Assault Rifle Package")
+        },
+        "Build Your Own": {
+          description: `
+            <ul>
+              <li>
+                  1 Pistol (Handgun)
+              </li>
+              <li>
+                  2 - 6 Rifles, Submachine Guns or Shotguns
+              </li>
+            </ul>`,
+          bg_url: "{{ 'package-buildyourown-bg.jpg' | asset_url }}",
+          participants: 0,
+          guns: 2, // default value
+          variants: byoe_variants
+        },
+        "Wild West Package": {
+          description: `
+            <ul>
+              <li>
+                  Cimarron 1878 Coach Gun 12 GA - 6 Shells
+              </li>
+              <li>
+                  Winchester 1873 Lever Action .45 Long Colt - 10 Rounds
+              </li>
+              <li>
+                  1862 Gatling Gun .45 Long Colt - 40 Rounds (1 x 40 Round Magazine)
+              </li>
+              <li>
+                  Bond Arms Derringer 410 GA or .45 Long Colt - 6 Rounds/Shells
+              </li>
+            </ul>`,
+          bg_url: "{{ 'package-wildwest-bg.jpg' | asset_url }}",
+          participants: 0,
+          ...retrieve_variant(participants.variants, "Wild West Package")
+        },
+        "Sniper Package": {
+          description: `
+            <ul>
+              <li>
+                  Barrett M107A1 Sniper Rifle .50 BM - 5 Rounds (1x5 Round Mag)
+              </li>
+              <li>
+                  FN SPR Sniper Rifle 7.62x51mm (.308) - 10 Rounds (2x5 Round Mag)
+              </li>
+              <li>
+                  DMR 5.56mm - 20 Rounds (2x10 Round Mag)
+              </li>
+            </ul>`,
+          bg_url: "{{ 'package-sniper-bg.jpg' | asset_url }}",
+          participants: 0,
+          ...retrieve_variant(participants.variants, "Sniper Package")
+        },
+      };
+
+      //console.log(package_obj)
+
+      window.selected_option = {};
+      var check_form_counter = 0;
+      var check_booking_form = setInterval(function () {
+
+        var has_form = $(".tpb-booking-form.page").length !== 0;
+
+        if (has_form) {
+
+          clearInterval(check_booking_form);
+
+          $(".step1 .continue-button").prop("disabled", true).hide().after(`<button type="button" class="continue-button back-button" style="display: none;">Back</button>`);
+
+          $(`.tpb-form-control.product .ss-option[data-id]`)[0].click();
+
+          // check ooptions loaded
+          var check_options_counter = 0;
+          var has_options_loaded = setInterval(function () {
+
+            // when options load, create an empty one and select it
+            if ($("select.tpb-select-option-1 option").length > 1) {
+              clearInterval(has_options_loaded);
+
+              // show page
+              setTimeout(function () {
+                $(".tpb-booking-form.page").fadeIn("fast");
+              }, 500);
+
+              // add empty option
+              $("select.tpb-select-option-1").prepend(`<option value=""></option>`);
+              // check until it's added dinamically
+              var check_empty_option_counter = 0;
+              var has_empty_option_loaded = setInterval(function () {
+
+                if ($("div.tpb-select-option-1 .ss-list .ss-option:first-child").html() === "") {
+                  clearInterval(has_empty_option_loaded);
+                  // trigger click
+                  $("div.tpb-select-option-1 .ss-list .ss-option:first-child")[0].click();
+                  // hide price
+                  $(".step1 .tpb-form-control.price").hide();
+                  // disable button
+                  $(".step1 .continue-button").prop("disabled", true);
+                  // add the container for description
+                  $("div.tpb-select-option-1 .ss-content").append(`
+                    <div class="ss-option-content">
+                      <div class="ss-option-description">
+                        <h3 class="title">Included in Package: </h3>
+                        <div class="content"></div>
+                      </div>
+
+                      <h3>Number of Participants:</h3>
+                      <div class="ss-option-participants">
+                        <div class="left-side">
+                          <input type="text" class="number-of-participants" readonly value="1">
+                        </div>
+                        <div class="right-side">
+                          <button type="button" class="button-qty qty-plus"><i class="fas fa-caret-up"></i></button>
+                          <button type="button" class="button-qty qty-minus"><i class="fas fa-caret-down"></i></button>
+                        </div>
+                      </div>
+                    </div>`);
+
+                  /* ==========
+                    Package Options Change (Click)
+                  ========== */
+
+                  // listening to changes on the select for first option
+                  $("body").on("change", "select.tpb-select-option-1", function () {
+                    var $select = $(this);
+                    var select_value = $select.val();
+                    var check_option_counter = 0;
+                    selected_option = package_obj[select_value];
+                    // initial values for participants and total after selection (defaults)
+                    selected_option.participants = 1;
+                    
+                    if (select_value !== "Build Your Own") {
+                      selected_option.total = (+selected_option.formatted_price);
+                    } else { // build your own
+                      selected_option.total = (+selected_option.variants[selected_option.guns].formatted_price)
+                    }
+
+                    // console.log(selected_option);
+
+                    // hiding initial price
+                    $(".step1 .price").hide();
+                    // changing bg
+                    $(".step1").css("background-image", `url(${selected_option.bg_url})`);
+
+                    // Adding guns if selected option is Build your Own
+                    if (select_value === "Build Your Own" && $(".ss-option-guns-wrapper").length === 0) {
+                      selected_option.guns = 2;
+                      $(".ss-option-participants").after(`
+                        <div class="ss-option-guns-wrapper">
+                          <h3>Number of Guns:</h3>
+                          <div class="ss-option-guns">
+                            <div class="left-side">
+                              <input type="text" class="number-of-guns" readonly value="2">
+                            </div>
+                            <div class="right-side">
+                              <button type="button" class="button-qty qty-plus"><i class="fas fa-caret-up"></i></button>
+                              <button type="button" class="button-qty qty-minus"><i class="fas fa-caret-down"></i></button>
+                            </div>
+                          </div>
+                        </div>`);
+                    } else if (select_value === "Build Your Own" && $(".ss-option-guns-wrapper").length !== 0) {
+                      selected_option.guns = 2;
+                      $(".number-of-guns").val("2");
+
+                    } else if (select_value !== "Build Your Own" && $(".ss-option-guns-wrapper").length !== 0) {
+                      $(".ss-option-guns-wrapper").remove();
+                    }
+
+
+                    // check for class change when an option is elected
+                    var check_option_selected = setInterval(function () {
+
+                      if ($("div.tpb-select-option-1 .ss-list .ss-option").hasClass("ss-option-selected")) {
+                        clearInterval(check_option_selected);
+                        // hide non selected
+                        $("div.tpb-select-option-1 .ss-list .ss-option:not(.ss-option-selected)").hide();
+
+                        // fadeOut("fast", function() {
+                        // });
+                        $("div.tpb-select-option-1 .ss-option-selected").addClass("animate-selected");
+                        $("div.tpb-select-option-1 .ss-option-selected").on("transitionend webkitTransitionEnd oTransitionEnd", function (e) {
+                          var property_name = e.originalEvent.propertyName;
+
+                          if (property_name === "width") {
+                            // showing description
+                            $(".ss-option-content .ss-option-description .content").html(selected_option.description);
+                            // showing price
+                            $(".step1 .price .tpb-text-price").text("$" + selected_option.total);
+                            // fading in all content after selection and animations are done
+                            $(".ss-option-content, .step1 .continue-button, .ss-option-content, .step1 .price, .step1 .back-button").fadeIn();
+                          }
+                        });
+
+                      } else if (check_options_counter > 10000) {
+                        clearInterval(check_option_selected);
+                      }
+
+                      check_options_counter += 10;
+
+                    }, 100);
+
+                  });
+
+                } else if (check_empty_option_counter > 10000) {
+                  clearInterval(has_empty_option_loaded);
+                }
+
+                check_empty_option_counter += 100;
+
+              }, 100);
+
+            } else if (check_form_counter > 10000) {
+              clearInterval(has_options_loaded);
+            }
+
+            check_options_counter += 100;
+
+          }, 100);
+
+
+          $(".copyright").remove();
+
+        } else if (check_form_counter > 10000) {
+          clearInterval(check_form_counter);
+        }
+
+        check_form_counter += 100;
+
+      }, 100);
+
+      /* ==========
+        Event Handlers
+      ========== */
+
+      // Changing quantity - Step 1
+      $("body").on("click tap", ".button-qty", function () {
+        var $button = $(this);
+        var is_participants = $button.closest(`[class*="ss-option"]`).attr("class").includes("participants");
+        var qty;
+        var guns;
+        var $input_guns;
+        var $input_participans = $(".ss-option-participants").find(".number-of-participants");
+        var $input_guns = $(".ss-option-guns").find(".number-of-guns");
+
+        if (is_participants) {
+
+          qty = +$input_participans.val();
+
+          if ($button.hasClass("qty-minus") && qty > 1) {
+            qty--;
+          } else if ($button.hasClass("qty-plus")) {
+            qty++;
+          }
+          //selected_option.total = (+selected_option.formatted_price * qty).toFixed(2);
+
+          // updating selected option
+          selected_option.participants = qty;
+          // updating qty value on input
+          $input_participans.val(qty);
+        } else {
+          
+          guns = +$input_guns.val();
+
+          if ($button.hasClass("qty-minus") && guns > 2) {
+            guns--;
+          } else if ($button.hasClass("qty-plus") && guns < 6) {
+            guns++;
+          }
+
+          selected_option.guns = guns;
+          //selected_option.total = (+selected_option.variants[guns].formatted_price * qty * guns).toFixed(2);
+          // updating qty value on input
+          $input_guns.val(guns);
+        }
+
+        //console.log(selected_option);
+
+        if ($input_guns.length) {
+
+          selected_option.total = (+selected_option.variants[$input_guns.val()].formatted_price * +$input_participans.val()).toFixed(2)
+
+        } else {
+          selected_option.total = (+selected_option.formatted_price * +$input_participans.val()).toFixed(2);
+        }
+
+        $(".step1 .price .tpb-text-price").text("$" + selected_option.total);
+
+      });
+
+      // Going Back - Step 1
+      $("body").on("click tap", ".step1 .back-button", function () {
+
+        $(".ss-option-content, .step1 .continue-button, .ss-option-content, .step1 .back-button, .step1 .price").fadeOut(function () {
+          $("select.tpb-select-option-1").val("");
+          $("select.tpb-select-option-1")[0].dispatchEvent(new Event("change"));
+          $(".number-of-participants").val(1)
+          $(".step1 .price").hide();
+          // just in case
+          $(".step1 .continue-button").hide();
+        });
+
+      });
+
+      // Button Continue - Step 1
+      $("body").on("click tap", ".step1 .continue-button.c1", function () {
+        var check_loading_counter = 0;
+        var check_loading = setInterval(function() {
+          if ($(".spinner.loading").length) {
+            clearInterval(check_loading);
+            var loading_loop_counter = 0;
+            // check time
+            var loading_loop = setInterval(function() {
+
+              if ($(".spinner.loading").length > 0 && loading_loop_counter > 10000) {
+                clearInterval(loading_loop);
+                location.reload();
+              } else if (!$(".spinner.loading").length) {
+                clearInterval(loading_loop);
+              }
+
+              loading_loop_counter += 100;
+
+            }, 100);
+
+          } else if (check_loading_counter > 5000) {
+            clearInterval(check_loading)
+          }
+
+          check_loading_counter += 100;
+        }, 100)
+
+      });
+
+      // Button Continue - Step 2
+      $("body").on("click tap", ".step2 .continue-button.c2", function () {
+
+        // wait until step 3 renders and price is available
+        var check_step_counter = 0;
+        var check_step = setInterval(function () {
+
+          if ($(".step3 .subtotal .price .value").length) {
+            clearInterval(check_step);
+            // updating text
+            $(".step3 .subtotal .bring .label").text("Package Quantity");
+            // adding a row before the price with the participants
+            if (!$(".step3 .subtotal .participants").length) {
+              $(".step3 .subtotal .bring").after(`
+                  <div class="g-row participants">
+                      <div class="label">Participants</div>
+                      <div class="value">${selected_option.participants}</div>
+                  </div>
+                  ${selected_option.guns ? `<div class="g-row guns">
+                      <div class="label">Number of Guns</div>
+                      <div class="value">${selected_option.guns}</div>
+                  </div>` : ``}
+                `);
+            } else {
+              if ($(".step3 .subtotal .participants").length) $(".step3 .subtotal .participants .value").text(selected_option.participants);
+              if ($(".step3 .subtotal .guns").length) $(".step3 .subtotal .guns .value").text(selected_option.guns);
+            }
+            // updating price
+            $(".step3 .subtotal .price .label").text("Subtotal Price");
+            $(".step3 .subtotal .price .value").text("$" + selected_option.total);
+
+          } else if (check_step_counter > 10000) {
+            clearInterval(check_step);
+          }
+
+          check_step_counter += 100;
+
+
+        }, 100);
+
+      });
+
+        // Button Confirm - Last Step
+
+        // $("body").on("click tap", ".confirm-button", function() {
+        //   var $button = $(this);
+
+        //   $button.prop("disabled", true).text("Processing...");
+        // });
+
+    });
+
+}(jQuery));
+</script>

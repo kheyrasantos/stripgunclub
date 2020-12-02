@@ -1,0 +1,26 @@
+<!-- /snippets/main-blog-sidebar.liquid -->
+{% comment %}
+  Featured items
+{% endcomment %}
+<div class="blogSidebarFeaturedProducts mainBlogSideBar clearfix">
+
+    <hr class="large--hide" />
+    
+    <div class="small--hide medium--hide">
+        {% include 'search-bar' %}
+    </div>
+
+    <div class="text-center">
+        <h3 class="h4 featured-posts-title">{{ collections.featured-products.title }}</h3>
+    </div>
+    <ul class="no-bullets">
+        {% for product in collections.featured-products.products limit:4 %}
+  {% if product.object_type == 'product' and product.type == 'SHOPSTORM_HIDDEN_PRODUCT' %}{% continue %}{% endif %}
+
+        <li class="sidebar-featured-item">
+            {% assign grid_item_width = 'one-whole' %}
+            {% include 'product-grid-item' %}
+        </li>
+        {% endfor %}
+    </ul>
+</div>

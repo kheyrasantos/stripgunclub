@@ -1,0 +1,39 @@
+<!-- /sections/benefits.liquid -->
+<div class="shopify-section benefits-section">
+    <div data-section-id="{{ section.id }}" data-section-type="benefits-section">
+      <div class="wrapper">
+
+        <div class="grid text-center">
+            <div class="grid__item one-whole grid__item-header">
+                <header class="section-header">
+                  <h2 class="h1">{{ section.settings.text }}</h2>
+                </header>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="grid__item one-whole">
+                  {{ section.settings.textarea }}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+{% schema %}
+  {
+    "name": "Benefits",
+    "settings": [
+      {
+        "type": "text",
+        "id": "text",
+        "label": "Title"
+      },
+      {
+        "type": "textarea",
+        "id": "textarea",
+        "label": "Body Text"
+      }
+    ]
+  }
+{% endschema %}

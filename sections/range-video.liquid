@@ -1,0 +1,42 @@
+<!-- sections/range-video.liquid -->
+<div class="range-video-container">
+    <div class="grid">
+        <div class="grid__item small--one-whole large--one-half">
+            {% if section.settings.pp_embed_video != blank %}
+            <iframe width="560" height="315" src="https://player.vimeo.com/video/{{ section.settings.pp_embed_video.id }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            {% endif %}
+        </div>
+        <div class="grid__item small--one-whole large--one-half">
+            <div class="description">
+                {{ section.settings.text }}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+"name": "Facility Video",
+"settings" : [
+    {
+      "type": "header",
+      "content": "Youtube Video"
+    },
+    {
+      "type": "video_url",
+      "id": "pp_embed_video",
+      "label": "URL",
+      "accept": ["vimeo"]
+    },
+    {
+      "type": "header",
+      "content": "Description"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Description"
+    }
+  ]
+}
+{% endschema %}

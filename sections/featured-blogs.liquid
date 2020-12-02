@@ -1,0 +1,117 @@
+<div data-section-id="{{ section.id }}" data-section-type="featured-blogs-section">
+
+    {%- assign blog = blogs[section.settings.blog] -%}
+
+
+    {% comment %}
+      Loop through three recent blog articles with the following code.
+
+      Since we're not on the blog template, we need to define the blog
+      handle we want to focus on. For this example we'll use the default 'news',
+      but you can create a blog page-specific content if you want.
+    {% endcomment %}
+    <div class="homePageBlogContainerContainer">
+        <div class="wrapper">
+            {% if section.settings.title != blank %}
+            <div class="text-center">
+                <h2>{{ section.settings.title }}</h2>
+            </div>
+            {% endif %}
+
+            <div class="grid homePageBlogContainer">
+              {% for article in blog.articles limit:3 %}
+
+                <div class="grid__item large--one-third">
+
+                  {% if article.image %}
+                    <div class="position-relative">
+                        <a href="{{ article.url }}">
+                            <img src="{{ article | img_url: 'large' }}" />
+                            {% if section.settings.blog_show_date %}
+                            <div class="time-container">
+                                {{ article.published_at| time_tag: '%b %d' }}
+                            </div>
+                            {% endif %}
+                        </a>
+                    </div>
+                  {% endif %}
+
+                  <div class="blog-text-container">
+                      <h3><a href="{{ article.url }}">{{ article.title }}</a></h3>
+
+                      {% if section.settings.blog_show_date %}
+                      <p class="color-secondary">
+                          Published on: {{ article.published_at| time_tag: '%b %d, %Y' }}
+                      </p>
+                      {% endif %}
+
+                      {% if section.settings.blog_show_author %}
+                        <p class="color-secondary article__author">Author: {{ article.author }}</p>
+                      {% endif %}
+
+                      {% comment %}
+                        Add a surrounding div with class 'rte' to anything that will come from the rich text editor.
+                        Since this is just a listing page, you can either use the excerpt or truncate the full article.
+                      {% endcomment %}
+                      <div class="rte">
+                        {% if article.excerpt.size > 0 %}
+                          {{ article.excerpt }}
+                        {% else %}
+                          <p>{{ article.content | strip_html | truncatewords: 20 }}</p>
+                        {% endif %}
+                      </div>
+
+                      <p><a class="text-capitalize color-secondary strong" href="{{ article.url }}">{{ 'blogs.article.read_more' | t }} &rarr;</a></p>
+                  </div>
+
+                </div>
+
+              {% endfor %}
+            </div>
+
+            <div class="text-center see-more-blog">
+                <a class="button color-primary-background text-uppercase white radius stronger" href="{{ blog.url }}">See More</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+  {
+      "name": "Blog Posts",
+      "settings": [
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "More from our blog"
+        },
+        {
+            "id": "blog",
+            "type": "blog",
+            "label": "Blog"
+        },
+        {
+            "type": "checkbox",
+            "id": "blog_show_author",
+            "label": "Show author",
+            "default": false
+        },
+        {
+            "type": "checkbox",
+            "id": "blog_show_date",
+            "label": "Show date",
+            "default": true
+        }
+      ],
+      "presets": [
+        {
+            "name": "Blog posts",
+            "category": "Blog",
+            "settings": {
+                "blog": "News"
+            }
+        }
+      ]
+  }
+{% endschema %}

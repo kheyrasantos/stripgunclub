@@ -1,0 +1,35 @@
+<!-- /snippets/MobilePrimaryNav.liquid -->
+{% comment %}
+
+  This snippet provides the HTML for the mobile version
+  of the site's primary navigation bar.
+
+{% endcomment %}
+      <div class="wrapper" class="large--hide medium-down--show">
+          <div class="grid--full large--hide medium-down--show">
+
+              <div class="grid__item one-quarter text-center"
+                   style="display: table; height: 70px;">
+                   <button type="button" class="icon-fallback-text site-nav__link js-drawer-open-left" aria-controls="NavDrawer" aria-expanded="false"
+                           style="height: 70px; margin: auto; font-size: 18px; font-weight: bold; vertical-align: middle; display: table-cell; color: white; outline: none;">
+                     <span class="icon icon-hamburger" aria-hidden="true"></span>
+                     <span class="fallback-text">{{ 'layout.navigation.menu' | t }}</span>
+                   </button>
+              </div>
+
+              <div class="grid__item one-half text-center"
+                   style="display: table; height: 70px;">
+                  {% if settings.logo_use_image %}
+                    <a href="/" style="display: table-cell; vertical-align: middle;" itemprop="url" class="site-header__logo-link">
+                      <img style="max-height: 70px;" src="{{ 'mobile_logo.png' | asset_url }}" alt="{{ shop.name }}" itemprop="logo">
+                    </a>
+                  {% endif %}
+              </div>
+
+              <div class="grid__item one-quarter text-center"
+                   style="display: table; height: 70px;">
+                   <a href="/cart" style="display: table-cell; vertical-align: middle; font-size 19px; color: white; outline: none;" class="icon icon-cart js-drawer-open-right site-nav__link mobile-cart-icon"></a>
+              </div>
+
+          </div>
+      </div>

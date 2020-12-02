@@ -1,0 +1,76 @@
+<!-- sections/events.liquid-->
+<div class="pp-section">
+
+    {% if section.settings.pp_banner_img != blank %}
+    <div class="pp-header">
+        <h1>{{ page.title }}</h1>
+      <img src="{{ section.settings.pp_banner_img | img_url: 'master' }}">
+    </div>
+    {% endif %}
+  
+    <div class="pp-container">
+  
+      {% if section.settings.pp_video_bg != blank %}
+      <video class="pp-video-bg" autoplay muted loop playsinline>
+        <source src="{{ section.settings.pp_video_bg }}" type="video/mp4">
+      Your browser does not support the video tag.
+      </video>
+      {% endif %}
+  
+      <div class="pp-wrapper">
+      
+        {% if section.settings.pp_embed_video != blank %}
+        <div class="pp-embed">
+          <div class="pp-embed-wrapper">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ section.settings.pp_embed_video.id }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </div>
+        {% endif %}
+  
+        <div class="pp-description">
+            <div class="text-center">
+                <h2>{{ page.title }}</h2>
+            </div>
+          {{ page.content }}
+        </div>
+  
+      </div>
+  
+    </div>
+  </div>
+
+  {% schema %}
+  {
+  "name": "Events",
+  "settings" : [
+      {
+        "type": "header",
+        "content": "Banner"
+      },
+      {
+        "type": "image_picker",
+        "id": "pp_banner_img",
+        "label": "Image"
+      },
+      {
+        "type": "header",
+        "content": "Background Video"
+      },
+      {
+          "type": "text",
+          "id": "pp_video_bg",
+          "label": "URL"
+      },
+      {
+        "type": "header",
+        "content": "Youtube Video"
+      },
+      {
+          "type": "video_url",
+          "id": "pp_embed_video",
+          "label": "URL",
+          "accept": ["youtube"]
+      }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,97 @@
+
+{% assign metafields = product.selected_or_first_available_variant.metafields.bc_widget_extra %}
+
+{{ '//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js' | script_tag }}
+<link href="https://bookingcommerce.com/widget/css/tiny-date-picker.css" rel="stylesheet"> 
+<link href="https://bookingcommerce.com/widget/css/tiny-daterange-picker.css" rel="stylesheet"> 
+<link href="https://bookingcommerce.com/widget/css/font.css" rel="stylesheet">
+
+<link rel="stylesheet" href="https://app-sp.webkul.com/booking-management/web/shopify-widget/widget.css">
+
+
+<script>
+  $(function(){
+    var p_url = window.location.href;
+    $(document).on('change','.single-option-selector', function(){
+      $("[name='add']").attr('disabled',true);
+      var c_url = window.location.href;
+      $('.bc-front-widget').removeClass('hide');
+      if(p_url != c_url){
+      	window.location.reload();
+        p_url = c_url;
+      }
+      else if($('button[name="add"]').attr('disabled') == 'disabled')
+        $('.bc-front-widget').addClass('hide');
+    })
+  })
+</script>
+{% if product.selected_or_first_available_variant.available and metafields and metafields.status == 1 %}
+{% assign bc_widget_config = shop.metafields.bc_widget %}
+{% assign labels = shop.metafields.bc_labels %}
+{%- assign cartJson = cart | json -%}
+<script>
+  (function() {
+    var widget = document.createElement("script");
+    widget.async = true;
+    
+    widget.src = "https://app-sp.webkul.com/booking-management/web/shopify-widget/widget.js";
+    
+    widget.charset = 'UTF-8';
+    widget.onload = function() {
+      new beWidget({ bookingLabels:`{{ shop.metafields.bc_labels }}`,	'baseurl': "https://{{ bc_widget_config.wk_bc_shop_domain }}.bookingcommerce.com/en", 'widgetType': 'individual', 'bookingProductPath': {{ product.selected_or_first_available_variant.id }},'buyNowButtonClass':'shopify-payment-button__button','bookingButtonId':'AddToCart-product-template','bookingButtonSelector':'[name="add"]','dateFormat': {% if shop.metafields.bc_widget.dateFormat %}'{{ shop.metafields.bc_widget.dateFormat }}'{% else %}'YYYY-MM-DD' {% endif %},'slotTimeFormat': {% if shop.metafields.bc_widget.slotTimeFormat %}'{{ shop.metafields.bc_widget.slotTimeFormat }}'{% else %} '12' {% endif %},'fixedDateFormat': true,'bookingConfigurationType': {% if metafields.config_type %}'{{ metafields.config_type }}'{% else %}false {% endif %},'timezoneSelectBox': {% if bc_widget_config.bc_widget_timezone_select %}{{ bc_widget_config.bc_widget_timezone_select }}{% else %}false {% endif %}})
+    };
+    document.head.appendChild( widget );
+  })();
+</script>
+
+<div id="wk-bc-widget"></div>
+<input type="hidden" name=properties[wk_booking][from]>
+<input type="hidden" name=properties[wk_booking][to]>
+<input type="hidden" name=properties[wk_booking][timezone]>
+<input type="hidden" name=properties[wk_booking][timestamp]>
+<input type="hidden" name="properties[wk_booking][slot_date]">
+<input type="hidden" value="{{ product.selected_or_first_available_variant.id }}">
+<input type="hidden" class="form-control width50 bottom10" name="quantity" min="1" value="1" required>
+
+{%- assign cartJson = cart | json -%}
+<div id= "wk_cartToken" style="display:none">{{ cartJson }}</div>
+
+<script>
+  (function() {
+    var config_type = '{{ metafields.config_type }}';
+    var booking_type = '{{ metafields.booking_type }}';
+    let label = (config_type == "day_slots" || config_type == "fixed_datetime_slots" ) ? `{{ labels.label_5 }}` : `{{ labels.label_53 }}`;
+    let html = "" + '<div id="wk-bc-widget-wrapper"><div id="wk-bc-widget-iframe"><div> <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700" rel="stylesheet"> <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><div class="wk-bc-widget" style="display:block;"><div class="wk-bc-widget-body" style="margin-bottom:auto"><div class="booking-product-info"><div class="booking-process-wrapper"><div><form name="booking-form" id="booking-form-id"><div class="card slot active"><div class="card-body" style="margin-bottom:0px;"><div class="card-info"></div><div class="form-wrapper"> <div class="control-block"><div class="form-group"><label class="required">' + `{{ labels.label_18 }}` + '</label><select type="text" class="form-control timezone" name="timezone"><option value="" selected="">' + `{{ labels.label_18 }}` + '</option></select></div><div class="form-group"><label class="required">' + `{{ labels.label_4 }}` + '</label><input type="text" class="form-control datepicker-input datepicker " name="datepicker-input" readonly="" value=""></div><div class="form-group"><label class="">' + `{{ labels.label_5 }}` + '</label><select type="text" class="form-control timestamp" name="timestamp"><option value="" selected="">' + label + '</option></select></div><div class="form-group"><label class="required">' + `{{ labels.label_26 }}` + '</label><input type="text" class="form-control datepicker-2-input datepicker-2 " name="datepicker-2-input" readonly="" disabled="" value=""></div><div class="form-group"><label class="">' + `{{ labels.label_27 }}` + '</label><select type="text" class="form-control tstamp" name="tstamp"><option value="" selected="">' + `{{ labels.label_53 }}` + '</option></select></div><div class="form-group"><label class="required">' + `{{ labels.label_6 }}` + '</label><input type="number" class="form-control guests" name="guests" value="1"></div></div></div><div id="wk-lockInfo"></div></div></div></form></div></div></div></div></div></div></div></div>';
+    let wrapper = document.getElementById('wk-bc-widget');
+    wrapper.innerHTML = html;
+    let elements = document.getElementsByClassName('form-group');
+
+    let findHide = function(index){
+        switch(index){
+            case '0' : return ( !parseInt(`{{ bc_widget_config.bc_widget_timezone_select }}`) );
+            case '1' : return (config_type == "day_slots" || config_type == "fixed_datetime_slots" ) ;
+            case '2' : return (config_type == "range_date_slots" || config_type == "day_date_slots" ) ;
+            case '3' : return (config_type == "day_date_slots" || config_type == "time_slots" || config_type == "day_slots" || config_type == "fixed_datetime_slots" ) ;
+            case '4' : return (config_type == "range_date_slots" || config_type == "day_date_slots" || config_type == "time_slots" || config_type == "day_slots" || config_type == "fixed_datetime_slots" ) ;
+            case '5' : return (booking_type == "single");
+            default  : return false;
+        }
+    }
+    let keys = Object.keys(elements);
+    keys.forEach((index) => {
+        if(findHide(index)){
+            elements[index].classList.add('wk-bc-hide');
+        }
+    });
+  })();
+</script>
+
+{% else %}
+<script>
+(function() {
+$("[name='add']").attr('disabled',false);
+})();
+</script>
+
+{% endif %}
+

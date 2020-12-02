@@ -1,0 +1,87 @@
+<!-- /snippets/FromBlogDesktop.liquid -->
+
+<div class="from-blog-container show-for-desktop">
+    <div class="wrapper">
+        <div class="h2-container">
+            <h2 id="from-the-blog"><span class="first-letter-container position-relative"><span class="first-letter">F</span><span class="first-letter-background"></span></span>rom the Blog</h2>
+        </div>
+
+        <div class="blog-grid clearfix">
+            <div class="one-fifth-block">
+                <div class="white-background">
+                    <h3>{{ settings.blog_block_1_title | strip_html | truncate: 11 }}</h3>
+                    <p>{{ settings.blog_block_1_text | strip_html | truncate: 140 }}</p>
+                </div>
+                <div class="small-image">
+                    <a target="_blank" class="blog-link-a" href="{{ settings.blog_block_2_url }}"></a>
+                    {{ 'blog_block_2.jpg' | asset_url | img_tag }}
+                </div>
+            </div>
+
+            <div class="one-fifth-block tall-image">
+                <a target="_blank" class="blog-link-a" href="{{ settings.blog_block_3_url }}"></a>
+                {{ 'blog_block_3.jpg' | asset_url | img_tag }}
+            </div>
+
+            <div class="two-fifths-block">
+                <div class="small-image">
+                    <a target="_blank" class="blog-link-a" href="{{ settings.blog_block_4_url }}"></a>
+                    {{ 'blog_block_4.jpg' | asset_url | img_tag }}
+                </div>
+                <div class="white-background negative-margin-top">
+                    <i class="fa fa-quote-left"></i>
+                    <p class="lead-quote">{{ settings.blog_block_5 | strip_html | truncate: 275 }}</p>
+                </div>
+            </div>
+
+            <div class="one-fifth-block tall-image">
+                <a target="_blank" class="blog-link-a" href="{{ settings.blog_block_6_url }}"></a>
+                {{ 'blog_block_6.jpg' | asset_url | img_tag }}
+            </div>
+        </div>
+
+        <div class="blog-grid2 clearfix">
+            <div class="two-fifths-block negative-margin-top">
+                <div class="small-image">
+                    <a target="_blank" class="blog-link-a" href="{{ settings.blog_block_7_url }}"></a>
+                    {{ 'blog_block_7.jpg' | asset_url | img_tag }}
+                </div>
+                <div class="grid--full">
+                    <div class="one-fifth-block">
+                        <div class="white-background negative-margin-top">
+                            <p>{{ settings.blog_block_8 | truncate: 149 }}</p>
+                        </div>
+                    </div>
+                    <div class="one-fifth-block negative-margin-top">
+                        <div class="small-image">
+                            <a target="_blank" class="blog-link-a" href="{{ settings.blog_block_10_url }}"></a>
+                            {{ 'blog_block_9.jpg' | asset_url | img_tag }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-fifths-block negative-margin-top">
+                <div class="biggest-callout-image">
+                    <a target="_blank" class="blog-link-a" href="{{ settings.blog_block_6_url }}"></a>
+                    {{ 'blog_block_10.jpg' | asset_url | img_tag }}
+                </div>
+            </div>
+
+            <div class="one-fifth-block negative-margin-top">
+                <div class="small-image">
+                    <a target="_blank" class="blog-link-a" href="{{ settings.blog_block_11_url }}"></a>
+                    {{ 'blog_block_11.jpg' | asset_url | img_tag }}
+                </div>
+                <div class="black-background negative-margin-top">
+                    <p>{{ settings.blog_block_12 | strip_html | truncate: 175 }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="blog-grid">
+            <a target="_blank" href="{{ settings.blog_block_view_more }}" class="view-more-blog-button btn">View More</a>
+        </div>
+
+    </div>
+</div>
